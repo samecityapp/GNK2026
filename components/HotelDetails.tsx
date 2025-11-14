@@ -53,7 +53,7 @@ export function HotelDetails({ features, tabs, mapImageUrl, location, websiteUrl
           </div>
 
           <div className="md:hidden">
-            <div className="bg-white p-5 rounded-xl border border-gray-200">
+            <div className="bg-white p-5 rounded-xl border border-gray-200 mt-3">
               <h2 className="text-[20px] font-semibold text-gray-900 mb-4">Otel Özellikleri</h2>
               {tags && tags.length > 0 ? (
                 <div className="grid grid-cols-2 gap-3">
@@ -64,9 +64,7 @@ export function HotelDetails({ features, tabs, mapImageUrl, location, websiteUrl
                         key={index}
                         className="flex items-center gap-2.5 p-3.5 bg-white border border-gray-200 rounded-xl"
                       >
-                        <div className="w-9 h-9 rounded-lg bg-gray-400 flex items-center justify-center flex-shrink-0">
-                          <IconComponent className="w-4.5 h-4.5 text-white" strokeWidth={2} />
-                        </div>
+                        <IconComponent className="w-5 h-5 text-gray-400 flex-shrink-0" strokeWidth={1.5} />
                         <span className="text-gray-600 font-medium text-[14px] leading-snug">{tag.name}</span>
                       </div>
                     );
@@ -98,7 +96,7 @@ export function HotelDetails({ features, tabs, mapImageUrl, location, websiteUrl
           </div>
 
           <div className="md:hidden">
-            <div className="bg-white p-5 rounded-xl border border-gray-200">
+            <div className="bg-white p-5 rounded-xl border border-gray-200 mt-3">
               <h2 className="text-[20px] font-semibold text-gray-900 mb-4">Neden Bu Otel</h2>
               {tabs.about ? (
                 <p className="text-gray-700 text-[15px] leading-relaxed whitespace-pre-line">
@@ -120,7 +118,7 @@ export function HotelDetails({ features, tabs, mapImageUrl, location, websiteUrl
           </div>
 
           <div className="md:hidden">
-            <div className="bg-white p-5 rounded-xl border border-gray-200">
+            <div className="bg-white p-5 rounded-xl border border-gray-200 mt-3">
               <h2 className="text-[20px] font-semibold text-gray-900 mb-4">Yakında Ne Yenir</h2>
               <NearbyPlacesTab location={location} coordinates={coordinates} />
             </div>
@@ -153,7 +151,7 @@ export function HotelDetails({ features, tabs, mapImageUrl, location, websiteUrl
       </div>
 
       <div className="md:hidden">
-        <div className="bg-white p-5 rounded-xl border border-gray-200">
+        <div className="bg-white p-5 rounded-xl border border-gray-200 mt-3">
           <h2 className="text-[20px] font-semibold text-gray-900 mb-4">Konum</h2>
           <div className="flex items-start gap-2.5 mb-4">
             <MapPin className="w-5 h-5 text-gray-700 flex-shrink-0 mt-0.5" strokeWidth={2} />
