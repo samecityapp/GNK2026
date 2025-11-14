@@ -24,253 +24,11 @@ export function MobileHotelInfo({
 }: MobileHotelInfoProps) {
   const locationCity = location.split(',')[0].trim();
   const [showDesigns, setShowDesigns] = useState(false);
-  const [selectedDesign, setSelectedDesign] = useState(0);
+  const [selectedDesign, setSelectedDesign] = useState(1);
 
   const designs = [
     {
-      id: 0,
-      name: "Mevcut (Orijinal)",
-      render: () => (
-        <div className="flex items-center justify-center gap-0">
-          <div className="flex flex-col items-center justify-center bg-white rounded-xl p-3 h-[90px] min-w-[100px]">
-            <p className="text-xs font-medium text-gray-600 mb-1.5">Konum</p>
-            <p className="text-base font-bold text-gray-900 text-center leading-tight">{locationCity}</p>
-          </div>
-          <div className="h-12 w-[1px] bg-gray-200 mx-1"></div>
-          <div className="flex flex-col items-center justify-center bg-white rounded-xl p-3 h-[90px] min-w-[100px]">
-            <p className="text-xs font-medium text-gray-600 mb-1.5">GNK Skor</p>
-            <p className="text-base font-bold text-gray-900">{rating} / 5</p>
-          </div>
-          <div className="h-12 w-[1px] bg-gray-200 mx-1"></div>
-          <div className="flex flex-col items-center justify-center bg-white rounded-xl p-3 h-[90px] min-w-[100px]">
-            <p className="text-xs font-medium text-gray-600 mb-1.5">Fiyat</p>
-            <p className="text-base font-bold text-gray-900">{price.toLocaleString('tr-TR')} ₺</p>
-          </div>
-        </div>
-      )
-    },
-    {
       id: 1,
-      name: "Kalın Çerçeve",
-      render: () => (
-        <div className="flex items-center justify-center gap-3">
-          <div className="flex-1 border-2 border-gray-900 rounded-xl p-4 text-center">
-            <p className="text-xs font-medium text-gray-600 mb-1.5">Konum</p>
-            <p className="text-lg font-bold text-gray-900">{locationCity}</p>
-          </div>
-          <div className="flex-1 border-2 border-gray-900 rounded-xl p-4 text-center">
-            <p className="text-xs font-medium text-gray-600 mb-1.5">GNK Skor</p>
-            <p className="text-lg font-bold text-gray-900">{rating} / 5</p>
-          </div>
-          <div className="flex-1 border-2 border-gray-900 rounded-xl p-4 text-center">
-            <p className="text-xs font-medium text-gray-600 mb-1.5">Fiyat</p>
-            <p className="text-lg font-bold text-gray-900">{price.toLocaleString('tr-TR')} ₺</p>
-          </div>
-        </div>
-      )
-    },
-    {
-      id: 2,
-      name: "Gölgeli Kartlar",
-      render: () => (
-        <div className="flex items-center justify-center gap-3">
-          <div className="flex-1 bg-white shadow-lg rounded-2xl p-4 text-center">
-            <p className="text-xs font-medium text-gray-600 mb-1.5">Konum</p>
-            <p className="text-lg font-bold text-gray-900">{locationCity}</p>
-          </div>
-          <div className="flex-1 bg-white shadow-lg rounded-2xl p-4 text-center">
-            <p className="text-xs font-medium text-gray-600 mb-1.5">GNK Skor</p>
-            <p className="text-lg font-bold text-gray-900">{rating} / 5</p>
-          </div>
-          <div className="flex-1 bg-white shadow-lg rounded-2xl p-4 text-center">
-            <p className="text-xs font-medium text-gray-600 mb-1.5">Fiyat</p>
-            <p className="text-lg font-bold text-gray-900">{price.toLocaleString('tr-TR')} ₺</p>
-          </div>
-        </div>
-      )
-    },
-    {
-      id: 3,
-      name: "Gradient Arka Plan",
-      render: () => (
-        <div className="flex items-center justify-center gap-3">
-          <div className="flex-1 bg-gradient-to-br from-gray-50 to-gray-100 border border-gray-200 rounded-2xl p-4 text-center">
-            <p className="text-xs font-semibold text-gray-600 mb-1.5">Konum</p>
-            <p className="text-lg font-bold text-gray-900">{locationCity}</p>
-          </div>
-          <div className="flex-1 bg-gradient-to-br from-gray-50 to-gray-100 border border-gray-200 rounded-2xl p-4 text-center">
-            <p className="text-xs font-semibold text-gray-600 mb-1.5">GNK Skor</p>
-            <p className="text-lg font-bold text-gray-900">{rating} / 5</p>
-          </div>
-          <div className="flex-1 bg-gradient-to-br from-gray-50 to-gray-100 border border-gray-200 rounded-2xl p-4 text-center">
-            <p className="text-xs font-semibold text-gray-600 mb-1.5">Fiyat</p>
-            <p className="text-lg font-bold text-gray-900">{price.toLocaleString('tr-TR')} ₺</p>
-          </div>
-        </div>
-      )
-    },
-    {
-      id: 4,
-      name: "Yuvarlak Kalın",
-      render: () => (
-        <div className="flex items-center justify-center gap-3">
-          <div className="flex-1 border-[3px] border-gray-800 rounded-full p-4 text-center">
-            <p className="text-xs font-medium text-gray-600 mb-1">Konum</p>
-            <p className="text-base font-bold text-gray-900">{locationCity}</p>
-          </div>
-          <div className="flex-1 border-[3px] border-gray-800 rounded-full p-4 text-center">
-            <p className="text-xs font-medium text-gray-600 mb-1">GNK Skor</p>
-            <p className="text-base font-bold text-gray-900">{rating} / 5</p>
-          </div>
-          <div className="flex-1 border-[3px] border-gray-800 rounded-full p-4 text-center">
-            <p className="text-xs font-medium text-gray-600 mb-1">Fiyat</p>
-            <p className="text-base font-bold text-gray-900">{price.toLocaleString('tr-TR')} ₺</p>
-          </div>
-        </div>
-      )
-    },
-    {
-      id: 5,
-      name: "Karanlık Mod",
-      render: () => (
-        <div className="flex items-center justify-center gap-3">
-          <div className="flex-1 bg-gray-900 rounded-xl p-4 text-center">
-            <p className="text-xs font-medium text-gray-400 mb-1.5">Konum</p>
-            <p className="text-lg font-bold text-white">{locationCity}</p>
-          </div>
-          <div className="flex-1 bg-gray-900 rounded-xl p-4 text-center">
-            <p className="text-xs font-medium text-gray-400 mb-1.5">GNK Skor</p>
-            <p className="text-lg font-bold text-white">{rating} / 5</p>
-          </div>
-          <div className="flex-1 bg-gray-900 rounded-xl p-4 text-center">
-            <p className="text-xs font-medium text-gray-400 mb-1.5">Fiyat</p>
-            <p className="text-lg font-bold text-white">{price.toLocaleString('tr-TR')} ₺</p>
-          </div>
-        </div>
-      )
-    },
-    {
-      id: 6,
-      name: "Alt Çizgi",
-      render: () => (
-        <div className="flex items-center justify-center gap-6">
-          <div className="flex-1 border-b-4 border-gray-900 pb-3 text-center">
-            <p className="text-xs font-medium text-gray-600 mb-2">Konum</p>
-            <p className="text-lg font-bold text-gray-900">{locationCity}</p>
-          </div>
-          <div className="flex-1 border-b-4 border-gray-900 pb-3 text-center">
-            <p className="text-xs font-medium text-gray-600 mb-2">GNK Skor</p>
-            <p className="text-lg font-bold text-gray-900">{rating} / 5</p>
-          </div>
-          <div className="flex-1 border-b-4 border-gray-900 pb-3 text-center">
-            <p className="text-xs font-medium text-gray-600 mb-2">Fiyat</p>
-            <p className="text-lg font-bold text-gray-900">{price.toLocaleString('tr-TR')} ₺</p>
-          </div>
-        </div>
-      )
-    },
-    {
-      id: 7,
-      name: "Çerçeve + Gölge",
-      render: () => (
-        <div className="flex items-center justify-center gap-3">
-          <div className="flex-1 border-2 border-gray-300 rounded-2xl p-4 text-center shadow-md">
-            <p className="text-xs font-semibold text-gray-500 mb-1.5">Konum</p>
-            <p className="text-lg font-bold text-gray-900">{locationCity}</p>
-          </div>
-          <div className="flex-1 border-2 border-gray-300 rounded-2xl p-4 text-center shadow-md">
-            <p className="text-xs font-semibold text-gray-500 mb-1.5">GNK Skor</p>
-            <p className="text-lg font-bold text-gray-900">{rating} / 5</p>
-          </div>
-          <div className="flex-1 border-2 border-gray-300 rounded-2xl p-4 text-center shadow-md">
-            <p className="text-xs font-semibold text-gray-500 mb-1.5">Fiyat</p>
-            <p className="text-lg font-bold text-gray-900">{price.toLocaleString('tr-TR')} ₺</p>
-          </div>
-        </div>
-      )
-    },
-    {
-      id: 8,
-      name: "Cesur Kareler",
-      render: () => (
-        <div className="flex items-center justify-center gap-3">
-          <div className="flex-1 bg-gray-100 rounded-3xl p-5 text-center border-2 border-gray-200">
-            <p className="text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-2">Konum</p>
-            <p className="text-xl font-black text-gray-900">{locationCity}</p>
-          </div>
-          <div className="flex-1 bg-gray-100 rounded-3xl p-5 text-center border-2 border-gray-200">
-            <p className="text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-2">GNK Skor</p>
-            <p className="text-xl font-black text-gray-900">{rating} / 5</p>
-          </div>
-          <div className="flex-1 bg-gray-100 rounded-3xl p-5 text-center border-2 border-gray-200">
-            <p className="text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-2">Fiyat</p>
-            <p className="text-xl font-black text-gray-900">{price.toLocaleString('tr-TR')} ₺</p>
-          </div>
-        </div>
-      )
-    },
-    {
-      id: 9,
-      name: "Noktalı Çizgi",
-      render: () => (
-        <div className="flex items-center justify-center gap-3">
-          <div className="flex-1 border-2 border-dashed border-gray-400 rounded-xl p-4 text-center">
-            <p className="text-xs font-medium text-gray-600 mb-1.5">Konum</p>
-            <p className="text-lg font-bold text-gray-900">{locationCity}</p>
-          </div>
-          <div className="flex-1 border-2 border-dashed border-gray-400 rounded-xl p-4 text-center">
-            <p className="text-xs font-medium text-gray-600 mb-1.5">GNK Skor</p>
-            <p className="text-lg font-bold text-gray-900">{rating} / 5</p>
-          </div>
-          <div className="flex-1 border-2 border-dashed border-gray-400 rounded-xl p-4 text-center">
-            <p className="text-xs font-medium text-gray-600 mb-1.5">Fiyat</p>
-            <p className="text-lg font-bold text-gray-900">{price.toLocaleString('tr-TR')} ₺</p>
-          </div>
-        </div>
-      )
-    },
-    {
-      id: 10,
-      name: "İç Gölge",
-      render: () => (
-        <div className="flex items-center justify-center gap-3">
-          <div className="flex-1 bg-white rounded-2xl p-4 text-center border border-gray-200 shadow-inner">
-            <p className="text-xs font-semibold text-gray-500 mb-1.5 uppercase tracking-wide">Konum</p>
-            <p className="text-lg font-bold text-gray-900">{locationCity}</p>
-          </div>
-          <div className="flex-1 bg-white rounded-2xl p-4 text-center border border-gray-200 shadow-inner">
-            <p className="text-xs font-semibold text-gray-500 mb-1.5 uppercase tracking-wide">GNK Skor</p>
-            <p className="text-lg font-bold text-gray-900">{rating} / 5</p>
-          </div>
-          <div className="flex-1 bg-white rounded-2xl p-4 text-center border border-gray-200 shadow-inner">
-            <p className="text-xs font-semibold text-gray-500 mb-1.5 uppercase tracking-wide">Fiyat</p>
-            <p className="text-lg font-bold text-gray-900">{price.toLocaleString('tr-TR')} ₺</p>
-          </div>
-        </div>
-      )
-    },
-    {
-      id: 11,
-      name: "Rozet Stili",
-      render: () => (
-        <div className="flex items-center justify-center gap-2">
-          <div className="flex-1 bg-gray-900 text-white rounded-full px-4 py-3 text-center">
-            <p className="text-[10px] font-medium text-gray-300 mb-0.5">Konum</p>
-            <p className="text-sm font-bold">{locationCity}</p>
-          </div>
-          <div className="flex-1 bg-gray-900 text-white rounded-full px-4 py-3 text-center">
-            <p className="text-[10px] font-medium text-gray-300 mb-0.5">GNK Skor</p>
-            <p className="text-sm font-bold">{rating} / 5</p>
-          </div>
-          <div className="flex-1 bg-gray-900 text-white rounded-full px-4 py-3 text-center">
-            <p className="text-[10px] font-medium text-gray-300 mb-0.5">Fiyat</p>
-            <p className="text-sm font-bold">{price.toLocaleString('tr-TR')} ₺</p>
-          </div>
-        </div>
-      )
-    },
-    {
-      id: 12,
       name: "Üst Vurgu",
       render: () => (
         <div className="flex items-center justify-center gap-3">
@@ -293,7 +51,90 @@ export function MobileHotelInfo({
       )
     },
     {
-      id: 13,
+      id: 2,
+      name: "Gradient Arka Plan",
+      render: () => (
+        <div className="flex items-center justify-center gap-3">
+          <div className="flex-1 bg-gradient-to-br from-gray-50 to-gray-100 border border-gray-200 rounded-2xl p-4 text-center">
+            <p className="text-xs font-semibold text-gray-600 mb-1.5">Konum</p>
+            <p className="text-lg font-bold text-gray-900">{locationCity}</p>
+          </div>
+          <div className="flex-1 bg-gradient-to-br from-gray-50 to-gray-100 border border-gray-200 rounded-2xl p-4 text-center">
+            <p className="text-xs font-semibold text-gray-600 mb-1.5">GNK Skor</p>
+            <p className="text-lg font-bold text-gray-900">{rating} / 5</p>
+          </div>
+          <div className="flex-1 bg-gradient-to-br from-gray-50 to-gray-100 border border-gray-200 rounded-2xl p-4 text-center">
+            <p className="text-xs font-semibold text-gray-600 mb-1.5">Fiyat</p>
+            <p className="text-lg font-bold text-gray-900">{price.toLocaleString('tr-TR')} ₺</p>
+          </div>
+        </div>
+      )
+    },
+    {
+      id: 3,
+      name: "Gölgeli Kartlar",
+      render: () => (
+        <div className="flex items-center justify-center gap-3">
+          <div className="flex-1 bg-white shadow-lg rounded-2xl p-4 text-center">
+            <p className="text-xs font-medium text-gray-600 mb-1.5">Konum</p>
+            <p className="text-lg font-bold text-gray-900">{locationCity}</p>
+          </div>
+          <div className="flex-1 bg-white shadow-lg rounded-2xl p-4 text-center">
+            <p className="text-xs font-medium text-gray-600 mb-1.5">GNK Skor</p>
+            <p className="text-lg font-bold text-gray-900">{rating} / 5</p>
+          </div>
+          <div className="flex-1 bg-white shadow-lg rounded-2xl p-4 text-center">
+            <p className="text-xs font-medium text-gray-600 mb-1.5">Fiyat</p>
+            <p className="text-lg font-bold text-gray-900">{price.toLocaleString('tr-TR')} ₺</p>
+          </div>
+        </div>
+      )
+    },
+    {
+      id: 4,
+      name: "Rozet Stili",
+      render: () => (
+        <div className="flex items-center justify-center gap-2">
+          <div className="flex-1 bg-gray-900 text-white rounded-full px-4 py-3 text-center">
+            <p className="text-[10px] font-medium text-gray-300 mb-0.5">Konum</p>
+            <p className="text-sm font-bold">{locationCity}</p>
+          </div>
+          <div className="flex-1 bg-gray-900 text-white rounded-full px-4 py-3 text-center">
+            <p className="text-[10px] font-medium text-gray-300 mb-0.5">GNK Skor</p>
+            <p className="text-sm font-bold">{rating} / 5</p>
+          </div>
+          <div className="flex-1 bg-gray-900 text-white rounded-full px-4 py-3 text-center">
+            <p className="text-[10px] font-medium text-gray-300 mb-0.5">Fiyat</p>
+            <p className="text-sm font-bold">{price.toLocaleString('tr-TR')} ₺</p>
+          </div>
+        </div>
+      )
+    },
+    {
+      id: 5,
+      name: "Üst Vurgu Kalın",
+      render: () => (
+        <div className="flex items-center justify-center gap-3">
+          <div className="flex-1 bg-white border border-gray-200 rounded-xl p-4 text-center relative overflow-hidden">
+            <div className="absolute top-0 left-0 right-0 h-2 bg-gray-900"></div>
+            <p className="text-xs font-semibold text-gray-600 mb-1.5 mt-2">Konum</p>
+            <p className="text-lg font-bold text-gray-900">{locationCity}</p>
+          </div>
+          <div className="flex-1 bg-white border border-gray-200 rounded-xl p-4 text-center relative overflow-hidden">
+            <div className="absolute top-0 left-0 right-0 h-2 bg-gray-900"></div>
+            <p className="text-xs font-semibold text-gray-600 mb-1.5 mt-2">GNK Skor</p>
+            <p className="text-lg font-bold text-gray-900">{rating} / 5</p>
+          </div>
+          <div className="flex-1 bg-white border border-gray-200 rounded-xl p-4 text-center relative overflow-hidden">
+            <div className="absolute top-0 left-0 right-0 h-2 bg-gray-900"></div>
+            <p className="text-xs font-semibold text-gray-600 mb-1.5 mt-2">Fiyat</p>
+            <p className="text-lg font-bold text-gray-900">{price.toLocaleString('tr-TR')} ₺</p>
+          </div>
+        </div>
+      )
+    },
+    {
+      id: 6,
       name: "3D Kabartma",
       render: () => (
         <div className="flex items-center justify-center gap-3">
@@ -313,19 +154,39 @@ export function MobileHotelInfo({
       )
     },
     {
-      id: 14,
-      name: "Sol Kenarda Vurgu",
+      id: 7,
+      name: "Gradient Yumuşak",
       render: () => (
-        <div className="flex items-center justify-center gap-4">
-          <div className="flex-1 bg-gray-50 rounded-2xl p-5 border-l-4 border-gray-900 text-center">
+        <div className="flex items-center justify-center gap-3">
+          <div className="flex-1 bg-gradient-to-br from-blue-50 to-gray-50 border border-blue-100 rounded-2xl p-4 text-center">
+            <p className="text-xs font-semibold text-gray-600 mb-1.5">Konum</p>
+            <p className="text-lg font-bold text-gray-900">{locationCity}</p>
+          </div>
+          <div className="flex-1 bg-gradient-to-br from-blue-50 to-gray-50 border border-blue-100 rounded-2xl p-4 text-center">
+            <p className="text-xs font-semibold text-gray-600 mb-1.5">GNK Skor</p>
+            <p className="text-lg font-bold text-gray-900">{rating} / 5</p>
+          </div>
+          <div className="flex-1 bg-gradient-to-br from-blue-50 to-gray-50 border border-blue-100 rounded-2xl p-4 text-center">
+            <p className="text-xs font-semibold text-gray-600 mb-1.5">Fiyat</p>
+            <p className="text-lg font-bold text-gray-900">{price.toLocaleString('tr-TR')} ₺</p>
+          </div>
+        </div>
+      )
+    },
+    {
+      id: 8,
+      name: "Gölge Premium",
+      render: () => (
+        <div className="flex items-center justify-center gap-3">
+          <div className="flex-1 bg-white shadow-xl rounded-2xl p-5 text-center border border-gray-100">
             <p className="text-xs font-semibold text-gray-500 mb-2">Konum</p>
             <p className="text-xl font-bold text-gray-900">{locationCity}</p>
           </div>
-          <div className="flex-1 bg-gray-50 rounded-2xl p-5 border-l-4 border-gray-900 text-center">
+          <div className="flex-1 bg-white shadow-xl rounded-2xl p-5 text-center border border-gray-100">
             <p className="text-xs font-semibold text-gray-500 mb-2">GNK Skor</p>
             <p className="text-xl font-bold text-gray-900">{rating} / 5</p>
           </div>
-          <div className="flex-1 bg-gray-50 rounded-2xl p-5 border-l-4 border-gray-900 text-center">
+          <div className="flex-1 bg-white shadow-xl rounded-2xl p-5 text-center border border-gray-100">
             <p className="text-xs font-semibold text-gray-500 mb-2">Fiyat</p>
             <p className="text-xl font-bold text-gray-900">{price.toLocaleString('tr-TR')} ₺</p>
           </div>
@@ -333,135 +194,253 @@ export function MobileHotelInfo({
       )
     },
     {
-      id: 15,
-      name: "Modern Karanlık",
+      id: 9,
+      name: "Rozet Beyaz",
+      render: () => (
+        <div className="flex items-center justify-center gap-2">
+          <div className="flex-1 bg-white border-2 border-gray-900 text-gray-900 rounded-full px-4 py-3 text-center">
+            <p className="text-[10px] font-bold text-gray-500 mb-0.5 uppercase">Konum</p>
+            <p className="text-sm font-bold">{locationCity}</p>
+          </div>
+          <div className="flex-1 bg-white border-2 border-gray-900 text-gray-900 rounded-full px-4 py-3 text-center">
+            <p className="text-[10px] font-bold text-gray-500 mb-0.5 uppercase">GNK Skor</p>
+            <p className="text-sm font-bold">{rating} / 5</p>
+          </div>
+          <div className="flex-1 bg-white border-2 border-gray-900 text-gray-900 rounded-full px-4 py-3 text-center">
+            <p className="text-[10px] font-bold text-gray-500 mb-0.5 uppercase">Fiyat</p>
+            <p className="text-sm font-bold">{price.toLocaleString('tr-TR')} ₺</p>
+          </div>
+        </div>
+      )
+    },
+    {
+      id: 10,
+      name: "Alt Vurgu",
       render: () => (
         <div className="flex items-center justify-center gap-3">
-          <div className="flex-1 bg-gray-900 rounded-xl p-5 text-center">
-            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">Konum</p>
-            <p className="text-lg font-bold text-white">{locationCity}</p>
+          <div className="flex-1 bg-white border border-gray-200 rounded-xl p-4 text-center relative overflow-hidden">
+            <p className="text-xs font-medium text-gray-600 mb-1.5">Konum</p>
+            <p className="text-lg font-bold text-gray-900 mb-1">{locationCity}</p>
+            <div className="absolute bottom-0 left-0 right-0 h-1 bg-gray-900"></div>
           </div>
-          <div className="flex-1 bg-gray-900 rounded-xl p-5 text-center">
-            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">GNK Skor</p>
-            <p className="text-lg font-bold text-white">{rating} / 5</p>
+          <div className="flex-1 bg-white border border-gray-200 rounded-xl p-4 text-center relative overflow-hidden">
+            <p className="text-xs font-medium text-gray-600 mb-1.5">GNK Skor</p>
+            <p className="text-lg font-bold text-gray-900 mb-1">{rating} / 5</p>
+            <div className="absolute bottom-0 left-0 right-0 h-1 bg-gray-900"></div>
           </div>
-          <div className="flex-1 bg-gray-900 rounded-xl p-5 text-center">
-            <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">Fiyat</p>
-            <p className="text-lg font-bold text-white">{price.toLocaleString('tr-TR')} ₺</p>
+          <div className="flex-1 bg-white border border-gray-200 rounded-xl p-4 text-center relative overflow-hidden">
+            <p className="text-xs font-medium text-gray-600 mb-1.5">Fiyat</p>
+            <p className="text-lg font-bold text-gray-900 mb-1">{price.toLocaleString('tr-TR')} ₺</p>
+            <div className="absolute bottom-0 left-0 right-0 h-1 bg-gray-900"></div>
+          </div>
+        </div>
+      )
+    },
+    {
+      id: 11,
+      name: "3D Basık",
+      render: () => (
+        <div className="flex items-center justify-center gap-3">
+          <div className="flex-1 bg-gray-100 rounded-2xl p-4 text-center" style={{ boxShadow: 'inset 4px 4px 8px #d1d5db, inset -4px -4px 8px #ffffff' }}>
+            <p className="text-xs font-medium text-gray-600 mb-1.5">Konum</p>
+            <p className="text-lg font-bold text-gray-900">{locationCity}</p>
+          </div>
+          <div className="flex-1 bg-gray-100 rounded-2xl p-4 text-center" style={{ boxShadow: 'inset 4px 4px 8px #d1d5db, inset -4px -4px 8px #ffffff' }}>
+            <p className="text-xs font-medium text-gray-600 mb-1.5">GNK Skor</p>
+            <p className="text-lg font-bold text-gray-900">{rating} / 5</p>
+          </div>
+          <div className="flex-1 bg-gray-100 rounded-2xl p-4 text-center" style={{ boxShadow: 'inset 4px 4px 8px #d1d5db, inset -4px -4px 8px #ffffff' }}>
+            <p className="text-xs font-medium text-gray-600 mb-1.5">Fiyat</p>
+            <p className="text-lg font-bold text-gray-900">{price.toLocaleString('tr-TR')} ₺</p>
+          </div>
+        </div>
+      )
+    },
+    {
+      id: 12,
+      name: "Gradient Koyu",
+      render: () => (
+        <div className="flex items-center justify-center gap-3">
+          <div className="flex-1 bg-gradient-to-br from-gray-100 to-gray-200 border border-gray-300 rounded-2xl p-4 text-center shadow-sm">
+            <p className="text-xs font-bold text-gray-600 mb-1.5">Konum</p>
+            <p className="text-lg font-black text-gray-900">{locationCity}</p>
+          </div>
+          <div className="flex-1 bg-gradient-to-br from-gray-100 to-gray-200 border border-gray-300 rounded-2xl p-4 text-center shadow-sm">
+            <p className="text-xs font-bold text-gray-600 mb-1.5">GNK Skor</p>
+            <p className="text-lg font-black text-gray-900">{rating} / 5</p>
+          </div>
+          <div className="flex-1 bg-gradient-to-br from-gray-100 to-gray-200 border border-gray-300 rounded-2xl p-4 text-center shadow-sm">
+            <p className="text-xs font-bold text-gray-600 mb-1.5">Fiyat</p>
+            <p className="text-lg font-black text-gray-900">{price.toLocaleString('tr-TR')} ₺</p>
+          </div>
+        </div>
+      )
+    },
+    {
+      id: 13,
+      name: "Gölge Yumuşak",
+      render: () => (
+        <div className="flex items-center justify-center gap-3">
+          <div className="flex-1 bg-white shadow-md rounded-2xl p-4 text-center">
+            <p className="text-xs font-medium text-gray-600 mb-1.5">Konum</p>
+            <p className="text-lg font-bold text-gray-900">{locationCity}</p>
+          </div>
+          <div className="flex-1 bg-white shadow-md rounded-2xl p-4 text-center">
+            <p className="text-xs font-medium text-gray-600 mb-1.5">GNK Skor</p>
+            <p className="text-lg font-bold text-gray-900">{rating} / 5</p>
+          </div>
+          <div className="flex-1 bg-white shadow-md rounded-2xl p-4 text-center">
+            <p className="text-xs font-medium text-gray-600 mb-1.5">Fiyat</p>
+            <p className="text-lg font-bold text-gray-900">{price.toLocaleString('tr-TR')} ₺</p>
+          </div>
+        </div>
+      )
+    },
+    {
+      id: 14,
+      name: "Rozet Gri",
+      render: () => (
+        <div className="flex items-center justify-center gap-2">
+          <div className="flex-1 bg-gray-800 text-white rounded-full px-4 py-3 text-center shadow-lg">
+            <p className="text-[10px] font-medium text-gray-300 mb-0.5">Konum</p>
+            <p className="text-sm font-bold">{locationCity}</p>
+          </div>
+          <div className="flex-1 bg-gray-800 text-white rounded-full px-4 py-3 text-center shadow-lg">
+            <p className="text-[10px] font-medium text-gray-300 mb-0.5">GNK Skor</p>
+            <p className="text-sm font-bold">{rating} / 5</p>
+          </div>
+          <div className="flex-1 bg-gray-800 text-white rounded-full px-4 py-3 text-center shadow-lg">
+            <p className="text-[10px] font-medium text-gray-300 mb-0.5">Fiyat</p>
+            <p className="text-sm font-bold">{price.toLocaleString('tr-TR')} ₺</p>
+          </div>
+        </div>
+      )
+    },
+    {
+      id: 15,
+      name: "Çift Vurgu",
+      render: () => (
+        <div className="flex items-center justify-center gap-3">
+          <div className="flex-1 bg-white border border-gray-200 rounded-xl p-4 text-center relative overflow-hidden">
+            <div className="absolute top-0 left-0 right-0 h-1 bg-gray-900"></div>
+            <div className="absolute bottom-0 left-0 right-0 h-1 bg-gray-900"></div>
+            <p className="text-xs font-medium text-gray-600 mb-1.5 mt-1">Konum</p>
+            <p className="text-lg font-bold text-gray-900">{locationCity}</p>
+          </div>
+          <div className="flex-1 bg-white border border-gray-200 rounded-xl p-4 text-center relative overflow-hidden">
+            <div className="absolute top-0 left-0 right-0 h-1 bg-gray-900"></div>
+            <div className="absolute bottom-0 left-0 right-0 h-1 bg-gray-900"></div>
+            <p className="text-xs font-medium text-gray-600 mb-1.5 mt-1">GNK Skor</p>
+            <p className="text-lg font-bold text-gray-900">{rating} / 5</p>
+          </div>
+          <div className="flex-1 bg-white border border-gray-200 rounded-xl p-4 text-center relative overflow-hidden">
+            <div className="absolute top-0 left-0 right-0 h-1 bg-gray-900"></div>
+            <div className="absolute bottom-0 left-0 right-0 h-1 bg-gray-900"></div>
+            <p className="text-xs font-medium text-gray-600 mb-1.5 mt-1">Fiyat</p>
+            <p className="text-lg font-bold text-gray-900">{price.toLocaleString('tr-TR')} ₺</p>
           </div>
         </div>
       )
     },
     {
       id: 16,
-      name: "Cam Efekti",
+      name: "3D Hafif",
       render: () => (
-        <div className="bg-gradient-to-br from-blue-500 to-teal-600 p-6 rounded-2xl -mx-4">
-          <div className="flex items-center justify-center gap-3">
-            <div className="flex-1 rounded-2xl p-4 text-center backdrop-blur-lg" style={{ background: 'rgba(255, 255, 255, 0.15)', border: '1px solid rgba(255, 255, 255, 0.2)' }}>
-              <p className="text-xs font-medium text-white/80 mb-1.5">Konum</p>
-              <p className="text-lg font-bold text-white">{locationCity}</p>
-            </div>
-            <div className="flex-1 rounded-2xl p-4 text-center backdrop-blur-lg" style={{ background: 'rgba(255, 255, 255, 0.15)', border: '1px solid rgba(255, 255, 255, 0.2)' }}>
-              <p className="text-xs font-medium text-white/80 mb-1.5">GNK Skor</p>
-              <p className="text-lg font-bold text-white">{rating} / 5</p>
-            </div>
-            <div className="flex-1 rounded-2xl p-4 text-center backdrop-blur-lg" style={{ background: 'rgba(255, 255, 255, 0.15)', border: '1px solid rgba(255, 255, 255, 0.2)' }}>
-              <p className="text-xs font-medium text-white/80 mb-1.5">Fiyat</p>
-              <p className="text-lg font-bold text-white">{price.toLocaleString('tr-TR')} ₺</p>
-            </div>
+        <div className="flex items-center justify-center gap-3">
+          <div className="flex-1 bg-gray-50 rounded-2xl p-4 text-center" style={{ boxShadow: '4px 4px 8px #e5e7eb, -4px -4px 8px #ffffff' }}>
+            <p className="text-xs font-medium text-gray-600 mb-1.5">Konum</p>
+            <p className="text-lg font-bold text-gray-900">{locationCity}</p>
+          </div>
+          <div className="flex-1 bg-gray-50 rounded-2xl p-4 text-center" style={{ boxShadow: '4px 4px 8px #e5e7eb, -4px -4px 8px #ffffff' }}>
+            <p className="text-xs font-medium text-gray-600 mb-1.5">GNK Skor</p>
+            <p className="text-lg font-bold text-gray-900">{rating} / 5</p>
+          </div>
+          <div className="flex-1 bg-gray-50 rounded-2xl p-4 text-center" style={{ boxShadow: '4px 4px 8px #e5e7eb, -4px -4px 8px #ffffff' }}>
+            <p className="text-xs font-medium text-gray-600 mb-1.5">Fiyat</p>
+            <p className="text-lg font-bold text-gray-900">{price.toLocaleString('tr-TR')} ₺</p>
           </div>
         </div>
       )
     },
     {
       id: 17,
-      name: "Cesur Köşeli",
+      name: "Gradient Açık Mavi",
       render: () => (
         <div className="flex items-center justify-center gap-3">
-          <div className="flex-1 border-2 border-gray-900 rounded-lg p-4 text-center">
-            <p className="text-[11px] font-bold text-gray-600 uppercase mb-2">Konum</p>
-            <p className="text-xl font-black text-gray-900">{locationCity}</p>
+          <div className="flex-1 bg-gradient-to-br from-blue-50 to-cyan-50 border border-blue-100 rounded-2xl p-4 text-center shadow-sm">
+            <p className="text-xs font-semibold text-blue-900 mb-1.5">Konum</p>
+            <p className="text-lg font-bold text-gray-900">{locationCity}</p>
           </div>
-          <div className="flex-1 border-2 border-gray-900 rounded-lg p-4 text-center">
-            <p className="text-[11px] font-bold text-gray-600 uppercase mb-2">GNK Skor</p>
-            <p className="text-xl font-black text-gray-900">{rating} / 5</p>
+          <div className="flex-1 bg-gradient-to-br from-blue-50 to-cyan-50 border border-blue-100 rounded-2xl p-4 text-center shadow-sm">
+            <p className="text-xs font-semibold text-blue-900 mb-1.5">GNK Skor</p>
+            <p className="text-lg font-bold text-gray-900">{rating} / 5</p>
           </div>
-          <div className="flex-1 border-2 border-gray-900 rounded-lg p-4 text-center">
-            <p className="text-[11px] font-bold text-gray-600 uppercase mb-2">Fiyat</p>
-            <p className="text-xl font-black text-gray-900">{price.toLocaleString('tr-TR')} ₺</p>
+          <div className="flex-1 bg-gradient-to-br from-blue-50 to-cyan-50 border border-blue-100 rounded-2xl p-4 text-center shadow-sm">
+            <p className="text-xs font-semibold text-blue-900 mb-1.5">Fiyat</p>
+            <p className="text-lg font-bold text-gray-900">{price.toLocaleString('tr-TR')} ₺</p>
           </div>
         </div>
       )
     },
     {
       id: 18,
-      name: "Gradient Çerçeve",
+      name: "Gölge Sert",
       render: () => (
         <div className="flex items-center justify-center gap-3">
-          <div className="flex-1 p-[2px] rounded-2xl bg-gradient-to-br from-blue-500 to-teal-600">
-            <div className="bg-white rounded-2xl p-4 text-center">
-              <p className="text-xs font-medium text-gray-600 mb-1.5">Konum</p>
-              <p className="text-lg font-bold text-gray-900">{locationCity}</p>
-            </div>
+          <div className="flex-1 bg-white rounded-xl p-4 text-center" style={{ boxShadow: '6px 6px 0px #e5e7eb' }}>
+            <p className="text-xs font-medium text-gray-600 mb-1.5">Konum</p>
+            <p className="text-lg font-bold text-gray-900">{locationCity}</p>
           </div>
-          <div className="flex-1 p-[2px] rounded-2xl bg-gradient-to-br from-blue-500 to-teal-600">
-            <div className="bg-white rounded-2xl p-4 text-center">
-              <p className="text-xs font-medium text-gray-600 mb-1.5">GNK Skor</p>
-              <p className="text-lg font-bold text-gray-900">{rating} / 5</p>
-            </div>
+          <div className="flex-1 bg-white rounded-xl p-4 text-center" style={{ boxShadow: '6px 6px 0px #e5e7eb' }}>
+            <p className="text-xs font-medium text-gray-600 mb-1.5">GNK Skor</p>
+            <p className="text-lg font-bold text-gray-900">{rating} / 5</p>
           </div>
-          <div className="flex-1 p-[2px] rounded-2xl bg-gradient-to-br from-blue-500 to-teal-600">
-            <div className="bg-white rounded-2xl p-4 text-center">
-              <p className="text-xs font-medium text-gray-600 mb-1.5">Fiyat</p>
-              <p className="text-lg font-bold text-gray-900">{price.toLocaleString('tr-TR')} ₺</p>
-            </div>
+          <div className="flex-1 bg-white rounded-xl p-4 text-center" style={{ boxShadow: '6px 6px 0px #e5e7eb' }}>
+            <p className="text-xs font-medium text-gray-600 mb-1.5">Fiyat</p>
+            <p className="text-lg font-bold text-gray-900">{price.toLocaleString('tr-TR')} ₺</p>
           </div>
         </div>
       )
     },
     {
       id: 19,
-      name: "Ultra Minimal",
+      name: "Rozet Gradient",
       render: () => (
-        <div className="flex items-center justify-center gap-4">
-          <div className="flex-1 bg-white rounded-2xl p-5 text-center shadow-sm">
-            <p className="text-[11px] font-semibold text-gray-500 mb-2 uppercase tracking-wide">Konum</p>
-            <p className="text-xl font-bold text-gray-900">{locationCity}</p>
+        <div className="flex items-center justify-center gap-2">
+          <div className="flex-1 bg-gradient-to-br from-gray-900 to-gray-700 text-white rounded-full px-4 py-3 text-center shadow-lg">
+            <p className="text-[10px] font-medium text-gray-300 mb-0.5">Konum</p>
+            <p className="text-sm font-bold">{locationCity}</p>
           </div>
-          <div className="flex-1 bg-white rounded-2xl p-5 text-center shadow-sm">
-            <p className="text-[11px] font-semibold text-gray-500 mb-2 uppercase tracking-wide">GNK Skor</p>
-            <p className="text-xl font-bold text-gray-900">{rating} / 5</p>
+          <div className="flex-1 bg-gradient-to-br from-gray-900 to-gray-700 text-white rounded-full px-4 py-3 text-center shadow-lg">
+            <p className="text-[10px] font-medium text-gray-300 mb-0.5">GNK Skor</p>
+            <p className="text-sm font-bold">{rating} / 5</p>
           </div>
-          <div className="flex-1 bg-white rounded-2xl p-5 text-center shadow-sm">
-            <p className="text-[11px] font-semibold text-gray-500 mb-2 uppercase tracking-wide">Fiyat</p>
-            <p className="text-xl font-bold text-gray-900">{price.toLocaleString('tr-TR')} ₺</p>
+          <div className="flex-1 bg-gradient-to-br from-gray-900 to-gray-700 text-white rounded-full px-4 py-3 text-center shadow-lg">
+            <p className="text-[10px] font-medium text-gray-300 mb-0.5">Fiyat</p>
+            <p className="text-sm font-bold">{price.toLocaleString('tr-TR')} ₺</p>
           </div>
         </div>
       )
     },
     {
       id: 20,
-      name: "Çift Çerçeve",
+      name: "Üst Vurgu Renkli",
       render: () => (
         <div className="flex items-center justify-center gap-3">
-          <div className="flex-1 border-2 border-gray-900 rounded-xl p-1">
-            <div className="border border-gray-400 rounded-lg p-3 text-center">
-              <p className="text-xs font-medium text-gray-600 mb-1.5">Konum</p>
-              <p className="text-lg font-bold text-gray-900">{locationCity}</p>
-            </div>
+          <div className="flex-1 bg-white border border-gray-200 rounded-xl p-4 text-center relative overflow-hidden">
+            <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 to-cyan-500"></div>
+            <p className="text-xs font-medium text-gray-600 mb-1.5 mt-1">Konum</p>
+            <p className="text-lg font-bold text-gray-900">{locationCity}</p>
           </div>
-          <div className="flex-1 border-2 border-gray-900 rounded-xl p-1">
-            <div className="border border-gray-400 rounded-lg p-3 text-center">
-              <p className="text-xs font-medium text-gray-600 mb-1.5">GNK Skor</p>
-              <p className="text-lg font-bold text-gray-900">{rating} / 5</p>
-            </div>
+          <div className="flex-1 bg-white border border-gray-200 rounded-xl p-4 text-center relative overflow-hidden">
+            <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 to-cyan-500"></div>
+            <p className="text-xs font-medium text-gray-600 mb-1.5 mt-1">GNK Skor</p>
+            <p className="text-lg font-bold text-gray-900">{rating} / 5</p>
           </div>
-          <div className="flex-1 border-2 border-gray-900 rounded-xl p-1">
-            <div className="border border-gray-400 rounded-lg p-3 text-center">
-              <p className="text-xs font-medium text-gray-600 mb-1.5">Fiyat</p>
-              <p className="text-lg font-bold text-gray-900">{price.toLocaleString('tr-TR')} ₺</p>
-            </div>
+          <div className="flex-1 bg-white border border-gray-200 rounded-xl p-4 text-center relative overflow-hidden">
+            <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 to-cyan-500"></div>
+            <p className="text-xs font-medium text-gray-600 mb-1.5 mt-1">Fiyat</p>
+            <p className="text-lg font-bold text-gray-900">{price.toLocaleString('tr-TR')} ₺</p>
           </div>
         </div>
       )
