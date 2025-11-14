@@ -53,10 +53,10 @@ export function HotelDetails({ features, tabs, mapImageUrl, location, websiteUrl
           </div>
 
           <div className="md:hidden">
-            <div className="bg-white p-5 rounded-xl border border-gray-200 mt-3">
+            <div className="bg-white p-5 rounded-xl border border-gray-200 mt-2">
               <h2 className="text-[20px] font-semibold text-gray-900 mb-4">Otel Özellikleri</h2>
               {tags && tags.length > 0 ? (
-                <div className="grid grid-cols-2 gap-3">
+                <div className="grid grid-cols-2 gap-2">
                   {tags.map((tag, index) => {
                     const IconComponent = (LucideIcons as any)[tag.icon || 'Tag'] || LucideIcons.Tag;
                     return (
@@ -96,7 +96,7 @@ export function HotelDetails({ features, tabs, mapImageUrl, location, websiteUrl
           </div>
 
           <div className="md:hidden">
-            <div className="bg-white p-5 rounded-xl border border-gray-200 mt-3">
+            <div className="bg-white p-5 rounded-xl border border-gray-200 mt-2">
               <h2 className="text-[20px] font-semibold text-gray-900 mb-4">Neden Bu Otel</h2>
               {tabs.about ? (
                 <p className="text-gray-700 text-[15px] leading-relaxed whitespace-pre-line">
@@ -118,7 +118,7 @@ export function HotelDetails({ features, tabs, mapImageUrl, location, websiteUrl
           </div>
 
           <div className="md:hidden">
-            <div className="bg-white p-5 rounded-xl border border-gray-200 mt-3">
+            <div className="bg-white p-5 rounded-xl border border-gray-200 mt-2">
               <h2 className="text-[20px] font-semibold text-gray-900 mb-4">Yakında Ne Yenir</h2>
               <NearbyPlacesTab location={location} coordinates={coordinates} />
             </div>
