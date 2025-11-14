@@ -280,8 +280,8 @@ export default function SearchFilters() {
         )}
 
         {priceTags.length > 0 && (
-          <div className="flex items-center justify-center gap-2 flex-wrap">
-            {priceTags.slice(0, 4).map((pt) => (
+          <div className="flex items-center justify-center gap-2">
+            {priceTags.slice(0, 3).map((pt) => (
               <Link
                 key={pt.id}
                 href={`/search?q=${pt.slug}`}
