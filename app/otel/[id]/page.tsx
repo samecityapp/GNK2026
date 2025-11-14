@@ -77,11 +77,11 @@ export default async function HotelDetailPage({ params }: Props) {
   return (
     <>
       {/* Mobile View - New Airbnb-style Design */}
-      <div className="md:hidden">
-        <div className="relative w-full">
+      <div className="md:hidden bg-gray-50 min-h-screen">
+        <div className="relative w-full bg-white">
           <BackButton variant="overlay" />
 
-          <div className="px-4">
+          <div className="px-0">
             <ImageGallery
               images={hotel.galleryImages || (hotel.coverImageUrl ? [hotel.coverImageUrl] : [])}
               videoUrl={hotel.video_url}
@@ -100,7 +100,7 @@ export default async function HotelDetailPage({ params }: Props) {
           />
         </div>
 
-        <div className="px-4 py-6">
+        <div className="px-5 py-6 space-y-8">
           <HotelDetails
             features={hotel.amenities || []}
             tabs={{ about: hotel.about || '', rules: hotel.rules || '' }}
