@@ -29,11 +29,11 @@ export function MobileHotelInfo({
       </h1>
 
       <div className="flex items-center justify-center gap-2 mb-2">
-        <div className="flex-1 bg-white shadow-lg rounded-2xl p-4 text-center">
+        <div className="flex-1 bg-white shadow-lg rounded-2xl p-3 text-center">
           <p className="text-xs font-medium text-gray-600 mb-0.5">Konum</p>
           <p className="text-base font-bold text-gray-900">{locationCity}</p>
         </div>
-        <div className="flex-1 bg-white shadow-lg rounded-2xl p-4 text-center">
+        <div className="flex-1 bg-white shadow-lg rounded-2xl p-3 text-center">
           <p className="text-xs font-medium text-gray-600 mb-0.5">GNK Skor</p>
           <p className="text-base font-bold text-gray-900 mb-1">{rating.toFixed(1)}<span className="mx-0.5">/</span>10</p>
           <div className="flex justify-center gap-0.5">
@@ -49,11 +49,11 @@ export function MobileHotelInfo({
             ))}
           </div>
         </div>
-        <div className="flex-1 bg-white shadow-lg rounded-2xl p-4 text-center min-w-0">
+        <div className="flex-1 bg-white shadow-lg rounded-2xl p-3 text-center min-w-0">
           <p className="text-xs font-medium text-gray-600 mb-0.5">Fiyat</p>
-          <div className="flex items-baseline justify-center gap-1">
-            <span className="text-sm font-bold text-gray-900">{price.toLocaleString('tr-TR')}</span>
-            <span className="text-sm font-bold text-gray-900">₺</span>
+          <div className="flex items-baseline justify-center gap-0.5">
+            <span className="text-base font-bold text-gray-900">{price.toLocaleString('tr-TR')}</span>
+            <span className="text-base font-bold text-gray-900">₺</span>
           </div>
         </div>
       </div>
