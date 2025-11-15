@@ -209,6 +209,7 @@ export const db = {
       const { data, error } = await supabase
         .from('groups')
         .select('*')
+        .is('deleted_at', null)
         .order('created_at', { ascending: false });
 
       if (error) throw error;
@@ -351,6 +352,13 @@ export const db = {
     },
 
     async delete(id: string): Promise<boolean> {
+      // First delete all group_hotels relationships
+      await supabase
+        .from('group_hotels')
+        .delete()
+        .eq('group_id', id);
+
+      // Then soft delete the group
       const { error } = await supabase
         .from('groups')
         .update({ deleted_at: new Date().toISOString() })
