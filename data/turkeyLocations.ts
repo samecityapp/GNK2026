@@ -65,6 +65,7 @@ export const turkeyLocations = [
   "Osmaniye",
   "Rize",
   "Sakarya",
+  "Sapanca",
   "Samsun",
   "Siirt",
   "Sinop",
