@@ -123,8 +123,8 @@ export default function OtelEklePage() {
     // Validate rating
     const validatedRating = Math.max(0, Math.min(10, gnkScore || 0));
 
-    // Validate price
-    const validatedPrice = Math.max(0, parseFloat(price) || 0);
+    // Validate price (must be integer)
+    const validatedPrice = Math.max(0, parseInt(price) || 0);
 
     setIsLoading(true);
 
@@ -263,13 +263,14 @@ export default function OtelEklePage() {
                 <Input
                   id="price"
                   type="number"
-                  step="100"
+                  step="1"
                   min="0"
                   value={price}
                   onChange={(e) => setPrice(e.target.value)}
                   placeholder="Örn: 8500"
                   className="h-11"
                 />
+                <p className="text-xs text-gray-500">Sadece tam sayı giriniz (12500 gibi)</p>
               </div>
             </div>
 
