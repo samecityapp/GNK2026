@@ -100,7 +100,7 @@ export default async function HotelDetailPage({ params }: Props) {
           />
         </div>
 
-        <div className="px-5 space-y-3">
+        <div className="px-5 space-y-1.5">
           <HotelDetails
             features={hotel.amenities || []}
             tabs={{ about: hotel.about || '', rules: hotel.rules || '' }}
