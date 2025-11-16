@@ -24,10 +24,10 @@ async function HotelGroups() {
     }
 
     return (
-      <div className="space-y-16">
+      <div className="space-y-8 sm:space-y-16">
         {groups.map((group) => (
           <section key={group.id}>
-            <h2 className="text-3xl font-bold text-gray-800 mb-6 px-4 sm:px-0">{group.title}</h2>
+            <h2 className="text-xl sm:text-3xl font-bold text-gray-800 mb-4 sm:mb-6 px-4 sm:px-0">{group.title}</h2>
 
             {/* Mobil: Yan yana kaydırılabilir */}
             <div className="sm:hidden overflow-x-auto -mx-4 px-4 pb-2 scrollbar-hide">
@@ -66,10 +66,10 @@ async function HotelGroups() {
 
 function HomePageSkeleton() {
   return (
-    <div className="space-y-16">
+    <div className="space-y-8 sm:space-y-16">
       {[1, 2].map((groupIdx) => (
         <section key={groupIdx}>
-          <div className="h-9 w-64 bg-gray-200 rounded-lg animate-pulse mb-6 px-4 sm:px-0"></div>
+          <div className="h-9 w-64 bg-gray-200 rounded-lg animate-pulse mb-4 sm:mb-6 px-4 sm:px-0"></div>
 
           {/* Mobil: Yan yana kaydırılabilir skeleton */}
           <div className="sm:hidden overflow-x-auto -mx-4 px-4 pb-2">
