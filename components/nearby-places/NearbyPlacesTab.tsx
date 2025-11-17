@@ -6,6 +6,7 @@ import { supabase } from '@/lib/supabase';
 import { CategoryFilters } from './CategoryFilters';
 import { RestaurantCard } from './RestaurantCard';
 import { Restaurant, RestaurantCategory } from '@/lib/types';
+import { sapancaPlaces } from '@/data/sapancaPlaces';
 
 const RestaurantDetailsModal = dynamic(() =>
   import('./RestaurantDetailsModal').then(mod => ({ default: mod.RestaurantDetailsModal }))
@@ -29,6 +30,19 @@ export function NearbyPlacesTab({ location, coordinates }: NearbyPlacesTabProps)
   async function fetchRestaurants() {
     try {
       setLoading(true);
+
+      if (location.toLowerCase().includes('sapanca') || location.toLowerCase().includes('kırkpınar')) {
+        const normalizedCategories = sapancaPlaces.map(cat => ({
+          ...cat,
+          restaurants: cat.places || cat.restaurants || []
+        }));
+        setCategories(normalizedCategories);
+        if (normalizedCategories.length > 0) {
+          setActiveCategory(normalizedCategories[0].title);
+        }
+        setLoading(false);
+        return;
+      }
 
       const { data: categoriesData, error: categoriesError } = await supabase
         .from('restaurant_categories')
