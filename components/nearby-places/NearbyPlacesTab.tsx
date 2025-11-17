@@ -59,7 +59,7 @@ export function NearbyPlacesTab({ location, coordinates }: NearbyPlacesTabProps)
         return;
       }
 
-      if (location.toLowerCase().includes('antalya')) {
+      if (location.toLowerCase().includes('antalya') || location.toLowerCase().includes('kemer') || location.toLowerCase().includes('side')) {
         const normalizedCategories = antalyaPlaces.map(cat => ({
           ...cat,
           restaurants: cat.places || cat.restaurants || []
@@ -68,6 +68,12 @@ export function NearbyPlacesTab({ location, coordinates }: NearbyPlacesTabProps)
         if (normalizedCategories.length > 0) {
           setActiveCategory(normalizedCategories[0].title);
         }
+        setLoading(false);
+        return;
+      }
+
+      if (location.toLowerCase().includes('fethiye') || location.toLowerCase().includes('ölüdeniz')) {
+        setCategories([]);
         setLoading(false);
         return;
       }
