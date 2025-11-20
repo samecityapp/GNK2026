@@ -30,7 +30,7 @@ export function LocationCard({ latitude, longitude, hotelName, address }: Locati
 
       <div className="relative w-full h-[250px] bg-muted">
         <iframe
-          title={`${hotelName} Konumu`}
+          title="Otel Konumu"
           width="100%"
           height="100%"
           frameBorder="0"
@@ -38,7 +38,9 @@ export function LocationCard({ latitude, longitude, hotelName, address }: Locati
           marginHeight={0}
           marginWidth={0}
           src={embedMapUrl}
-          className="grayscale-[30%] hover:grayscale-0 transition-all duration-300"
+          className="grayscale-[20%] hover:grayscale-0 transition-all duration-500"
+          allowFullScreen
+          loading="lazy"
         />
       </div>
 
