@@ -16,7 +16,7 @@ export function LocationCard({ latitude, longitude, hotelName, address }: Locati
     return null;
   }
 
-  const embedMapUrl = `https://maps.google.com/maps?q=${latitude},${longitude}&hl=tr&z=15&output=embed`;
+  const embedMapUrl = `https://maps.google.com/maps?q=${latitude},${longitude}&hl=tr&z=14&output=embed`;
   const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${latitude},${longitude}`;
 
   return (
