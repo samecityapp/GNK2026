@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowLeft, Calendar, Clock, MapPin } from 'lucide-react';
+import { ArrowLeft, Calendar, Clock } from 'lucide-react';
 
 type Props = { params: { slug: string } };
 
@@ -38,81 +38,82 @@ export default async function ArticlePage({ params }: Props) {
   });
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div className="min-h-screen bg-background">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <Link
           href="/rehber"
-          className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 mb-8 font-medium transition-colors group"
+          className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground mb-12 font-medium transition-colors group"
         >
           <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
           Tüm Rehberlere Dön
         </Link>
 
-        <article className="bg-white rounded-3xl shadow-xl overflow-hidden">
-          <div className="relative w-full h-[400px] md:h-[500px]">
+        <article>
+          <header className="mb-12">
+            <div className="flex items-center gap-3 mb-6">
+              <span className="text-xs font-medium uppercase tracking-wide text-zinc-400">
+                {article.location}
+              </span>
+              <span className="text-zinc-300">•</span>
+              <div className="flex items-center gap-1.5 text-xs text-zinc-400">
+                <Calendar className="w-3 h-3" />
+                <time dateTime={article.published_at}>{publishedDate}</time>
+              </div>
+              <span className="text-zinc-300">•</span>
+              <div className="flex items-center gap-1.5 text-xs text-zinc-400">
+                <Clock className="w-3 h-3" />
+                <span>8 DK OKUMA</span>
+              </div>
+            </div>
+
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-zinc-900 mb-8 leading-tight tracking-tight">
+              {article.title}
+            </h1>
+
+            <p className="text-lg text-zinc-600 leading-relaxed">
+              {article.meta_description}
+            </p>
+          </header>
+
+          <div className="relative w-full aspect-[16/9] rounded-2xl overflow-hidden mb-16">
             <Image
-              src={article.cover_image_url || 'https://placehold.co/1200x600/3b82f6/ffffff?text=GNK+Rehber'}
+              src={article.cover_image_url || 'https://placehold.co/1200x675/e5e5e5/666666?text=GNK'}
               alt={article.title}
               fill
               sizes="100vw"
               className="object-cover"
               priority
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
-
-            <div className="absolute bottom-0 left-0 right-0 p-8 md:p-12 text-white">
-              <div className="flex flex-wrap items-center gap-4 mb-4 text-sm">
-                <div className="flex items-center gap-2 bg-white/20 backdrop-blur-sm px-3 py-1.5 rounded-full">
-                  <MapPin className="w-4 h-4" />
-                  <span>{article.location}</span>
-                </div>
-                <div className="flex items-center gap-2 bg-white/20 backdrop-blur-sm px-3 py-1.5 rounded-full">
-                  <Calendar className="w-4 h-4" />
-                  <span>{publishedDate}</span>
-                </div>
-                <div className="flex items-center gap-2 bg-white/20 backdrop-blur-sm px-3 py-1.5 rounded-full">
-                  <Clock className="w-4 h-4" />
-                  <span>8 dakika okuma</span>
-                </div>
-              </div>
-              <h1 className="text-3xl md:text-5xl font-bold leading-tight">
-                {article.title}
-              </h1>
-            </div>
           </div>
 
-          <div className="p-6 md:p-12">
-            <div className="max-w-3xl mx-auto">
-              <p className="text-xl text-gray-600 leading-relaxed mb-12 font-medium border-l-4 border-blue-500 pl-6 italic">
-                {article.meta_description}
-              </p>
-
-              <div
-                className="article-content prose prose-lg md:prose-xl max-w-none
-                  prose-headings:font-bold prose-headings:text-gray-900 prose-headings:mt-12 prose-headings:mb-6
-                  prose-h2:text-3xl prose-h2:border-b-2 prose-h2:border-blue-100 prose-h2:pb-3
-                  prose-p:text-gray-700 prose-p:leading-relaxed prose-p:mb-6
-                  prose-strong:text-blue-700 prose-strong:font-semibold
-                  prose-a:text-blue-600 prose-a:no-underline hover:prose-a:underline
-                  prose-img:rounded-2xl prose-img:shadow-lg prose-img:my-8
-                  prose-ul:my-6 prose-li:my-2
-                "
-                dangerouslySetInnerHTML={{ __html: article.content }}
-              />
-            </div>
+          <div className="max-w-3xl mx-auto">
+            <div
+              className="prose prose-lg prose-zinc
+                prose-headings:font-bold prose-headings:tracking-tight prose-headings:text-zinc-900
+                prose-h2:text-3xl prose-h2:mt-12 prose-h2:mb-6
+                prose-h3:text-2xl prose-h3:mt-10 prose-h3:mb-4
+                prose-p:text-zinc-700 prose-p:leading-relaxed prose-p:mb-6
+                prose-a:text-foreground prose-a:font-medium prose-a:no-underline hover:prose-a:underline prose-a:decoration-2 prose-a:underline-offset-4
+                prose-strong:text-zinc-900 prose-strong:font-semibold
+                prose-img:rounded-xl prose-img:my-10
+                prose-blockquote:border-l-4 prose-blockquote:border-zinc-900 prose-blockquote:bg-zinc-50 prose-blockquote:p-6 prose-blockquote:not-italic prose-blockquote:my-8
+                prose-ul:my-6 prose-li:my-2 prose-li:text-zinc-700
+                max-w-none"
+              dangerouslySetInnerHTML={{ __html: article.content }}
+            />
           </div>
 
-          <div className="bg-gradient-to-r from-blue-50 to-indigo-50 p-8 md:p-12 border-t border-gray-100">
+          <div className="mt-20 pt-12 border-t border-zinc-200">
             <div className="max-w-3xl mx-auto text-center">
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">
+              <h3 className="text-2xl font-bold text-foreground mb-4">
                 Bu rehber işinize yaradı mı?
               </h3>
-              <p className="text-gray-600 mb-6">
+              <p className="text-muted-foreground mb-8 leading-relaxed">
                 {article.location} bölgesindeki daha fazla gizli cenneti keşfetmek için diğer rehberlerimize göz atın.
               </p>
               <Link
                 href="/rehber"
-                className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-full font-semibold transition-colors shadow-lg hover:shadow-xl"
+                className="inline-flex items-center gap-2 bg-foreground hover:bg-zinc-800 text-background px-8 py-3 rounded-full font-semibold transition-colors"
               >
                 Tüm Rehberleri Keşfet
               </Link>
