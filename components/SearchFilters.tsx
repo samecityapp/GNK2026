@@ -210,11 +210,13 @@ export default function SearchFilters() {
     return TagIcon;
   };
 
-  console.log('[SearchFilters RENDER] State:', {
-    loading,
-    featuredTagsLength: featuredTags.length,
-    priceTagsLength: priceTags.length
-  });
+  useEffect(() => {
+    console.log('[SearchFilters RENDER] State:', {
+      loading,
+      featuredTagsLength: featuredTags.length,
+      priceTagsLength: priceTags.length
+    });
+  }, [loading, featuredTags.length, priceTags.length]);
 
   return (
     <div className="w-full max-w-5xl mx-auto px-4">

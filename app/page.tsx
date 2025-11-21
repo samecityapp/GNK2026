@@ -101,7 +101,9 @@ export default function HomePage() {
         <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6 tracking-tight">
           Türkiye'nin En Seçkin Otellerini Keşfedin
         </h1>
-        <SearchFilters />
+        <Suspense fallback={<div className="h-24" />}>
+          <SearchFilters />
+        </Suspense>
       </div>
 
       <Suspense fallback={<HomePageSkeleton />}>
