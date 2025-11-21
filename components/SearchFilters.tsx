@@ -3,15 +3,10 @@
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { createClient } from '@supabase/supabase-js';
+import { supabase } from '@/lib/supabase';
 import { Tag, PriceTag } from '@/lib/types';
 import { Search, MapPin, Tag as TagIcon, Hotel } from 'lucide-react';
 import * as LucideIcons from 'lucide-react';
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-);
 
 type SearchSuggestion = {
   type: 'hotel' | 'location' | 'tag';
