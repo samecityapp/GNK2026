@@ -125,7 +125,9 @@ export default async function HotelDetailPage({ params }: Props) {
             <NearbyGuide location={hotel.location} coordinates={hotel.coordinates} isMobile={true} />
           </div>
 
-          <RelatedArticles location={hotel.location.split(',')[0].trim()} />
+          <div className="order-5">
+            <RelatedArticles location={hotel.location.split(',')[0].trim()} />
+          </div>
         </div>
       </div>
 
