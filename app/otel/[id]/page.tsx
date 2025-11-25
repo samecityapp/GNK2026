@@ -11,12 +11,6 @@ import { HotelFeatures } from '@/components/hotel/HotelFeatures';
 import { HotelDescription } from '@/components/hotel/HotelDescription';
 import { NearbyGuide } from '@/components/hotel/NearbyGuide';
 import PremiumClassic from '@/components/hotel/ScoreCard/PremiumClassic';
-import SophisticatedDark from '@/components/hotel/ScoreCard/SophisticatedDark';
-import GildedEdge from '@/components/hotel/ScoreCard/GildedEdge';
-import ScoreBadgeFocus from '@/components/hotel/ScoreCard/ScoreBadgeFocus';
-import MinimalistGoldLine from '@/components/hotel/ScoreCard/MinimalistGoldLine';
-import ModernProgressRing from '@/components/hotel/ScoreCard/ModernProgressRing';
-import BoldTypography from '@/components/hotel/ScoreCard/BoldTypography';
 
 const LocationCard = dynamic(() => import('@/components/hotel/LocationCard'), {
   ssr: false,
@@ -143,49 +137,17 @@ export default async function HotelDetailPage({ params }: Props) {
         <div className="container mx-auto px-4 sm:px-6 py-4 sm:py-8">
           <BackButton />
 
-          <div className="mb-6">
-            <p className="text-sm text-gray-500 mb-2">Otel / {hotel.location} / {hotel.name}</p>
-            <h1 className="text-3xl lg:text-4xl font-bold text-gray-900">{hotel.name}</h1>
-            <div className="flex items-center text-gray-600 mt-2">
-              <MapPin size={16} className="mr-2" />
-              <span className="text-base">{hotel.location}</span>
+          <div className="flex flex-row justify-between items-start gap-4 mb-6">
+            <div className="flex-1">
+              <p className="text-sm text-gray-500 mb-2">Otel / {hotel.location} / {hotel.name}</p>
+              <h1 className="text-3xl lg:text-4xl font-bold text-gray-900">{hotel.name}</h1>
+              <div className="flex items-center text-gray-600 mt-2">
+                <MapPin size={16} className="mr-2" />
+                <span className="text-base">{hotel.location}</span>
+              </div>
             </div>
-          </div>
-
-          <div className="mb-8 space-y-8">
-            <div>
-              <h2 className="text-2xl font-bold mb-4 text-gray-900">1. Premium Classic</h2>
+            <div className="flex-shrink-0">
               <PremiumClassic score={rating.score} />
-            </div>
-
-            <div>
-              <h2 className="text-2xl font-bold mb-4 text-gray-900">2. Sophisticated Dark</h2>
-              <SophisticatedDark score={rating.score} />
-            </div>
-
-            <div>
-              <h2 className="text-2xl font-bold mb-4 text-gray-900">3. Gilded Edge</h2>
-              <GildedEdge score={rating.score} />
-            </div>
-
-            <div>
-              <h2 className="text-2xl font-bold mb-4 text-gray-900">4. Score Badge Focus</h2>
-              <ScoreBadgeFocus score={rating.score} />
-            </div>
-
-            <div>
-              <h2 className="text-2xl font-bold mb-4 text-gray-900">5. Minimalist Gold Line</h2>
-              <MinimalistGoldLine score={rating.score} />
-            </div>
-
-            <div>
-              <h2 className="text-2xl font-bold mb-4 text-gray-900">6. Modern Progress Ring</h2>
-              <ModernProgressRing score={rating.score} />
-            </div>
-
-            <div>
-              <h2 className="text-2xl font-bold mb-4 text-gray-900">7. Bold Typography & Asymmetry</h2>
-              <BoldTypography score={rating.score} />
             </div>
           </div>
 
