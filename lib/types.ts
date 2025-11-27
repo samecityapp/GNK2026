@@ -1,6 +1,15 @@
+export type LocalizedString = {
+  tr: string;
+  en?: string;
+  de?: string;
+  ar?: string;
+  ru?: string;
+  [key: string]: string | undefined;
+};
+
 export type Hotel = {
   id: string;
-  name: string;
+  name: LocalizedString;
   location: string;
   gnkScore: number;
   price: number;
@@ -20,7 +29,8 @@ export type Hotel = {
   website_url?: string;
   instagram_url?: string;
   google_maps_url?: string;
-  breakfast_description?: string;
+  description: LocalizedString;
+  breakfast_description?: LocalizedString;
   breakfast_images?: string[];
 };
 
@@ -33,7 +43,7 @@ export type Group = {
 
 export type Tag = {
   id: string;
-  name: string;
+  name: LocalizedString;
   slug: string;
   isFeatured?: boolean;
   icon?: string;
@@ -57,16 +67,16 @@ export interface Restaurant {
   id?: string;
   category_id?: string;
   location?: string;
-  name: string;
+  name: LocalizedString;
   image?: string;
   image_url?: string;
-  description: string;
+  description: LocalizedString;
   google_rating?: number;
   googleRating?: number;
   review_count?: string;
   reviewCount?: string;
-  order_suggestion?: string;
-  orderSuggestion?: string;
+  order_suggestion?: LocalizedString;
+  orderSuggestion?: LocalizedString;
   display_order?: number;
   notes?: RestaurantNote[];
 }
@@ -75,13 +85,13 @@ export interface RestaurantNote {
   id?: string;
   restaurant_id?: string;
   emoji: string;
-  text: string;
+  text: LocalizedString;
   display_order?: number;
 }
 
 export interface RestaurantCategory {
   id?: string;
-  title: string;
+  title: LocalizedString;
   display_order?: number;
   restaurants?: Restaurant[];
   places?: Restaurant[];

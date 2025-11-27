@@ -7,6 +7,7 @@ import { useSearchParams } from 'next/navigation';
 import { MapPin, Star, ListFilter as Filter, SlidersHorizontal, AlertCircle } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 import { Hotel, Tag, PriceTag } from '@/lib/types';
+import { getLocalizedText } from '@/lib/localization';
 import HotelListSkeleton from '@/components/skeletons/HotelListSkeleton';
 import * as LucideIcons from 'lucide-react';
 
@@ -117,7 +118,7 @@ export default function SearchPage() {
         } else if (query) {
             const searchLower = query.toLocaleLowerCase('tr-TR');
             processedHotels = processedHotels.filter(hotel => {
-                const nameMatch = hotel.name.toLocaleLowerCase('tr-TR').includes(searchLower);
+                const nameMatch = getLocalizedText(hotel.name).toLocaleLowerCase('tr-TR').includes(searchLower);
                 const locationMatch = hotel.location.toLocaleLowerCase('tr-TR').includes(searchLower);
                 const aboutMatch = hotel.about?.toLocaleLowerCase('tr-TR').includes(searchLower);
                 const tagMatch = hotel.tags?.some(tagSlug => {
@@ -226,7 +227,7 @@ export default function SearchPage() {
                   )}
                 </div>
                 <Icon className={`w-3.5 h-3.5 transition-colors ${isSelected ? 'text-gray-900' : 'text-gray-400 group-hover:text-gray-600'}`} />
-                <span className={`text-xs font-medium transition-colors ${isSelected ? 'text-gray-900' : 'text-gray-600 group-hover:text-gray-900'}`}>{tag.name}</span>
+                <span className={`text-xs font-medium transition-colors ${isSelected ? 'text-gray-900' : 'text-gray-600 group-hover:text-gray-900'}`}>{getLocalizedText(tag.name)}</span>
               </label>
             );
           })}
@@ -301,7 +302,7 @@ export default function SearchPage() {
                           <div className="md:w-72 h-56 md:h-auto flex-shrink-0 relative overflow-hidden">
                             <Image
                               src={hotel.coverImageUrl || 'https://placehold.co/400x300/e2e8f0/64748b?text=GNK'}
-                              alt={hotel.name}
+                              alt={getLocalizedText(hotel.name)}
                               fill
                               sizes="(max-width: 768px) 100vw, 288px"
                               className="object-cover group-hover:scale-105 transition-transform"
@@ -313,7 +314,7 @@ export default function SearchPage() {
                           </div>
                           <div className="flex-1 p-5 flex flex-col">
                             <div className="flex justify-between items-start mb-2">
-                              <h3 className="text-lg font-bold text-gray-900 group-hover:text-blue-600">{hotel.name}</h3>
+                              <h3 className="text-lg font-bold text-gray-900 group-hover:text-blue-600">{getLocalizedText(hotel.name)}</h3>
                               <div className="text-right ml-4 flex-shrink-0">
                                 <div className="text-lg font-bold text-gray-900 whitespace-nowrap">{hotel.price.toLocaleString('tr-TR')} ₺</div>
                                 <div className="text-xs text-gray-500">gecelik</div>

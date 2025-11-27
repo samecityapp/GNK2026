@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { supabase } from '@/lib/supabase';
 import { Tag, PriceTag } from '@/lib/types';
+import { getLocalizedText } from '@/lib/localization';
 import { Search, MapPin, Tag as TagIcon, Hotel } from 'lucide-react';
 import * as LucideIcons from 'lucide-react';
 
@@ -125,13 +126,13 @@ export default function SearchFilters() {
     const newSuggestions: SearchSuggestion[] = [];
 
     allHotels
-      .filter(hotel => hotel.name.toLowerCase().includes(query))
+      .filter(hotel => getLocalizedText(hotel.name).toLowerCase().includes(query))
       .slice(0, 3)
       .forEach(hotel => {
         newSuggestions.push({
           type: 'hotel',
           value: hotel.id,
-          label: hotel.name,
+          label: getLocalizedText(hotel.name),
           icon: 'Hotel'
         });
       });
@@ -150,13 +151,13 @@ export default function SearchFilters() {
       });
 
     allTags
-      .filter(tag => tag.name.toLowerCase().includes(query) || tag.slug.toLowerCase().includes(query))
+      .filter(tag => getLocalizedText(tag.name).toLowerCase().includes(query) || tag.slug.toLowerCase().includes(query))
       .slice(0, 3)
       .forEach(tag => {
         newSuggestions.push({
           type: 'tag',
           value: tag.slug,
-          label: tag.name,
+          label: getLocalizedText(tag.name),
           icon: tag.icon
         });
       });
@@ -289,7 +290,7 @@ export default function SearchFilters() {
                   className="group flex items-center gap-1.5 px-3.5 py-1.5 bg-white hover:bg-gray-900 text-gray-700 hover:text-white rounded-full text-xs font-semibold transition-all duration-200 shadow-md hover:shadow-lg border border-gray-200 hover:border-gray-900"
                 >
                   <IconComponent size={12} className="transition-transform group-hover:scale-110" />
-                  {tag.name}
+                  {getLocalizedText(tag.name)}
                 </Link>
               );
             })}

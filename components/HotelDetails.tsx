@@ -2,6 +2,8 @@
 
 import { MapPin, ExternalLink, Instagram, Map } from 'lucide-react';
 import * as LucideIcons from 'lucide-react';
+import { getLocalizedText } from '@/lib/localization';
+import { LocalizedString } from '@/lib/types';
 import { NearbyPlacesTab } from './nearby-places/NearbyPlacesTab';
 
 type HotelDetailsProps = {
@@ -15,7 +17,7 @@ type HotelDetailsProps = {
   websiteUrl?: string;
   instagramUrl?: string;
   googleMapsUrl?: string;
-  tags?: Array<{ name: string; slug: string; icon?: string }>;
+  tags?: Array<{ name: string | LocalizedString; slug: string; icon?: string }>;
   coordinates?: { lat: number; lng: number };
 };
 
@@ -39,7 +41,7 @@ export function HotelDetails({ features, tabs, mapImageUrl, location, websiteUrl
                         <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-lg sm:rounded-xl bg-blue-600 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
                           <IconComponent className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
                         </div>
-                        <span className="text-blue-900 font-semibold text-xs sm:text-sm leading-tight">{tag.name}</span>
+                        <span className="text-blue-900 font-semibold text-xs sm:text-sm leading-tight">{getLocalizedText(tag.name)}</span>
                       </div>
                     );
                   })}

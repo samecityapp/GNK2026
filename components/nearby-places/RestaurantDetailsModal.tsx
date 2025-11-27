@@ -1,4 +1,5 @@
 import { Restaurant } from '@/lib/types';
+import { getLocalizedText } from '@/lib/localization';
 import { Utensils, MessageSquare, X } from 'lucide-react';
 
 type RestaurantDetailsModalProps = {
@@ -11,7 +12,7 @@ export function RestaurantDetailsModal({ restaurant, onClose }: RestaurantDetail
     <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 p-4">
       <div className="bg-white rounded-xl shadow-2xl w-full max-w-md max-h-[90vh] overflow-y-auto">
         <div className="flex justify-between items-center p-4 border-b sticky top-0 bg-white">
-          <h2 className="text-xl font-bold">{restaurant.name}</h2>
+          <h2 className="text-xl font-bold">{getLocalizedText(restaurant.name)}</h2>
           <button onClick={onClose} className="text-gray-400 hover:text-gray-700">
             <X size={24} />
           </button>
@@ -34,7 +35,7 @@ export function RestaurantDetailsModal({ restaurant, onClose }: RestaurantDetail
                 {restaurant.notes.map((note) => (
                   <div key={note.id} className="bg-gray-100 rounded-lg p-3 flex items-start">
                     <span className="mr-3 text-lg">{note.emoji}</span>
-                    <p className="text-gray-700 text-sm">{note.text}</p>
+                    <p className="text-gray-700 text-sm">{getLocalizedText(note.text)}</p>
                   </div>
                 ))}
               </div>

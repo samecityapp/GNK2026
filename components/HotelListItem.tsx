@@ -1,6 +1,8 @@
 import { MapPin, Star } from 'lucide-react';
+import { getLocalizedText } from '@/lib/localization';
+import { LocalizedString } from '@/lib/types';
 
-type Hotel = { id: string; name: string; location: string; gnkScore: number; price: string; [key: string]: any; };
+type Hotel = { id: string; name: string | LocalizedString; location: string; gnkScore: number; price: string; [key: string]: any; };
 type HotelListItemProps = { hotel: Hotel; };
 
 export function HotelListItem({ hotel }: HotelListItemProps) {
@@ -13,7 +15,7 @@ export function HotelListItem({ hotel }: HotelListItemProps) {
         <h3 className="text-white text-3xl font-bold opacity-80">GNK</h3>
       </div>
       <div className="p-5 flex-grow">
-        <h3 className="font-bold text-xl text-gray-800 mb-1">{hotel.name}</h3>
+        <h3 className="font-bold text-xl text-gray-800 mb-1">{getLocalizedText(hotel.name)}</h3>
         <div className="flex items-center text-gray-500 mb-3">
           <MapPin size={14} className="mr-1.5 flex-shrink-0" />
           <p className="text-sm truncate">{hotel.location}</p>

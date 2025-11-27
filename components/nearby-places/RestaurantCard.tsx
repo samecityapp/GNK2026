@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import { Restaurant } from '@/lib/types';
+import { getLocalizedText } from '@/lib/localization';
 import { Info, Star } from 'lucide-react';
 
 type RestaurantCardProps = {
@@ -17,14 +18,14 @@ export function RestaurantCard({ restaurant, onViewDetails }: RestaurantCardProp
       <div className="relative w-full h-48">
         <Image
           src={imageUrl}
-          alt={restaurant.name}
+          alt={getLocalizedText(restaurant.name)}
           fill
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           className="object-cover"
         />
       </div>
       <div className="p-4">
-        <h3 className="text-lg font-bold mb-2">{restaurant.name}</h3>
+        <h3 className="text-lg font-bold mb-2">{getLocalizedText(restaurant.name)}</h3>
         <p className="text-gray-600 text-sm mb-4 line-clamp-3">{restaurant.description}</p>
         <div className="flex justify-between items-center">
           <button
