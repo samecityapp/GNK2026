@@ -5,6 +5,7 @@ import { supabase } from '@/lib/supabase';
 import { Restaurant, RestaurantCategory, RestaurantNote } from '@/lib/types';
 import { Plus, Edit, Trash2, Save, X } from 'lucide-react';
 import { turkeyLocations } from '@/data/turkeyLocations';
+import { getLocalizedText } from '@/lib/localization';
 
 export default function RestaurantsAdminPage() {
   const [categories, setCategories] = useState<RestaurantCategory[]>([]);
@@ -160,14 +161,14 @@ export default function RestaurantsAdminPage() {
     setEditingRestaurant(restaurant);
     setSelectedCategory(restaurant.category_id || '');
     setFormData({
-      name: restaurant.name,
+      name: getLocalizedText(restaurant.name),
       image_url: restaurant.image_url || '',
-      description: restaurant.description,
+      description: getLocalizedText(restaurant.description),
       google_rating: restaurant.google_rating || 0,
       review_count: restaurant.review_count || '',
-      order_suggestion: restaurant.order_suggestion || '',
+      order_suggestion: getLocalizedText(restaurant.order_suggestion),
       display_order: restaurant.display_order || 0,
-      notes: restaurant.notes?.map(n => ({ emoji: n.emoji, text: n.text })) || []
+      notes: restaurant.notes?.map(n => ({ emoji: n.emoji, text: getLocalizedText(n.text) })) || []
     });
     setShowForm(true);
   }

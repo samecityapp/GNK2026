@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Plus, Edit, Trash2, Star, Loader2, Search } from 'lucide-react';
 import Link from 'next/link';
+import { getLocalizedText } from '@/lib/localization';
 
 export default function OtelListesiPage() {
   const [hotels, setHotels] = useState<Hotel[]>([]);
@@ -58,8 +59,8 @@ export default function OtelListesiPage() {
     } else {
       const query = searchQuery.toLowerCase();
       const filtered = hotels.filter(hotel =>
-        hotel.name.toLowerCase().includes(query) ||
-        hotel.location.toLowerCase().includes(query)
+        getLocalizedText(hotel.name).toLowerCase().includes(query) ||
+        getLocalizedText(hotel.location).toLowerCase().includes(query)
       );
       setFilteredHotels(filtered);
     }
@@ -162,7 +163,7 @@ export default function OtelListesiPage() {
                     {hotel.coverImageUrl ? (
                       <img
                         src={hotel.coverImageUrl}
-                        alt={hotel.name}
+                        alt={getLocalizedText(hotel.name)}
                         className="w-full h-full object-cover"
                       />
                     ) : (
@@ -176,9 +177,9 @@ export default function OtelListesiPage() {
                     <div className="flex items-start justify-between mb-2">
                       <div>
                         <h3 className="text-lg font-bold text-gray-900 mb-0.5">
-                          {hotel.name}
+                          {getLocalizedText(hotel.name)}
                         </h3>
-                        <p className="text-sm text-gray-600">{hotel.location}</p>
+                        <p className="text-sm text-gray-600">{getLocalizedText(hotel.location)}</p>
                       </div>
                       <div className="flex items-center gap-2">
                         <div className="flex items-center gap-1 bg-yellow-50 text-yellow-700 px-2 py-1 rounded-full">
@@ -216,7 +217,7 @@ export default function OtelListesiPage() {
                       <Button
                         variant="destructive"
                         size="sm"
-                        onClick={() => handleDelete(hotel.id, hotel.name)}
+                        onClick={() => handleDelete(hotel.id, getLocalizedText(hotel.name))}
                         className="flex-1"
                       >
                         <Trash2 className="mr-1.5" size={14} />

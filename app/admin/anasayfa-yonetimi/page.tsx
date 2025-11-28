@@ -8,6 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Plus, Trash2, Eye, EyeOff, Save, Loader2 } from 'lucide-react';
+import { getLocalizedText } from '@/lib/localization';
 
 export default function AnasayfaYonetimiPage() {
   const [groups, setGroups] = useState<Group[]>([]);
@@ -183,13 +184,13 @@ export default function AnasayfaYonetimiPage() {
                         onCheckedChange={() => handleToggleHotel(hotel.id)}
                       />
                       <div className="flex-1">
-                        <p className="font-semibold text-gray-900">{hotel.name}</p>
-                        <p className="text-sm text-gray-600">{hotel.location}</p>
+                        <p className="font-semibold text-gray-900">{getLocalizedText(hotel.name)}</p>
+                        <p className="text-sm text-gray-600">{getLocalizedText(hotel.location)}</p>
                       </div>
                       {hotel.coverImageUrl && (
                         <img
                           src={hotel.coverImageUrl}
-                          alt={hotel.name}
+                          alt={getLocalizedText(hotel.name)}
                           className="w-16 h-16 object-cover rounded-lg"
                         />
                       )}
@@ -268,7 +269,7 @@ export default function AnasayfaYonetimiPage() {
                           {hotel.coverImageUrl ? (
                             <img
                               src={hotel.coverImageUrl}
-                              alt={hotel.name}
+                              alt={getLocalizedText(hotel.name)}
                               className="w-full h-full object-cover"
                             />
                           ) : (
@@ -278,8 +279,8 @@ export default function AnasayfaYonetimiPage() {
                           )}
                         </div>
                         <div className="p-3">
-                          <p className="font-semibold text-sm truncate">{hotel.name}</p>
-                          <p className="text-xs text-gray-600 truncate">{hotel.location}</p>
+                          <p className="font-semibold text-sm truncate">{getLocalizedText(hotel.name)}</p>
+                          <p className="text-xs text-gray-600 truncate">{getLocalizedText(hotel.location)}</p>
                         </div>
                       </div>
                     ))}

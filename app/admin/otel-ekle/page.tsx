@@ -15,6 +15,7 @@ import { ImageUpload } from '@/components/ImageUpload';
 import { GalleryUpload } from '@/components/GalleryUpload';
 import VideoUpload from '@/components/VideoUpload';
 import LocationSelect from '@/components/LocationSelect';
+import { getLocalizedText } from '@/lib/localization';
 
 export default function OtelEklePage() {
   const router = useRouter();
@@ -340,7 +341,7 @@ export default function OtelEklePage() {
                       }`}
                     >
                       <IconComponent size={18} />
-                      <span className="text-sm font-medium">{tag.name}</span>
+                      <span className="text-sm font-medium">{getLocalizedText(tag.name)}</span>
                     </button>
                   );
                 })}

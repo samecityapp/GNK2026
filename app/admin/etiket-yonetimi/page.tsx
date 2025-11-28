@@ -8,6 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Trash2, Save, X, PlusCircle, Loader2 } from 'lucide-react';
 import * as LucideIcons from 'lucide-react';
+import { getLocalizedText } from '@/lib/localization';
 
 export default function EtiketYonetimiPage() {
   const [tags, setTags] = useState<Tag[]>([]);
@@ -105,7 +106,7 @@ export default function EtiketYonetimiPage() {
 
   const startEditing = (tag: Tag) => {
     setEditingTagId(tag.id);
-    setEditingValues({ name: tag.name, icon: tag.icon || 'Tag' });
+    setEditingValues({ name: getLocalizedText(tag.name), icon: tag.icon || 'Tag' });
   };
 
   const cancelEditing = () => {
@@ -239,7 +240,7 @@ export default function EtiketYonetimiPage() {
                       <IconComponent className="h-5 w-5 text-blue-600" />
                     </div>
                     <div>
-                      <span className="font-semibold text-lg text-gray-900">{tag.name}</span>
+                      <span className="font-semibold text-lg text-gray-900">{getLocalizedText(tag.name)}</span>
                       <span className="text-sm text-gray-400 ml-2">({tag.icon})</span>
                       <div className="text-xs text-gray-500 mt-0.5">slug: {tag.slug}</div>
                     </div>

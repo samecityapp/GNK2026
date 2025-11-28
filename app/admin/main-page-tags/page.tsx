@@ -8,6 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import { Trash2, PlusCircle, Loader2 } from 'lucide-react';
+import { getLocalizedText } from '@/lib/localization';
 
 export default function MainPageTagsPage() {
   const [allTags, setAllTags] = useState<Tag[]>([]);
@@ -161,7 +162,7 @@ export default function MainPageTagsPage() {
                 onCheckedChange={(checked) => handleFeatureToggle(tag.id, checked)}
               />
               <Label htmlFor={tag.id} className="font-medium cursor-pointer flex-1">
-                {tag.name}
+                {getLocalizedText(tag.name)}
               </Label>
             </div>
           ))}
