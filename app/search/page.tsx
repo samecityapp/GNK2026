@@ -172,7 +172,7 @@ export default function SearchPage() {
     if (priceQuery) return `${priceQuery.label} Oteller`;
 
     const tagQuery = allTags.find(t => t.slug === query);
-    if (tagQuery) return `${tagQuery.name} Oteller`;
+    if (tagQuery) return `${getLocalizedText(tagQuery.name)} Oteller`;
 
     if (query) {
       const decodedQuery = decodeURIComponent(query);
