@@ -112,6 +112,19 @@ export const db = {
       return true;
     },
 
+    async searchByLocation(location: string): Promise<Hotel[]> {
+      const { data, error } = await supabase
+        .from('hotels')
+        .select('*')
+        .ilike('location', `%${location}%`)
+        .is('deleted_at', null)
+        .order('rating', { ascending: false })
+        .limit(6);
+
+      if (error) throw error;
+      return (data || []).map(this.mapFromDb);
+    },
+
     async search(filters: {
       searchTerm?: string;
       tags?: string[];

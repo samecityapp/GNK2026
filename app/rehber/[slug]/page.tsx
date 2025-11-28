@@ -8,6 +8,8 @@ import { getLocalizedText } from '@/lib/localization';
 import { JsonLd } from '@/components/seo/JsonLd';
 import { generateArticleSchema, generateBreadcrumbSchema } from '@/lib/schema-generator';
 import { QuickSummary } from '@/components/blog/QuickSummary';
+import { RelatedHotels } from '@/components/blog/RelatedHotels';
+import { RelatedArticles } from '@/components/RelatedArticles';
 
 type Props = { params: { slug: string } };
 
@@ -154,7 +156,15 @@ export default async function ArticlePage({ params }: Props) {
             />
           </div>
 
-          <div className="mt-20 pt-12 border-t border-zinc-200">
+          <div className="mt-20">
+            <RelatedHotels location={getLocalizedText(article.location)} />
+          </div>
+
+          <div className="mt-8">
+            <RelatedArticles location={getLocalizedText(article.location).split(',')[0].trim()} />
+          </div>
+
+          <div className="mt-12 pt-12 border-t border-zinc-200">
             <div className="max-w-3xl mx-auto text-center">
               <h3 className="text-2xl font-bold text-foreground mb-4">
                 Bu rehber işinize yaradı mı?
