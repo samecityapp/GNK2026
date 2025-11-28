@@ -4,6 +4,7 @@ import './globals.css';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
 import { Providers } from '@/components/Providers';
+import { CookieBanner } from '@/components/ui/CookieBanner';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -59,6 +60,7 @@ export default function RootLayout({ children }: { children: React.ReactNode; })
           <Header />
           <main className="min-h-[100dvh]">{children}</main>
           <Footer />
+          <CookieBanner />
         </Providers>
       </body>
     </html>

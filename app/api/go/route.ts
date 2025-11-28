@@ -54,7 +54,11 @@ export async function GET(request: NextRequest) {
       return NextResponse.redirect(new URL('/', request.url));
     }
 
-    return NextResponse.redirect(bookingUrl);
+    const response = NextResponse.redirect(bookingUrl);
+
+    response.headers.set('X-Hotel-Click-Tracked', 'true');
+
+    return response;
 
   } catch (error) {
     console.error('Click tracking error:', error);

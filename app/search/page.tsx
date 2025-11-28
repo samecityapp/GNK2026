@@ -99,6 +99,14 @@ export default function SearchPage() {
     if (isLoading) return;
     let processedHotels = [...allHotels];
 
+    if (typeof window !== 'undefined' && window.gtag && (query || locationQuery)) {
+      window.gtag('event', 'search_query', {
+        search_term: query || locationQuery,
+        location: locationQuery || '',
+        query_type: locationQuery ? 'location' : query ? 'keyword' : 'all'
+      });
+    }
+
     if (locationQuery) {
       const locationLower = locationQuery.toLocaleLowerCase('tr-TR');
       processedHotels = processedHotels.filter(hotel =>
@@ -152,11 +160,19 @@ export default function SearchPage() {
   }, [query, locationQuery, allHotels, selectedTags, sortBy, isLoading, priceTags, allTags]);
 
   const handleTagChange = (tagSlug: string) => {
-    setSelectedTags(currentTags => 
+    setSelectedTags(currentTags =>
       currentTags.includes(tagSlug)
         ? currentTags.filter(slug => slug !== tagSlug)
         : [...currentTags, tagSlug]
     );
+
+    if (typeof window !== 'undefined' && window.gtag) {
+      const tag = allTags.find(t => t.slug === tagSlug);
+      window.gtag('event', 'filter_applied', {
+        filter_type: 'tag',
+        filter_value: tag ? getLocalizedText(tag.name) : tagSlug
+      });
+    }
   };
 
   const clearFilters = () => {
