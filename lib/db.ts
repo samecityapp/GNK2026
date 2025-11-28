@@ -725,6 +725,18 @@ export const db = {
   },
 
   articles: {
+    async getAll() {
+      const { data, error } = await supabase
+        .from('articles')
+        .select('*')
+        .eq('is_published', true)
+        .is('deleted_at', null)
+        .order('published_at', { ascending: false });
+
+      if (error) throw error;
+      return data || [];
+    },
+
     async getAllByLocation(location: string) {
       const { data, error } = await supabase
         .from('articles')
