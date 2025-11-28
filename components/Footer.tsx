@@ -123,16 +123,16 @@ export async function Footer() {
                 &copy; {currentYear} GNK Oteller. Tüm hakları saklıdır.
               </p>
               <div className="flex flex-wrap justify-center md:justify-start gap-4 text-xs text-gray-500">
+                <Link href="/kullanim-kosullari" className="hover:text-blue-400 transition-colors">
+                  Kullanım Koşulları
+                </Link>
                 <Link href="/gizlilik-politikasi" className="hover:text-blue-400 transition-colors">
                   Gizlilik Politikası
-                </Link>
-                <Link href="/kullanim-sartlari" className="hover:text-blue-400 transition-colors">
-                  Kullanım Şartları
                 </Link>
                 <Link href="/cerez-politikasi" className="hover:text-blue-400 transition-colors">
                   Çerez Politikası
                 </Link>
-                <Link href="/kvkk" className="hover:text-blue-400 transition-colors">
+                <Link href="/kvkk-aydinlatma-metni" className="hover:text-blue-400 transition-colors">
                   KVKK
                 </Link>
                 <Link href="/hakkimizda" className="hover:text-blue-400 transition-colors">
