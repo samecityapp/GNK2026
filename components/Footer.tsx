@@ -118,9 +118,28 @@ export async function Footer() {
 
         <div className="border-t border-gray-800 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-sm text-gray-500">
-              &copy; {currentYear} GNK Oteller. Tüm hakları saklıdır.
-            </p>
+            <div className="flex flex-col items-center md:items-start gap-3">
+              <p className="text-sm text-gray-500">
+                &copy; {currentYear} GNK Oteller. Tüm hakları saklıdır.
+              </p>
+              <div className="flex flex-wrap justify-center md:justify-start gap-4 text-xs text-gray-500">
+                <Link href="/gizlilik-politikasi" className="hover:text-blue-400 transition-colors">
+                  Gizlilik Politikası
+                </Link>
+                <Link href="/kullanim-sartlari" className="hover:text-blue-400 transition-colors">
+                  Kullanım Şartları
+                </Link>
+                <Link href="/cerez-politikasi" className="hover:text-blue-400 transition-colors">
+                  Çerez Politikası
+                </Link>
+                <Link href="/kvkk" className="hover:text-blue-400 transition-colors">
+                  KVKK
+                </Link>
+                <Link href="/hakkimizda" className="hover:text-blue-400 transition-colors">
+                  Hakkımızda
+                </Link>
+              </div>
+            </div>
             <div className="flex gap-4">
               <a
                 href="#"
