@@ -1,8 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
-import { AlertTriangle, RefreshCw, Home } from 'lucide-react';
-import Link from 'next/link';
+import { AlertTriangle } from 'lucide-react';
 
 export default function Error({
   error,
@@ -16,54 +15,36 @@ export default function Error({
   }, [error]);
 
   return (
-    <div className="min-h-[calc(100vh-80px)] flex items-center justify-center px-4 py-16">
-      <div className="max-w-md w-full text-center space-y-8">
+    <div className="min-h-screen flex items-center justify-center px-4 bg-background">
+      <div className="max-w-lg w-full text-center space-y-8">
         <div className="flex justify-center">
-          <div className="relative">
-            <div className="w-32 h-32 rounded-full bg-red-100 flex items-center justify-center">
-              <AlertTriangle className="w-16 h-16 text-red-600" />
-            </div>
-          </div>
+          <AlertTriangle className="w-32 h-32 text-zinc-300 stroke-[1.5]" />
         </div>
 
-        <div className="space-y-3">
-          <h1 className="text-3xl font-bold text-gray-900">
+        <div className="space-y-4">
+          <h1 className="text-4xl md:text-5xl font-bold text-foreground tracking-tight">
             Bir Şeyler Ters Gitti
           </h1>
-          <p className="text-gray-600 text-lg">
-            Üzgünüz, beklenmeyen bir hata oluştu. Lütfen tekrar deneyin.
+          <p className="text-lg text-zinc-500 leading-relaxed max-w-md mx-auto">
+            Beklenmeyen bir hata oluştu. Lütfen tekrar deneyin veya anasayfaya dönün.
           </p>
-          {error.message && (
-            <p className="text-sm text-gray-500 font-mono bg-gray-100 p-3 rounded-lg">
-              {error.message}
-            </p>
-          )}
         </div>
 
-        <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
+        <div className="pt-4">
           <button
             onClick={reset}
-            className="inline-flex items-center justify-center gap-2 bg-gray-900 hover:bg-gray-800 text-white font-semibold py-3 px-6 rounded-xl transition-colors"
+            className="inline-flex items-center justify-center bg-black hover:bg-zinc-800 text-white font-medium py-4 px-8 rounded-lg transition-colors duration-200"
           >
-            <RefreshCw className="w-5 h-5" />
             Tekrar Dene
           </button>
-          <Link
-            href="/"
-            className="inline-flex items-center justify-center gap-2 bg-white hover:bg-gray-50 text-gray-900 font-semibold py-3 px-6 rounded-xl border-2 border-gray-900 transition-colors"
-          >
-            <Home className="w-5 h-5" />
-            Anasayfaya Dön
-          </Link>
         </div>
 
-        <div className="pt-8 border-t border-gray-200">
-          <p className="text-sm text-gray-500">
-            Sorun devam ediyorsa{' '}
-            <a href="mailto:info@gnkoteller.com" className="text-blue-600 hover:text-blue-700 font-medium">
-              bizimle iletişime geçin
+        <div className="pt-8">
+          <p className="text-sm text-zinc-400">
+            veya{' '}
+            <a href="/" className="text-zinc-600 hover:text-foreground font-medium underline underline-offset-4 transition-colors">
+              anasayfaya dönün
             </a>
-            .
           </p>
         </div>
       </div>
