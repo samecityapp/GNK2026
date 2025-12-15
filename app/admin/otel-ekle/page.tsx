@@ -263,13 +263,18 @@ export default function OtelEklePage() {
                 required
               />
 
-              <LocalizedInput
-                label="Konum"
-                value={location}
-                onChange={setLocation}
-                placeholder="Örn: Sapanca, Sakarya"
-                required
-              />
+              <div className="space-y-2">
+                <Label>Konum <span className="text-red-500">*</span></Label>
+                <div className="relative">
+                  <LocationSelect
+                    value={location.tr}
+                    onChange={(val) => setLocation({ tr: val, en: val, de: val })}
+                  />
+                  <p className="text-xs text-muted-foreground mt-1">
+                    Listeden seçim yapınız. (Örn: Sapanca, Bodrum)
+                  </p>
+                </div>
+              </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

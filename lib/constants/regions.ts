@@ -1,0 +1,304 @@
+export const holidayRegions = [
+  // --- EGE BÖLGESİ ---
+  {
+    city: "Muğla",
+    districts: [
+      {
+        name: "Bodrum",
+        areas: ["Yalıkavak", "Gümbet", "Bitez", "Türkbükü", "Gümüşlük", "Turgutreis", "Torba", "Gündoğan", "Ortakent", "Akyarlar"]
+      },
+      {
+        name: "Fethiye",
+        areas: ["Ölüdeniz", "Göcek", "Kayaköy", "Faralya", "Kabak Koyu", "Çalış", "Hisarönü", "Ovacık"]
+      },
+      {
+        name: "Marmaris",
+        areas: ["İçmeler", "Turunç", "Selimiye", "Bozburun", "Hisarönü", "Söğüt", "Orhaniye", "Çiftlik"]
+      },
+      {
+        name: "Datça",
+        areas: ["Eski Datça", "Palamutbükü", "Hayıtbükü", "Mesudiye", "Ovabükü", "Kargı"]
+      },
+      {
+        name: "Ortaca",
+        areas: ["Dalyan", "Sarıgerme", "İztuzu"]
+      },
+      {
+        name: "Ula",
+        areas: ["Akyaka", "Gökova"]
+      },
+      {
+        name: "Köyceğiz",
+        areas: ["Ekincik"]
+      }
+    ]
+  },
+  {
+    city: "İzmir",
+    districts: [
+      {
+        name: "Çeşme",
+        areas: ["Alaçatı", "Ilıca", "Dalyan", "Çiftlikköy", "Aya Yorgi", "Boyalık"]
+      },
+      {
+        name: "Urla",
+        areas: ["İskele", "Çeşmealtı", "Demircili"]
+      },
+      {
+        name: "Seferihisar",
+        areas: ["Sığacık", "Ürkmez"]
+      },
+      {
+        name: "Foça",
+        areas: ["Eski Foça", "Yeni Foça"]
+      },
+      {
+        name: "Dikili",
+        areas: ["Bademli", "Çandarlı"]
+      },
+      {
+        name: "Karaburun",
+        areas: ["Mordoğan"]
+      },
+      {
+        name: "Selçuk",
+        areas: ["Şirince", "Pamucak"]
+      }
+    ]
+  },
+  {
+    city: "Aydın",
+    districts: [
+      {
+        name: "Kuşadası",
+        areas: ["Kadınlar Denizi", "Davutlar", "Güzelçamlı", "Dilek Yarımadası"]
+      },
+      {
+        name: "Didim",
+        areas: ["Altınkum", "Akbük"]
+      }
+    ]
+  },
+
+  // --- AKDENİZ BÖLGESİ ---
+  {
+    city: "Antalya",
+    districts: [
+      {
+        name: "Kaş",
+        areas: ["Kalkan", "Patara", "Gelemiş", "Çukurbağ Yarımadası", "İslamlar Köyü"]
+      },
+      {
+        name: "Kemer",
+        areas: ["Göynük", "Beldibi", "Tekirova", "Çamyuva", "Kiriş"]
+      },
+      {
+        name: "Manavgat",
+        areas: ["Side", "Kumköy", "Çolaklı", "Kızılot", "Sorgun"]
+      },
+      {
+        name: "Alanya",
+        areas: ["Kleopatra", "Mahmutlar", "Avsallar", "Konaklı", "İncekum", "Kargıcak"]
+      },
+      {
+        name: "Serik",
+        areas: ["Belek", "Kadriye", "Boğazkent"]
+      },
+      {
+        name: "Kumluca",
+        areas: ["Olympos", "Adrasan", "Çıralı", "Mavikent"]
+      },
+      {
+        name: "Konyaaltı",
+        areas: ["Liman", "Hurma"]
+      },
+      {
+        name: "Muratpaşa",
+        areas: ["Lara", "Kaleiçi", "Kundu"]
+      },
+      {
+        name: "Demre",
+        areas: ["Kekova", "Üçağız"]
+      }
+    ]
+  },
+  {
+    city: "Mersin",
+    districts: [
+      {
+        name: "Silifke",
+        areas: ["Susanoğlu", "Taşucu", "Narlıkuyu"]
+      },
+      {
+        name: "Erdemli",
+        areas: ["Kızkalesi", "Ayaş"]
+      }
+    ]
+  },
+
+  // --- MARMARA & KUZEY EGE ---
+  {
+    city: "Balıkesir",
+    districts: [
+      {
+        name: "Ayvalık",
+        areas: ["Cunda Adası (Alibey)", "Sarımsaklı", "Küçükköy"]
+      },
+      {
+        name: "Edremit",
+        areas: ["Akçay", "Altınoluk", "Güre"]
+      },
+      {
+        name: "Erdek",
+        areas: ["Ocaklar"]
+      },
+      {
+        name: "Marmara",
+        areas: ["Avşa Adası", "Marmara Adası"]
+      }
+    ]
+  },
+  {
+    city: "Çanakkale",
+    districts: [
+      {
+        name: "Bozcaada",
+        areas: ["Rum Mahallesi", "Ayazma"]
+      },
+      {
+        name: "Gökçeada",
+        areas: ["Kaleköy", "Zeytinli"]
+      },
+      {
+        name: "Ayvacık",
+        areas: ["Assos (Behramkale)", "Küçükkuyu", "Sivrice", "Kadırga Koyu"]
+      }
+    ]
+  },
+  {
+    city: "Sakarya",
+    districts: [
+      {
+        name: "Sapanca",
+        areas: ["Kırkpınar", "Maşukiye Sınırı"]
+      },
+      {
+        name: "Karasu",
+        areas: ["Karasu Plajı"]
+      }
+    ]
+  },
+  {
+    city: "Kocaeli",
+    districts: [
+      {
+        name: "Kartepe",
+        areas: ["Maşukiye", "Kayak Merkezi"]
+      },
+      {
+        name: "Kandıra",
+        areas: ["Kerpe", "Kefken", "Cebeci"]
+      }
+    ]
+  },
+  {
+    city: "Bursa",
+    districts: [
+      {
+        name: "Osmangazi",
+        areas: ["Uludağ (Kayak)"]
+      },
+      {
+        name: "İznik",
+        areas: ["Göl Kenarı"]
+      },
+      {
+        name: "Mudanya",
+        areas: ["Tirilye", "Güzelyalı"]
+      }
+    ]
+  },
+
+  // --- KAPADOKYA & İÇ ANADOLU ---
+  {
+    city: "Nevşehir",
+    districts: [
+      {
+        name: "Merkez",
+        areas: ["Göreme", "Uçhisar", "Ortahisar"]
+      },
+      {
+        name: "Ürgüp",
+        areas: ["Mustafapaşa"]
+      },
+      {
+        name: "Avanos",
+        areas: ["Çavuşin"]
+      }
+    ]
+  },
+
+  // --- KARADENİZ & DOĞA ---
+  {
+    city: "Bolu",
+    districts: [
+      {
+        name: "Merkez",
+        areas: ["Abant", "Yedigöller", "Kartalkaya"]
+      },
+      {
+        name: "Mengen",
+        areas: []
+      }
+    ]
+  },
+  {
+    city: "Rize",
+    districts: [
+      {
+        name: "Çamlıhemşin",
+        areas: ["Ayder Yaylası", "Pokut", "Zilkale"]
+      }
+    ]
+  },
+  {
+    city: "Trabzon",
+    districts: [
+      {
+        name: "Çaykara",
+        areas: ["Uzungöl"]
+      }
+    ]
+  },
+  {
+    city: "Bartın",
+    districts: [
+      {
+        name: "Amasra",
+        areas: ["Çakraz"]
+      }
+    ]
+  }
+];
+
+// Helper to get a flat list of all searchable locations
+export const getSearchableLocations = () => {
+  const locations: string[] = [];
+
+  holidayRegions.forEach(region => {
+    // Add City (e.g. "Muğla")
+    locations.push(region.city);
+
+    region.districts.forEach(district => {
+      // Add District (e.g. "Bodrum, Muğla")
+      locations.push(`${district.name}, ${region.city}`);
+
+      // Add Areas (e.g. "Yalıkavak, Bodrum")
+      district.areas.forEach(area => {
+        locations.push(`${area}, ${district.name}`);
+      });
+    });
+  });
+
+  return Array.from(new Set(locations)).sort();
+};

@@ -1,85 +1,160 @@
-'use client';
+'use client'
 
-import { useState } from 'react';
-import { Check, ChevronsUpDown } from 'lucide-react';
-import { cn } from '@/lib/utils';
-import { Button } from '@/components/ui/button';
+import * as React from 'react'
+import { Check, ChevronsUpDown } from 'lucide-react'
+
+import { cn } from '@/lib/utils'
+import { holidayRegions } from '@/lib/constants/regions'
+
+import { Button } from '@/components/ui/button'
 import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover';
-import { Input } from '@/components/ui/input';
-import { turkeyLocations } from '@/data/turkeyLocations';
+    Command,
+    CommandEmpty,
+    CommandInput,
+    CommandItem,
+    CommandList,
+    CommandGroup,
+} from '@/components/ui/command'
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 
-interface LocationSelectProps {
-  value: string;
-  onChange: (value: string) => void;
+/**
+ * Türkçe karakter sorunlarını minimize eden normalizasyon:
+ * - tr locale lower
+ * - ı/İ/ş/ğ/ü/ö/ç -> i/i/s/g/u/o/c
+ * - boşluk/punkt. sadeleştirme
+ */
+function normalizeTR(input: string) {
+    return (input ?? '')
+        .toLocaleLowerCase('tr-TR')
+        .replace(/İ/g, 'i')
+        .replace(/I/g, 'ı')
+        .replace(/ı/g, 'i')
+        .replace(/ş/g, 's')
+        .replace(/ğ/g, 'g')
+        .replace(/ü/g, 'u')
+        .replace(/ö/g, 'o')
+        .replace(/ç/g, 'c')
+        .replace(/[’'".,()/\\-]+/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim()
 }
 
-export default function LocationSelect({ value, onChange }: LocationSelectProps) {
-  const [open, setOpen] = useState(false);
-  const [search, setSearch] = useState('');
+/**
+ * holidayRegions -> string[] (dedupe + stable)
+ * Örnek çıktılar:
+ * - "Muğla"
+ * - "Bodrum, Muğla"
+ * - "Yalıkavak, Bodrum"
+ */
+function flattenHolidayRegions(
+    regions: Array<{
+        city: string
+        districts?: Array<{ name: string; areas?: string[] }>
+    }>
+): string[] {
+    const out = new Set<string>()
 
-  const filteredLocations = turkeyLocations.filter((location) =>
-    location.toLowerCase().includes(search.toLowerCase())
-  );
+    for (const cityObj of regions ?? []) {
+        const city = cityObj?.city?.trim()
+        if (!city) continue
 
-  return (
-    <Popover open={open} onOpenChange={setOpen}>
-      <PopoverTrigger asChild>
-        <Button
-          variant="outline"
-          role="combobox"
-          aria-expanded={open}
-          className="w-full justify-between"
-        >
-          {value || "Konum seçin..."}
-          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent className="w-[90vw] sm:w-[400px] p-0" align="start">
-        <div className="flex flex-col">
-          <div className="border-b p-3">
-            <Input
-              placeholder="Konum ara..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="h-9"
-            />
-          </div>
-          <div className="max-h-[300px] overflow-y-auto p-1">
-            {filteredLocations.length === 0 ? (
-              <div className="py-6 text-center text-sm text-gray-500">
-                Konum bulunamadı.
-              </div>
-            ) : (
-              filteredLocations.map((location) => (
-                <div
-                  key={location}
-                  onClick={() => {
-                    onChange(location);
-                    setOpen(false);
-                    setSearch('');
-                  }}
-                  className={cn(
-                    "relative flex cursor-pointer select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none hover:bg-gray-100 transition-colors",
-                    value === location && "bg-gray-100"
-                  )}
+        out.add(city)
+
+        for (const d of cityObj?.districts ?? []) {
+            const district = d?.name?.trim()
+            if (!district) continue
+
+            // Fethiye, Bodrum gibi ilçeleri tek başına da ekle
+            if (district !== 'Merkez') {
+                out.add(district)
+            }
+            out.add(`${district}, ${city}`)
+
+            for (const area of d?.areas ?? []) {
+                const a = (area ?? '').trim()
+                if (!a) continue
+                out.add(`${a}, ${district}`)
+            }
+        }
+    }
+
+    return Array.from(out).sort((a, b) => a.localeCompare(b, 'tr-TR'))
+}
+
+type LocationSelectProps = {
+    value?: string
+    onChange: (value: string) => void
+    placeholder?: string
+    disabled?: boolean
+    className?: string
+}
+
+export default function LocationSelect({
+    value,
+    onChange,
+    placeholder = 'Konum seç…',
+    disabled,
+    className,
+}: LocationSelectProps) {
+    const [open, setOpen] = React.useState(false)
+
+    const options = React.useMemo(() => {
+        // client-side güvenli + stable
+        return flattenHolidayRegions(holidayRegions as any)
+    }, [])
+
+    // Command'in filter prop'u: 0 dönerse item görünmez
+    const turkishFilter = React.useCallback((itemValue: string, search: string) => {
+        const v = normalizeTR(itemValue)
+        const s = normalizeTR(search)
+        if (!s) return 1
+        return v.includes(s) ? 1 : 0
+    }, [])
+
+    return (
+        <Popover open={open} onOpenChange={setOpen}>
+            <PopoverTrigger asChild>
+                <Button
+                    type="button"
+                    variant="outline"
+                    role="combobox"
+                    aria-expanded={open}
+                    disabled={disabled}
+                    className={cn('w-full justify-between', className)}
                 >
-                  <Check
-                    className={cn(
-                      "mr-2 h-4 w-4",
-                      value === location ? "opacity-100" : "opacity-0"
-                    )}
-                  />
-                  {location}
-                </div>
-              ))
-            )}
-          </div>
-        </div>
-      </PopoverContent>
-    </Popover>
-  );
+                    <span className={cn('truncate', !value && 'text-muted-foreground')}>
+                        {value || placeholder}
+                    </span>
+                    <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                </Button>
+            </PopoverTrigger>
+
+            <PopoverContent className="w-[--radix-popover-trigger-width] p-0 bg-white" align="start">
+                <Command filter={turkishFilter}>
+                    <CommandInput placeholder="Ara… (örn: fet, sapanca, izmir)" />
+                    <CommandList>
+                        <CommandEmpty>Sonuç bulunamadı.</CommandEmpty>
+                        <CommandGroup>
+                            {options.map((opt) => (
+                                <CommandItem
+                                    key={opt}
+                                    value={opt}
+                                    onSelect={() => {
+                                        onChange(opt)
+                                        setOpen(false)
+                                    }}
+                                    className="cursor-pointer pointer-events-auto data-[disabled]:pointer-events-auto data-[disabled]:opacity-100 aria-selected:bg-blue-100 aria-selected:text-blue-900 data-[selected=true]:bg-blue-100 data-[selected=true]:text-blue-900"
+                                >
+                                    <Check
+                                        className={cn('mr-2 h-4 w-4', value === opt ? 'opacity-100' : 'opacity-0')}
+                                    />
+                                    {opt}
+                                </CommandItem>
+                            ))}
+                        </CommandGroup>
+                    </CommandList>
+                </Command>
+            </PopoverContent>
+        </Popover>
+    )
 }
