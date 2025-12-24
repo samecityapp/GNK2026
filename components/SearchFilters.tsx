@@ -233,7 +233,7 @@ export default function SearchFilters() {
             </div>
             <button
               type="submit"
-              className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white rounded-full px-6 py-2 m-1.5 font-semibold shadow-lg hover:shadow-xl transition-all duration-200 flex items-center gap-1.5 text-sm"
+              className="bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white rounded-full px-6 py-2 m-1.5 font-semibold shadow-lg hover:shadow-xl transition-all duration-200 flex items-center gap-1.5 text-sm"
             >
               <Search className="h-4 w-4" />
               <span className="hidden sm:inline">Ara</span>
