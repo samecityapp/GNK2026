@@ -1,5 +1,6 @@
 import { supabase } from './supabase';
 import { Hotel, Group, Tag, PriceTag, SearchTerm } from './types';
+import { mockArticles, mockFethiyeArticle } from '@/data/mockArticles';
 
 export const db = {
   hotels: {
@@ -741,12 +742,14 @@ export const db = {
       const { data, error } = await supabase
         .from('articles')
         .select('*')
-        .eq('location', location)
+        .ilike('location', `%${location}%`)
         .eq('is_published', true)
         .is('deleted_at', null)
         .order('published_at', { ascending: false });
 
       if (error) throw error;
+
+
       return data || [];
     },
 
@@ -758,6 +761,12 @@ export const db = {
         .maybeSingle();
 
       if (error) throw error;
+
+      const mockResult = mockArticles.find((a: any) => a.slug === slug);
+      if (!data && mockResult) {
+        return mockResult;
+      }
+
       return data;
     },
 
@@ -771,6 +780,16 @@ export const db = {
         .limit(limit);
 
       if (error) throw error;
+      if (error) throw error;
+
+      // Fallback: merge mock data for latest list too
+      const existingSlugs = (data || []).map((a: any) => a.slug);
+      const textMocks = mockArticles.filter((a: any) => !existingSlugs.includes(a.slug));
+
+      if (textMocks.length > 0) {
+        return [...textMocks, ...(data || [])].slice(0, limit);
+      }
+
       return data || [];
     }
   }
