@@ -80,7 +80,7 @@ export function generateArticleSchema(article: {
   coverImage?: string;
   createdAt?: string;
   updatedAt?: string;
-  author?: string;
+  author?: { name: string; image?: string };
 }) {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.yeriniayir.com';
 
@@ -94,7 +94,8 @@ export function generateArticleSchema(article: {
     dateModified: article.updatedAt || article.createdAt || new Date().toISOString(),
     author: {
       '@type': 'Person',
-      name: article.author || 'Yerini Ayır Rehberi',
+      name: article.author?.name || 'Yerini Ayır Rehberi',
+      image: article.author?.image ? `${baseUrl}${article.author.image}` : undefined
     },
     publisher: {
       '@type': 'Organization',
