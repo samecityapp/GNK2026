@@ -29,11 +29,31 @@ const LocationCard = dynamic(() => import('@/components/hotel/LocationCard'), {
 
 export const revalidate = 0;
 
+import { LOCATIONS } from '@/lib/constants';
+import { LocationListingView } from '@/components/hotel/LocationListingView';
+
 type Props = {
   params: { id: string };
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const location = LOCATIONS.find(l => l.slug === params.id);
+
+  if (location) {
+    return {
+      title: `En İyi ${location.title} Otelleri | Yerini Ayır`,
+      description: `${location.title} bölgesinde konaklayabileceğiniz en seçkin ve butik oteller. Erdem'in kaleminden ${location.title} otel önerileri ve detaylı incelemeler.`,
+      openGraph: {
+        title: `En İyi ${location.title} Otelleri`,
+        description: `${location.title} otel önerileri ve rehberi.`,
+        images: [location.image],
+      },
+      alternates: {
+        canonical: `https://www.yeriniayir.com/otel/${location.slug}`,
+      }
+    };
+  }
+
   const hotel = await db.hotels.getById(params.id);
 
   if (!hotel) {
@@ -44,24 +64,24 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 
   const hotelName = getLocalizedText(hotel.name);
-  const location = getLocalizedText(hotel.location);
+  const locationName = getLocalizedText(hotel.location);
   const aboutText = getLocalizedText(hotel.about);
   const descText = getLocalizedText(hotel.description);
   const description = aboutText || descText || `${hotelName} hakkında detaylı bilgi ve rezervasyon`;
 
   return {
-    title: `${hotelName} - ${location}`,
+    title: `${hotelName} - ${locationName}`,
     description: description.substring(0, 160),
     keywords: [
       hotelName,
-      location,
+      locationName,
       'otel',
       'konaklama',
       'rezervasyon',
       ...(hotel.tags || []),
     ],
     openGraph: {
-      title: `${hotelName} - ${location}`,
+      title: `${hotelName} - ${locationName}`,
       description: description.substring(0, 160),
       images: hotel.coverImageUrl ? [hotel.coverImageUrl] : [],
       type: 'website',
@@ -71,7 +91,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     },
     twitter: {
       card: 'summary_large_image',
-      title: `${hotelName} - ${location}`,
+      title: `${hotelName} - ${locationName}`,
       description: description.substring(0, 160),
       images: hotel.coverImageUrl ? [hotel.coverImageUrl] : [],
     },
@@ -79,6 +99,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function HotelDetailPage({ params }: Props) {
+  const location = LOCATIONS.find(l => l.slug === params.id);
+
+  if (location) {
+    const hotels = await db.hotels.searchByLocation(location.title);
+    return <LocationListingView location={location} hotels={hotels} />;
+  }
+
   const hotel = await db.hotels.getById(params.id);
 
   if (!hotel) {
