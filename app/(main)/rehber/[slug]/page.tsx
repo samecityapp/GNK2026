@@ -139,7 +139,7 @@ export default async function ArticlePage({ params }: Props) {
     coverImage: article.cover_image_url,
     createdAt: article.created_at,
     updatedAt: article.updated_at,
-    author: 'Yerini Ayır Rehberi',
+    author: 'Erdem (@-yeriniayir-)',
   });
 
   const breadcrumbSchema = generateBreadcrumbSchema([

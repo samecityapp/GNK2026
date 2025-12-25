@@ -75,6 +75,8 @@ import Script from 'next/script';
 
 // ... existing imports
 
+import { generateOrganizationSchema, generateWebSiteSchema } from '@/lib/schema-generator';
+
 const quicksand = Quicksand({
   subsets: ['latin'],
   display: 'swap',
@@ -82,6 +84,9 @@ const quicksand = Quicksand({
 });
 
 export default function RootLayout({ children }: { children: React.ReactNode; }) {
+  const orgSchema = generateOrganizationSchema();
+  const websiteSchema = generateWebSiteSchema();
+
   return (
     <html lang="tr" className={`${inter.variable} ${quicksand.variable}`}>
       <head>
@@ -103,6 +108,14 @@ export default function RootLayout({ children }: { children: React.ReactNode; })
             })(window, document, "clarity", "script", "ufxa278rg4");
           `}
         </Script>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(orgSchema) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
+        />
       </body>
     </html>
   );

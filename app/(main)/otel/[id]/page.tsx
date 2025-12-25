@@ -177,10 +177,27 @@ export default async function HotelDetailPage({ params }: Props) {
     ? hotel.faqs.filter(f => f.answer && f.answer.trim().length > 0)
     : defaultFaqs;
 
+  const faqSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: displayFaqs.map(faq => ({
+      '@type': 'Question',
+      name: faq.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: faq.answer
+      }
+    }))
+  };
+
   return (
     <>
       <JsonLd data={hotelSchema} />
       <JsonLd data={breadcrumbSchema} />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
 
       {/* Mobile View */}
       <div className="md:hidden bg-gray-50 min-h-screen">
@@ -192,6 +209,7 @@ export default async function HotelDetailPage({ params }: Props) {
               images={hotel.galleryImages || (hotel.coverImageUrl ? [hotel.coverImageUrl] : [])}
               videoUrl={hotel.video_url}
               videoThumbnailUrl={hotel.video_thumbnail_url}
+              altPrefix={`${getLocalizedText(hotel.name)} - ${getLocalizedText(hotel.location)}`}
             />
           </div>
 
@@ -293,6 +311,7 @@ export default async function HotelDetailPage({ params }: Props) {
             images={hotel.galleryImages || (hotel.coverImageUrl ? [hotel.coverImageUrl] : [])}
             videoUrl={hotel.video_url}
             videoThumbnailUrl={hotel.video_thumbnail_url}
+            altPrefix={`${getLocalizedText(hotel.name)} - ${getLocalizedText(hotel.location)}`}
           />
 
           <div className="my-6 sm:my-8 bg-white border border-gray-200 rounded-2xl p-6 sm:p-8 shadow-sm">

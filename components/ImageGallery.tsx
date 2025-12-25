@@ -14,9 +14,10 @@ type ImageGalleryProps = {
   videoUrl?: string | null;
   videoThumbnailUrl?: string | null;
   onClose?: () => void;
+  altPrefix?: string;
 };
 
-export function ImageGallery({ images, videoUrl, videoThumbnailUrl, onClose }: ImageGalleryProps) {
+export function ImageGallery({ images, videoUrl, videoThumbnailUrl, onClose, altPrefix = 'Yerini Ayır' }: ImageGalleryProps) {
   const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
   const [isVideoOpen, setIsVideoOpen] = useState(false);
 
@@ -52,7 +53,7 @@ export function ImageGallery({ images, videoUrl, videoThumbnailUrl, onClose }: I
             {videoThumbnailUrl ? (
               <Image
                 src={videoThumbnailUrl}
-                alt="Video thumbnail"
+                alt={`${altPrefix} video`}
                 fill
                 sizes="100vw"
                 className="object-cover"
@@ -61,7 +62,7 @@ export function ImageGallery({ images, videoUrl, videoThumbnailUrl, onClose }: I
             ) : displayImages[0] ? (
               <Image
                 src={displayImages[0]}
-                alt="Video thumbnail"
+                alt={altPrefix}
                 fill
                 sizes="100vw"
                 className="object-cover"
@@ -78,7 +79,7 @@ export function ImageGallery({ images, videoUrl, videoThumbnailUrl, onClose }: I
           <div className="relative w-full h-full" onClick={() => setSelectedImageIndex(0)}>
             <Image
               src={displayImages[0]}
-              alt="Ana resim"
+              alt={altPrefix}
               fill
               sizes="100vw"
               className="object-cover group-hover:scale-105 transition-transform duration-500"
@@ -105,7 +106,7 @@ export function ImageGallery({ images, videoUrl, videoThumbnailUrl, onClose }: I
               {videoThumbnailUrl ? (
                 <Image
                   src={videoThumbnailUrl}
-                  alt="Video thumbnail"
+                  alt={`${altPrefix} video`}
                   fill
                   sizes="380px"
                   className="object-cover"
@@ -114,7 +115,7 @@ export function ImageGallery({ images, videoUrl, videoThumbnailUrl, onClose }: I
               ) : displayImages[0] ? (
                 <Image
                   src={displayImages[0]}
-                  alt="Video thumbnail"
+                  alt={altPrefix}
                   fill
                   sizes="380px"
                   className="object-cover"
@@ -131,7 +132,7 @@ export function ImageGallery({ images, videoUrl, videoThumbnailUrl, onClose }: I
             <div className="relative w-full h-full" onClick={() => setSelectedImageIndex(0)}>
               <Image
                 src={displayImages[0]}
-                alt="Ana resim"
+                alt={altPrefix}
                 fill
                 sizes="380px"
                 className="object-cover group-hover:scale-105 transition-transform duration-500"
@@ -149,7 +150,7 @@ export function ImageGallery({ images, videoUrl, videoThumbnailUrl, onClose }: I
             >
               <Image
                 src={displayImages[1]}
-                alt="Resim 2"
+                alt={`${altPrefix} - 2`}
                 fill
                 sizes="260px"
                 className="object-cover group-hover:scale-105 transition-transform duration-500"
@@ -164,7 +165,7 @@ export function ImageGallery({ images, videoUrl, videoThumbnailUrl, onClose }: I
             >
               <Image
                 src={displayImages[2]}
-                alt="Resim 3"
+                alt={`${altPrefix} - 3`}
                 fill
                 sizes="260px"
                 className="object-cover group-hover:scale-105 transition-transform duration-500"
@@ -244,7 +245,7 @@ export function ImageGallery({ images, videoUrl, videoThumbnailUrl, onClose }: I
               <Image
                 key={`lightbox-${selectedImageIndex}`}
                 src={displayImages[selectedImageIndex]}
-                alt={`Fotoğraf ${selectedImageIndex + 1}`}
+                alt={`${altPrefix} - ${selectedImageIndex + 1}`}
                 fill
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 90vw, 80vw"
                 className="object-contain"

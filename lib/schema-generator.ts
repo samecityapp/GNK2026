@@ -82,7 +82,7 @@ export function generateArticleSchema(article: {
   updatedAt?: string;
   author?: string;
 }) {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.gnkhotels.com';
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.yeriniayir.com';
 
   return {
     '@context': 'https://schema.org',
@@ -94,14 +94,14 @@ export function generateArticleSchema(article: {
     dateModified: article.updatedAt || article.createdAt || new Date().toISOString(),
     author: {
       '@type': 'Person',
-      name: article.author || 'GNK Otel Rehberi',
+      name: article.author || 'Yerini Ayır Rehberi',
     },
     publisher: {
       '@type': 'Organization',
-      name: 'GNK Otel Rehberi',
+      name: 'Yerini Ayır',
       logo: {
         '@type': 'ImageObject',
-        url: `${baseUrl}/logo.png`,
+        url: `${baseUrl}/logo.svg`,
       },
     },
     mainEntityOfPage: {
@@ -125,15 +125,42 @@ export function generateBreadcrumbSchema(items: { name: string; url: string }[])
 }
 
 export function generateOrganizationSchema() {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.gnkhotels.com';
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.yeriniayir.com';
 
   return {
     '@context': 'https://schema.org',
+    '@id': `${baseUrl}/#organization`,
     '@type': 'Organization',
-    name: 'GNK Otel Rehberi',
+    name: 'Yerini Ayır',
     url: baseUrl,
-    logo: `${baseUrl}/logo.png`,
-    description: "Türkiye'nin en güvenilir otel rehberi - Erdem'in seçtiği en iyi oteller",
-    sameAs: [],
+    logo: {
+      '@type': 'ImageObject',
+      url: `${baseUrl}/logo.svg`,
+      width: '800',
+      height: '250'
+    },
+    description: "Türkiye'nin en seçkin otelleri ve gezi rehberi - Erdem'in kaleminden en iyi konaklama önerileri",
+    sameAs: [
+      // Add social media URLs here if available
+    ],
+  };
+}
+
+export function generateWebSiteSchema() {
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.yeriniayir.com';
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: 'Yerini Ayır',
+    url: baseUrl,
+    potentialAction: {
+      '@type': 'SearchAction',
+      target: {
+        '@type': 'EntryPoint',
+        urlTemplate: `${baseUrl}/search?q={search_term_string}`
+      },
+      'query-input': 'required name=search_term_string'
+    }
   };
 }
