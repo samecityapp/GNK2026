@@ -104,6 +104,19 @@ export default function RootLayout({ children }: { children: React.ReactNode; })
             })(window, document, "clarity", "script", "ufxa278rg4");
           `}
         </Script>
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-593PL85N6Q"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'G-593PL85N6Q');
+          `}
+        </Script>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(orgSchema) }}

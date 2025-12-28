@@ -1,0 +1,61 @@
+{
+  "navigation": {
+    "home": "Anasayfa",
+    "search": "Ara",
+    "login": "Giriş Yap",
+    "explore": "Keşfet",
+    "hotels": "Oteller",
+    "blog": "Rehber",
+    "contact": "İletişim",
+    "admin": "Yönetim Paneli"
+  },
+  "search": {
+    "placeholder": "Nereye gitmek istersiniz?",
+    "button": "Ara",
+    "no_results": "Sonuç Bulunamadı",
+    "see_all": "Tüm Otelleri Gör",
+    "filters": "Filtrele",
+    "clear_filters": "Filtreleri Temizle",
+    "location": "Konum",
+    "check_in": "Giriş Tarihi",
+    "check_out": "Çıkış Tarihi",
+    "guests": "Misafir Sayısı"
+  },
+  "home": {
+    "hero_title": "Hayalinizdeki Tatili Keşfedin",
+    "hero_subtitle": "Türkiye'nin en seçkin butik otelleri ve tatil deneyimleri.",
+    "popular_locations": "Popüler Bölgeler",
+    "featured_hotels": "Öne Çıkan Oteller",
+    "latest_articles": "Son Eklenen Rehberler"
+  },
+  "hotel": {
+    "price_from": "Gecelik Başlangıç Fiyatı",
+    "rating": "Puan",
+    "reviews": "Değerlendirme",
+    "see_details": "Detayları Gör",
+    "book_now": "Rezervasyon Yap",
+    "go_to_hotel": "Otele Git",
+    "instagram": "Instagram",
+    "location": "Konum",
+    "features": "Otel Özellikleri",
+    "description": "Açıklama",
+    "breakfast": "Kahvaltı",
+    "faq": "Sıkça Sorulan Sorular",
+    "nearby": "Yakındaki Yerler",
+    "similar_hotels": "Benzer Oteller"
+  },
+  "footer": {
+    "rights": "Tüm hakları saklıdır.",
+    "privacy": "Gizlilik Politikası",
+    "terms": "Kullanım Koşulları",
+    "cookie": "Çerez Politikası",
+    "kvkk": "KVKK Aydınlatma Metni"
+  },
+  "common": {
+    "loading": "Yükleniyor...",
+    "error": "Bir hata oluştu",
+    "success": "Başarılı",
+    "back": "Geri",
+    "close": "Kapat"
+  }
+}

@@ -1,0 +1,61 @@
+{
+    "navigation": {
+        "home": "Home",
+        "search": "Search",
+        "login": "Login",
+        "explore": "Explore",
+        "hotels": "Hotels",
+        "blog": "Guide",
+        "contact": "Contact",
+        "admin": "Admin Panel"
+    },
+    "search": {
+        "placeholder": "Where do you want to go?",
+        "button": "Search",
+        "no_results": "No Results Found",
+        "see_all": "See All Hotels",
+        "filters": "Filter",
+        "clear_filters": "Clear Filters",
+        "location": "Location",
+        "check_in": "Check-in Date",
+        "check_out": "Check-out Date",
+        "guests": "Guests"
+    },
+    "home": {
+        "hero_title": "Discover Your Dream Vacation",
+        "hero_subtitle": "Turkey's most exclusive boutique hotels and holiday experiences.",
+        "popular_locations": "Popular Locations",
+        "featured_hotels": "Featured Hotels",
+        "latest_articles": "Latest Guides"
+    },
+    "hotel": {
+        "price_from": "Starting Price per Night",
+        "rating": "Rating",
+        "reviews": "Reviews",
+        "see_details": "See Details",
+        "book_now": "Book Now",
+        "go_to_hotel": "Go to Hotel",
+        "instagram": "Instagram",
+        "location": "Location",
+        "features": "Hotel Features",
+        "description": "Description",
+        "breakfast": "Breakfast",
+        "faq": "Frequently Asked Questions",
+        "nearby": "Nearby Places",
+        "similar_hotels": "Similar Hotels"
+    },
+    "footer": {
+        "rights": "All rights reserved.",
+        "privacy": "Privacy Policy",
+        "terms": "Terms of Use",
+        "cookie": "Cookie Policy",
+        "kvkk": "KVKK Clarification Text"
+    },
+    "common": {
+        "loading": "Loading...",
+        "error": "An error occurred",
+        "success": "Success",
+        "back": "Back",
+        "close": "Close"
+    }
+}
