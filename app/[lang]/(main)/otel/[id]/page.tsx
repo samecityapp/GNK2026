@@ -18,6 +18,7 @@ import { BreakfastSection } from '@/components/hotel/BreakfastSection';
 import { HotelFAQ } from '@/components/hotel/HotelFAQ';
 import PremiumClassic from '@/components/hotel/ScoreCard/PremiumClassic';
 import { getLocalizedText } from '@/lib/localization';
+import { getDictionary } from '@/lib/dictionary';
 import { JsonLd } from '@/components/seo/JsonLd';
 import { generateHotelSchema, generateBreadcrumbSchema, generateFAQSchema } from '@/lib/schema-generator';
 
@@ -32,23 +33,32 @@ import { LOCATIONS } from '@/lib/constants';
 import { LocationListingView } from '@/components/hotel/LocationListingView';
 
 type Props = {
-  params: { id: string };
+  params: { id: string; lang: 'tr' | 'en' };
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const lang = params.lang || 'tr';
+  const dict = await getDictionary(lang);
   const location = LOCATIONS.find(l => l.slug === params.id);
 
   if (location) {
+    const title = lang === 'tr'
+      ? `En İyi ${location.title} Otelleri | Yerini Ayır`
+      : `Best ${location.title} Hotels | Yerini Ayır`;
+    const description = lang === 'tr'
+      ? `${location.title} bölgesinde konaklayabileceğiniz en seçkin ve butik oteller. Erdem'in kaleminden ${location.title} otel önerileri ve detaylı incelemeler.`
+      : `The most exclusive and boutique hotels you can stay in ${location.title}. Hotel recommendations and detailed reviews from Erdem's pen.`;
+
     return {
-      title: `En İyi ${location.title} Otelleri | Yerini Ayır`,
-      description: `${location.title} bölgesinde konaklayabileceğiniz en seçkin ve butik oteller. Erdem'in kaleminden ${location.title} otel önerileri ve detaylı incelemeler.`,
+      title,
+      description,
       openGraph: {
-        title: `En İyi ${location.title} Otelleri`,
-        description: `${location.title} otel önerileri ve rehberi.`,
+        title,
+        description,
         images: [location.image],
       },
       alternates: {
-        canonical: `https://www.yeriniayir.com/otel/${location.slug}`,
+        canonical: `https://www.yeriniayir.com/${lang}/otel/${location.slug}`,
       }
     };
   }
@@ -57,16 +67,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   if (!hotel) {
     return {
-      title: 'Otel Bulunamadı',
-      description: 'Aradığınız otel sistemimizde mevcut değil.',
+      title: lang === 'tr' ? 'Otel Bulunamadı' : 'Hotel Not Found',
+      description: lang === 'tr' ? 'Aradığınız otel sistemimizde mevcut değil.' : 'The hotel you are looking for is not available in our system.',
     };
   }
 
-  const hotelName = getLocalizedText(hotel.name);
-  const locationName = getLocalizedText(hotel.location);
-  const aboutText = getLocalizedText(hotel.about);
-  const descText = getLocalizedText(hotel.description);
-  const description = aboutText || descText || `${hotelName} hakkında detaylı bilgi ve rezervasyon`;
+  const hotelName = getLocalizedText(hotel.name, lang);
+  const locationName = getLocalizedText(hotel.location, lang);
+  const aboutText = getLocalizedText(hotel.about, lang);
+  const descText = getLocalizedText(hotel.description, lang);
+  const description = aboutText || descText || (lang === 'tr' ? `${hotelName} hakkında detaylı bilgi ve rezervasyon` : `Detailed information and reservation for ${hotelName}`);
 
   return {
     title: `${hotelName} - ${locationName}`,
@@ -74,9 +84,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     keywords: [
       hotelName,
       locationName,
-      'otel',
-      'konaklama',
-      'rezervasyon',
+      lang === 'tr' ? 'otel' : 'hotel',
+      lang === 'tr' ? 'konaklama' : 'accommodation',
+      lang === 'tr' ? 'rezervasyon' : 'booking',
       ...(hotel.tags || []),
     ],
     openGraph: {
@@ -86,7 +96,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       type: 'website',
     },
     alternates: {
-      canonical: `https://www.yeriniayir.com/otel/${hotel.id}`,
+      canonical: `https://www.yeriniayir.com/${lang}/otel/${hotel.id}`,
     },
     twitter: {
       card: 'summary_large_image',
@@ -98,11 +108,13 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function HotelDetailPage({ params }: Props) {
+  const lang = params.lang || 'tr';
+  const dict = await getDictionary(lang);
   const location = LOCATIONS.find(l => l.slug === params.id);
 
   if (location) {
     const hotels = await db.hotels.searchByLocation(location.title);
-    return <LocationListingView location={location} hotels={hotels} />;
+    return <LocationListingView location={location} hotels={hotels} lang={lang} />;
   }
 
   const hotel = await db.hotels.getById(params.id);
@@ -119,28 +131,28 @@ export default async function HotelDetailPage({ params }: Props) {
   const rating = {
     score: hotel.gnkScore || 0,
     reviewCount: 0,
-    text: 'İyi',
+    text: lang === 'tr' ? 'İyi' : 'Good',
   };
 
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.yeriniayir.com';
   const hotelSchema = generateHotelSchema(hotel);
   const breadcrumbSchema = generateBreadcrumbSchema([
-    { name: 'Ana Sayfa', url: baseUrl },
-    { name: 'Oteller', url: `${baseUrl}/search` },
-    { name: getLocalizedText(hotel.location), url: `${baseUrl}/search?location=${encodeURIComponent(getLocalizedText(hotel.location))}` },
-    { name: getLocalizedText(hotel.name), url: `${baseUrl}/otel/${hotel.id}` },
+    { name: dict.navigation.home, url: `${baseUrl}/${lang}` },
+    { name: dict.navigation.hotels || 'Oteller', url: `${baseUrl}/${lang}/search` },
+    { name: getLocalizedText(hotel.location, lang), url: `${baseUrl}/${lang}/search?location=${encodeURIComponent(getLocalizedText(hotel.location, lang))}` },
+    { name: getLocalizedText(hotel.name, lang), url: `${baseUrl}/${lang}/otel/${hotel.id}` },
   ]);
 
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Hotel',
-    name: getLocalizedText(hotel.name),
-    description: hotel.about || '',
+    name: getLocalizedText(hotel.name, lang),
+    description: getLocalizedText(hotel.about, lang) || '',
     image: hotel.galleryImages && hotel.galleryImages.length > 0 ? hotel.galleryImages[0] : hotel.coverImageUrl,
     address: {
       '@type': 'PostalAddress',
-      streetAddress: getLocalizedText(hotel.location),
-      addressLocality: getLocalizedText(hotel.location).split(',')[1]?.trim() || getLocalizedText(hotel.location),
+      streetAddress: getLocalizedText(hotel.location, lang),
+      addressLocality: getLocalizedText(hotel.location, lang).split(',')[1]?.trim() || getLocalizedText(hotel.location, lang),
       addressCountry: 'TR',
     },
     geo: hotel.coordinates ? {
@@ -160,44 +172,50 @@ export default async function HotelDetailPage({ params }: Props) {
 
   const defaultFaqs = [
     {
-      question: 'Giriş ve çıkış saatleri neler?',
-      answer: 'Giriş saati 14:00, çıkış saati 12:00\'dir. Erken giriş ve geç çıkış talepleri müsaitliğe bağlıdır.',
+      question: lang === 'tr' ? 'Giriş ve çıkış saatleri neler?' : 'What are the check-in and check-out times?',
+      answer: lang === 'tr' ? 'Giriş saati 14:00, çıkış saati 12:00\'dir. Erken giriş ve geç çıkış talepleri müsaitliğe bağlıdır.' : 'Check-in time is 14:00, check-out time is 12:00. Early check-in and late check-out requests are subject to availability.',
     },
     {
-      question: 'Tesisin kahvaltı saatleri?',
-      answer: 'Kahvaltı her gün 07:30 - 10:30 saatleri arasında servis edilmektedir.',
+      question: lang === 'tr' ? 'Tesisin kahvaltı saatleri?' : 'What are the breakfast hours?',
+      answer: lang === 'tr' ? 'Kahvaltı her gün 07:30 - 10:30 saatleri arasında servis edilmektedir.' : 'Breakfast is served daily between 07:30 - 10:30.',
     },
     {
-      question: 'Otopark var mı?',
-      answer: 'Evet, tesis bünyesinde misafirler için ücretsiz otopark mevcuttur.',
+      question: lang === 'tr' ? 'Otopark var mı?' : 'Is there parking?',
+      answer: lang === 'tr' ? 'Evet, tesis bünyesinde misafirler için ücretsiz otopark mevcuttur.' : 'Yes, free parking is available on site for guests.',
     },
     {
-      question: 'Denize Uzaklığı Nedir?',
-      answer: hotel.tags?.includes('denize-sifir') ? 'Tesisimiz denize sıfır konumdadır.' : 'Plaja yürüme mesafesindedir.',
+      question: lang === 'tr' ? 'Denize Uzaklığı Nedir?' : 'How far is it to the sea?',
+      answer: hotel.tags?.includes('denize-sifir')
+        ? (lang === 'tr' ? 'Tesisimiz denize sıfır konumdadır.' : 'Our facility is located on the seafront.')
+        : (lang === 'tr' ? 'Plaja yürüme mesafesindedir.' : 'It is within walking distance to the beach.'),
     },
     {
-      question: 'Engelliler için uygun mu?',
-      answer: 'Tesisimiz engelli misafirlerimizin erişimi için tekerlekli sandalye rampaları ve asansör ile donatılmıştır.',
+      question: lang === 'tr' ? 'Engelliler için uygun mu?' : 'Is it suitable for the disabled?',
+      answer: lang === 'tr' ? 'Tesisimiz engelli misafirlerimizin erişimi için tekerlekli sandalye rampaları ve asansör ile donatılmıştır.' : 'Our facility is equipped with wheelchair ramps and an elevator for the access of our disabled guests.',
     },
     {
-      question: 'Çocuk Kabul Ediyor musunuz?',
-      answer: hotel.tags?.includes('yetiskin-oteli') ? 'Hayır, tesisimiz +12 yaş yetişkin oteli konseptindedir.' : 'Evet, her yaş grubundan çocuk misafirimiz kabul edilmektedir.',
+      question: lang === 'tr' ? 'Çocuk Kabul Ediyor musunuz?' : 'Do you accept children?',
+      answer: hotel.tags?.includes('yetiskin-oteli')
+        ? (lang === 'tr' ? 'Hayır, tesisimiz +12 yaş yetişkin oteli konseptindedir.' : 'No, our facility is adult-only (+12 years old) concept.')
+        : (lang === 'tr' ? 'Evet, her yaş grubundan çocuk misafirimiz kabul edilmektedir.' : 'Yes, child guests of all age groups are accepted.'),
     },
     {
-      question: 'Bu otele gelmek için en iyi zaman ne zaman?',
-      answer: 'Bahar ve yaz ayları (Mayıs-Ekim) deniz tatili için en ideal dönemdir.',
+      question: lang === 'tr' ? 'Bu otele gelmek için en iyi zaman ne zaman?' : 'When is the best time to visit this hotel?',
+      answer: lang === 'tr' ? 'Bahar ve yaz ayları (Mayıs-Ekim) deniz tatili için en ideal dönemdir.' : 'Spring and summer months (May-October) are the most ideal period for sea holiday.',
     },
     {
-      question: 'Bölgede mutlaka görülmesi gereken yerler nereler?',
-      answer: `Konumumuz ${getLocalizedText(hotel.location).split(',')[0]} merkezine yakındır. Tarihi çarşı ve liman mutlaka görülmelidir.`,
+      question: lang === 'tr' ? 'Bölgede mutlaka görülmesi gereken yerler nereler?' : 'Which places should be seen in the region?',
+      answer: lang === 'tr'
+        ? `Konumumuz ${getLocalizedText(hotel.location, lang).split(',')[0]} merkezine yakındır. Tarihi çarşı ve liman mutlaka görülmelidir.`
+        : `Our location is close to ${getLocalizedText(hotel.location, lang).split(',')[0]} center. The historical bazaar and harbor should definitely be seen.`,
     },
     {
-      question: 'Tesiste spor olanağı var mı? Gym, Yoga, Pilates?',
-      answer: 'Otelimizde tam donanımlı fitness merkezi bulunmaktadır. Ayrıca sabahları yoga dersleri düzenlenmektedir.',
+      question: lang === 'tr' ? 'Tesiste spor olanağı var mı? Gym, Yoga, Pilates?' : 'Are there sport facilities? Gym, Yoga, Pilates?',
+      answer: lang === 'tr' ? 'Otelimizde tam donanımlı fitness merkezi bulunmaktadır. Ayrıca sabahları yoga dersleri düzenlenmektedir.' : 'Our hotel has a fully equipped fitness center. Also, yoga classes are organized in the mornings.',
     },
     {
-      question: 'Evcil hayvan kabul ediyor musunuz?',
-      answer: 'Maalesef tesisimize evcil hayvan kabul edilmemektedir.',
+      question: lang === 'tr' ? 'Evcil hayvan kabul ediyor musunuz?' : 'Do you accept pets?',
+      answer: lang === 'tr' ? 'Maalesef tesisimize evcil hayvan kabul edilmemektedir.' : 'Unfortunately, pets are not accepted in our facility.',
     },
   ];
 
@@ -219,28 +237,30 @@ export default async function HotelDetailPage({ params }: Props) {
       {/* Mobile View */}
       <div className="md:hidden bg-gray-50 min-h-screen">
         <div className="relative w-full">
-          <BackButton variant="overlay" />
+          <BackButton variant="overlay" lang={lang} />
 
           <div className="px-5 pt-4">
             <ImageGallery
               images={hotel.galleryImages || (hotel.coverImageUrl ? [hotel.coverImageUrl] : [])}
               videoUrl={hotel.video_url}
               videoThumbnailUrl={hotel.video_thumbnail_url}
-              altPrefix={`${getLocalizedText(hotel.name)} - ${getLocalizedText(hotel.location)}`}
+              altPrefix={`${getLocalizedText(hotel.name, lang)} - ${getLocalizedText(hotel.location, lang)}`}
               priority={true}
+              lang={lang}
             />
           </div>
 
 
           <MobileHotelInfo
-            hotelName={getLocalizedText(hotel.name)}
+            hotelName={getLocalizedText(hotel.name, lang)}
             price={hotel.price}
             rating={rating.score}
-            location={getLocalizedText(hotel.location)}
+            location={getLocalizedText(hotel.location, lang)}
             googleMapsUrl={hotel.google_maps_url}
             websiteUrl={hotel.website_url}
             instagramUrl={hotel.instagram_url}
             hotelId={hotel.id}
+            lang={lang}
           />
         </div>
 
@@ -251,11 +271,11 @@ export default async function HotelDetailPage({ params }: Props) {
 
 
           <div className="order-2">
-            <HotelFeatures tags={hotelTagsWithIcons} isMobile={true} />
+            <HotelFeatures tags={hotelTagsWithIcons} isMobile={true} lang={lang} />
           </div>
 
           <div className="order-3">
-            <HotelDescription about={hotel.about || hotel.description || ''} isMobile={true} />
+            <HotelDescription about={hotel.about || hotel.description || ''} isMobile={true} lang={lang} />
           </div>
 
           {hotel.breakfast_description && (
@@ -263,16 +283,17 @@ export default async function HotelDetailPage({ params }: Props) {
               <BreakfastSection
                 description={hotel.breakfast_description}
                 images={hotel.breakfast_images || []}
+                lang={lang}
               />
             </div>
           )}
 
           <div className="order-7">
-            <HotelFAQ faqs={displayFaqs} />
+            <HotelFAQ faqs={displayFaqs} lang={lang} />
           </div>
 
           <div className="order-5">
-            <LocationCard latitude={hotel.latitude} longitude={hotel.longitude} address={getLocalizedText(hotel.location)} />
+            <LocationCard latitude={hotel.latitude} longitude={hotel.longitude} address={getLocalizedText(hotel.location, lang)} dict={dict} />
           </div>
 
           <div className="order-6">
@@ -285,7 +306,7 @@ export default async function HotelDetailPage({ params }: Props) {
                 </div>
               </div>
             }>
-              <NearbyGuide location={getLocalizedText(hotel.location)} coordinates={hotel.coordinates} isMobile={true} />
+              <NearbyGuide location={getLocalizedText(hotel.location, lang)} coordinates={hotel.coordinates} isMobile={true} lang={lang} />
             </Suspense>
           </div>
 
@@ -301,7 +322,7 @@ export default async function HotelDetailPage({ params }: Props) {
                 </div>
               </div>
             }>
-              <RelatedArticles location={getLocalizedText(hotel.location).split(',')[0].trim()} />
+              <RelatedArticles location={getLocalizedText(hotel.location, lang).split(',')[0].trim()} lang={lang} />
             </Suspense>
           </div>
         </div>
@@ -310,15 +331,17 @@ export default async function HotelDetailPage({ params }: Props) {
       {/* Desktop View */}
       <div className="hidden md:block">
         <div className="container mx-auto px-4 sm:px-6 py-4 sm:py-8">
-          <BackButton />
+          <BackButton lang={lang} />
 
           <div className="flex justify-between items-start gap-6 mb-4">
             <div className="flex-1">
-              <p className="text-sm text-gray-500 mb-2">Otel / {getLocalizedText(hotel.location)} / {getLocalizedText(hotel.name)}</p>
-              <h1 className="text-3xl lg:text-4xl font-bold text-gray-900">{getLocalizedText(hotel.name)}</h1>
+              <p className="text-sm text-gray-500 mb-2">
+                {lang === 'tr' ? 'Otel' : 'Hotel'} / {getLocalizedText(hotel.location, lang)} / {getLocalizedText(hotel.name, lang)}
+              </p>
+              <h1 className="text-3xl lg:text-4xl font-bold text-gray-900">{getLocalizedText(hotel.name, lang)}</h1>
               <div className="flex items-center text-gray-600 mt-2">
                 <MapPin size={16} className="mr-2" />
-                <span className="text-base">{getLocalizedText(hotel.location)}</span>
+                <span className="text-base">{getLocalizedText(hotel.location, lang)}</span>
               </div>
             </div>
             <div className="flex-shrink-0">
@@ -330,16 +353,19 @@ export default async function HotelDetailPage({ params }: Props) {
             images={hotel.galleryImages || (hotel.coverImageUrl ? [hotel.coverImageUrl] : [])}
             videoUrl={hotel.video_url}
             videoThumbnailUrl={hotel.video_thumbnail_url}
-            altPrefix={`${getLocalizedText(hotel.name)} - ${getLocalizedText(hotel.location)}`}
+            altPrefix={`${getLocalizedText(hotel.name, lang)} - ${getLocalizedText(hotel.location, lang)}`}
             priority={true}
+            lang={lang}
           />
 
 
           <div className="my-6 sm:my-8 bg-white border border-gray-200 rounded-2xl p-6 sm:p-8 shadow-sm">
             <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
               <div>
-                <p className="text-sm text-gray-600 font-medium mb-2">Gecelik Başlangıç Fiyatı</p>
-                <p className="text-3xl sm:text-4xl font-bold text-gray-900">{hotel.price.toLocaleString('tr-TR')} ₺</p>
+                <p className="text-sm text-gray-600 font-medium mb-2">{lang === 'tr' ? 'Gecelik Başlangıç Fiyatı' : 'Starting Price per Night'}</p>
+                <p className="text-3xl sm:text-4xl font-bold text-gray-900">
+                  {hotel.price.toLocaleString(lang === 'tr' ? 'tr-TR' : 'en-GB')} ₺
+                </p>
               </div>
               <div className="flex flex-col gap-3 w-full sm:w-auto">
                 {hotel.website_url && (
@@ -349,7 +375,7 @@ export default async function HotelDetailPage({ params }: Props) {
                     rel="noopener noreferrer"
                     className="flex items-center justify-center gap-2 bg-white border-2 border-gray-900 hover:bg-gray-900 text-gray-900 hover:text-white font-semibold py-3 px-6 rounded-xl transition-colors whitespace-nowrap"
                   >
-                    <span>Otele Git</span>
+                    <span>{lang === 'tr' ? 'Otele Git' : 'Go to Hotel'}</span>
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
                   </a>
                 )}
@@ -372,18 +398,19 @@ export default async function HotelDetailPage({ params }: Props) {
             <div className="lg:col-span-2 space-y-6">
 
 
-              <HotelFeatures tags={hotelTagsWithIcons} />
-              <HotelDescription about={hotel.about || hotel.description || ''} />
+              <HotelFeatures tags={hotelTagsWithIcons} lang={lang} />
+              <HotelDescription about={hotel.about || hotel.description || ''} lang={lang} />
               {hotel.breakfast_description && (
                 <BreakfastSection
                   description={hotel.breakfast_description}
                   images={hotel.breakfast_images || []}
+                  lang={lang}
                 />
               )}
 
             </div>
             <div className="lg:col-span-1">
-              <LocationCard latitude={hotel.latitude} longitude={hotel.longitude} address={getLocalizedText(hotel.location)} />
+              <LocationCard latitude={hotel.latitude} longitude={hotel.longitude} address={getLocalizedText(hotel.location, lang)} dict={dict} />
             </div>
           </div>
 
@@ -399,12 +426,12 @@ export default async function HotelDetailPage({ params }: Props) {
                 </div>
               </div>
             }>
-              <NearbyGuide location={getLocalizedText(hotel.location)} coordinates={hotel.coordinates} />
+              <NearbyGuide location={getLocalizedText(hotel.location, lang)} coordinates={hotel.coordinates} lang={lang} />
             </Suspense>
           </div>
 
           <div className="mb-6">
-            <HotelFAQ faqs={displayFaqs} />
+            <HotelFAQ faqs={displayFaqs} lang={lang} />
           </div>
 
           <Suspense fallback={
@@ -432,7 +459,7 @@ export default async function HotelDetailPage({ params }: Props) {
               </div>
             </div>
           }>
-            <RelatedArticles location={getLocalizedText(hotel.location).split(',')[0].trim()} />
+            <RelatedArticles location={getLocalizedText(hotel.location, lang).split(',')[0].trim()} lang={lang} />
           </Suspense>
         </div>
       </div>

@@ -7,15 +7,16 @@ interface FAQItem {
 
 interface HotelFAQProps {
   faqs: FAQItem[];
+  lang?: 'tr' | 'en';
 }
 
-export function HotelFAQ({ faqs }: HotelFAQProps) {
+export function HotelFAQ({ faqs, lang = 'tr' }: HotelFAQProps) {
   if (!faqs || faqs.length === 0) return null;
 
   return (
     <section className="bg-white rounded-2xl p-4 md:p-6 mb-6">
       <h2 className="text-xl font-bold text-gray-900 mb-4">
-        Sıkça Sorulan Sorular
+        {lang === 'tr' ? 'Sıkça Sorulan Sorular' : 'Frequently Asked Questions'}
       </h2>
       <div className="space-y-4">
         {faqs.map((faq, index) => (

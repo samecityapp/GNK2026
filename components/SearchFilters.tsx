@@ -17,11 +17,26 @@ type SearchSuggestion = {
   icon?: string;
 };
 
-export default function SearchFilters() {
+// Fallback tags constant
+const FALLBACK_TAGS: Tag[] = [
+  { id: '1', name: { tr: 'Aile Oteli', en: 'Family Hotel' }, slug: 'aile-oteli', icon: 'Users', isFeatured: true },
+  { id: '2', name: { tr: 'Alkolsüz', en: 'Non-Alcoholic' }, slug: 'alkolsuz', icon: 'GlassWater', isFeatured: true },
+  { id: '3', name: { tr: 'Denize Sıfır', en: 'Seafront' }, slug: 'denize-sifir', icon: 'Waves', isFeatured: true },
+  { id: '4', name: { tr: 'Evcil Hayvan Dostu', en: 'Pet Friendly' }, slug: 'evcil-hayvan-dostu', icon: 'Dog', isFeatured: true },
+  { id: '5', name: { tr: 'Havuzlu', en: 'With Pool' }, slug: 'havuzlu', icon: 'Droplets', isFeatured: true },
+];
+
+interface SearchFiltersProps {
+  lang?: 'tr' | 'en';
+  dict?: any;
+}
+
+export default function SearchFilters({ lang = 'tr', dict }: SearchFiltersProps) {
   const router = useRouter();
   const [searchQuery, setSearchQuery] = useState('');
   const [debouncedQuery, setDebouncedQuery] = useState('');
-  const [featuredTags, setFeaturedTags] = useState<Tag[]>([]);
+  // Initialize with fallback tags so they are always visible
+  const [featuredTags, setFeaturedTags] = useState<Tag[]>(FALLBACK_TAGS);
   const [priceTags, setPriceTags] = useState<PriceTag[]>([]);
   const [suggestions, setSuggestions] = useState<SearchSuggestion[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
@@ -49,34 +64,34 @@ export default function SearchFilters() {
           .is('deleted_at', null)
           .order('name', { ascending: true });
 
-        if (tagsError) {
-          console.error('[SearchFilters] Tags error:', tagsError);
-        }
-
         if (tagsData && tagsData.length > 0) {
           const mapped = tagsData.map(t => ({
             id: t.id,
-            name: t.name,
+            name: typeof t.name === 'string' ? (t.name.startsWith('{') ? JSON.parse(t.name) : { tr: t.name }) : t.name,
             slug: t.slug,
             icon: t.icon || 'Tag',
             isFeatured: Boolean(t.is_featured)
           }));
 
           const featured = mapped.filter(t => t.isFeatured);
-
           setAllTags(mapped);
-          setFeaturedTags(featured);
+
+          if (featured.length > 0) {
+            setFeaturedTags(featured);
+          } else {
+            // If DB has tags but none marked featured, fallback to first few
+            // We don't overwrite with hardcoded fallback here because we prefer real DB data if slightly different
+            setFeaturedTags(mapped.slice(0, 5));
+          }
         }
+        // If undefined or empty array, we keep the initial FALLBACK_TAGS state
+        // No else block needed to set fallbacks.
 
         const { data: priceTagsData, error: priceError } = await supabase
           .from('price_tags')
           .select('*')
           .is('deleted_at', null)
           .order('min_price', { ascending: true });
-
-        if (priceError) {
-          console.error('[SearchFilters] Price tags error:', priceError);
-        }
 
         if (priceTagsData && priceTagsData.length > 0) {
           setPriceTags(priceTagsData.map(p => ({
@@ -86,6 +101,13 @@ export default function SearchFilters() {
             minPrice: p.min_price,
             maxPrice: p.max_price
           })));
+        } else {
+          // Fallback prices
+          setPriceTags([
+            { id: 'p1', label: '2000 TL Altı', slug: '2000-alti', minPrice: 0, maxPrice: 2000 },
+            { id: 'p2', label: '2000-4000 TL', slug: '2000-4000', minPrice: 2000, maxPrice: 4000 },
+            { id: 'p3', label: '4000-6000 TL', slug: '4000-6000', minPrice: 4000, maxPrice: 6000 },
+          ]);
         }
 
         const { data: hotelsData } = await supabase
@@ -101,6 +123,7 @@ export default function SearchFilters() {
         setLoading(false);
       } catch (error) {
         console.error('[SearchFilters] Catch error:', error);
+        // On error, we keep the existing (fallback) state
         setLoading(false);
       }
     };
@@ -130,19 +153,19 @@ export default function SearchFilters() {
     const newSuggestions: SearchSuggestion[] = [];
 
     allHotels
-      .filter(hotel => getLocalizedText(hotel.name).toLowerCase().includes(query))
+      .filter(hotel => getLocalizedText(hotel.name, lang).toLowerCase().includes(query))
       .slice(0, 3)
       .forEach(hotel => {
         newSuggestions.push({
           type: 'hotel',
           value: hotel.id,
-          label: getLocalizedText(hotel.name),
+          label: getLocalizedText(hotel.name, lang),
           icon: 'Hotel'
         });
       });
 
     // Localize locations first, then deduplicate
-    const normalizedLocations = Array.from(new Set(allHotels.map(h => getLocalizedText(h.location))));
+    const normalizedLocations = Array.from(new Set(allHotels.map(h => getLocalizedText(h.location, lang))));
 
     // Add static locations from constants that match
     const staticLocations = LOCATIONS
@@ -165,13 +188,13 @@ export default function SearchFilters() {
       });
 
     allTags
-      .filter(tag => getLocalizedText(tag.name).toLowerCase().includes(query) || tag.slug.toLowerCase().includes(query))
+      .filter(tag => getLocalizedText(tag.name, lang).toLowerCase().includes(query) || tag.slug.toLowerCase().includes(query))
       .slice(0, 3)
       .forEach(tag => {
         newSuggestions.push({
           type: 'tag',
           value: tag.slug,
-          label: getLocalizedText(tag.name),
+          label: getLocalizedText(tag.name, lang),
           icon: tag.icon
         });
       });
@@ -235,7 +258,7 @@ export default function SearchFilters() {
                 onFocus={() => {
                   if (suggestions.length > 0) setShowSuggestions(true);
                 }}
-                placeholder="Otel, konum veya özellik arayın..."
+                placeholder={dict?.search?.input_placeholder || "Otel, konum veya özellik arayın..."}
                 className="w-full pl-12 pr-4 py-3 text-sm font-medium text-gray-800 bg-transparent rounded-l-full focus:outline-none placeholder:text-gray-400"
                 autoComplete="off"
               />
@@ -295,7 +318,7 @@ export default function SearchFilters() {
                   className="group flex items-center gap-1.5 px-3.5 py-1.5 bg-white hover:bg-gray-900 text-gray-700 hover:text-white rounded-full text-xs font-semibold transition-all duration-200 shadow-md hover:shadow-lg border border-gray-200 hover:border-gray-900"
                 >
                   <IconComponent size={12} className="transition-transform group-hover:scale-110" />
-                  {getLocalizedText(tag.name)}
+                  {getLocalizedText(tag.name, lang)}
                 </Link>
               );
             })}

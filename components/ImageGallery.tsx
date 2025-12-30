@@ -16,9 +16,18 @@ type ImageGalleryProps = {
   onClose?: () => void;
   altPrefix?: string;
   priority?: boolean;
+  lang?: 'tr' | 'en';
 };
 
-export function ImageGallery({ images, videoUrl, videoThumbnailUrl, onClose, altPrefix = 'Yerini Ayır', priority = false }: ImageGalleryProps) {
+export function ImageGallery({
+  images,
+  videoUrl,
+  videoThumbnailUrl,
+  onClose,
+  altPrefix = 'Yerini Ayır',
+  priority = false,
+  lang = 'tr',
+}: ImageGalleryProps) {
   const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
   const [isVideoOpen, setIsVideoOpen] = useState(false);
 
@@ -34,10 +43,16 @@ export function ImageGallery({ images, videoUrl, videoThumbnailUrl, onClose, alt
     }
   };
 
-  if (!images || images.length === 0 && !videoUrl) {
+  const labels = {
+    loading: lang === 'tr' ? 'Video Oynatıcı Yükleniyor...' : 'Loading Video Player...',
+    noMedia: lang === 'tr' ? 'Medya Yok' : 'No Media',
+    photos: lang === 'tr' ? 'Fotoğraf' : 'Photos',
+  };
+
+  if (!images || (images.length === 0 && !videoUrl)) {
     return (
       <div className="bg-gray-100 h-96 rounded-3xl flex items-center justify-center mb-12">
-        <p className="text-gray-400">Medya Yok</p>
+        <p className="text-gray-400">{labels.noMedia}</p>
       </div>
     );
   }
@@ -94,7 +109,9 @@ export function ImageGallery({ images, videoUrl, videoThumbnailUrl, onClose, alt
             onClick={() => setSelectedImageIndex(0)}
           >
             <Camera className="w-4 h-4 text-gray-900" />
-            <span className="text-sm font-semibold text-gray-900">{totalImages} Fotoğraf</span>
+            <span className="text-sm font-semibold text-gray-900">
+              {totalImages} {labels.photos}
+            </span>
           </div>
         )}
       </div>
@@ -241,7 +258,10 @@ export function ImageGallery({ images, videoUrl, videoThumbnailUrl, onClose, alt
             </button>
           )}
 
-          <div className="relative w-full h-full flex items-center justify-center px-4 sm:px-20" onClick={(e) => e.stopPropagation()}>
+          <div
+            className="relative w-full h-full flex items-center justify-center px-4 sm:px-20"
+            onClick={(e) => e.stopPropagation()}
+          >
             <div className="relative w-full h-full max-w-7xl max-h-[90vh]">
               <Image
                 key={`lightbox-${selectedImageIndex}`}
@@ -265,6 +285,7 @@ export function ImageGallery({ images, videoUrl, videoThumbnailUrl, onClose, alt
           videoUrl={videoUrl}
           isOpen={isVideoOpen}
           onClose={() => setIsVideoOpen(false)}
+          lang={lang}
         />
       )}
     </>

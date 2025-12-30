@@ -5,6 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowLeft, Calendar, Clock } from 'lucide-react';
 import { getLocalizedText } from '@/lib/localization';
+import { getDictionary } from '@/lib/dictionary';
 import { JsonLd } from '@/components/seo/JsonLd';
 import { generateArticleSchema, generateBreadcrumbSchema } from '@/lib/schema-generator';
 import { QuickSummary } from '@/components/blog/QuickSummary';
@@ -16,25 +17,36 @@ import { getRandomAuthor } from '@/lib/authors';
 import { BlogAuthor } from '@/components/blog/BlogAuthor';
 
 
-type Props = { params: { slug: string } };
+type Props = { params: { slug: string; lang: 'tr' | 'en' } };
 
 export const revalidate = 0;
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const lang = params.lang || 'tr';
+  const dict = await getDictionary(lang);
   const location = LOCATIONS.find(l => l.slug === params.slug);
 
   // If it's a location page
   if (location) {
+    const locationDescription = dict.guide.locations[location.slug as keyof typeof dict.guide.locations] || location.description;
+    const title = lang === 'tr'
+      ? `${location.title} Gezi Rehberi - Gezilecek Yerler ve Öneriler`
+      : `${location.title} Travel Guide - Places to Visit and Recommendations`;
+
     return {
-      title: `${location.title} Gezi Rehberi - Gezilecek Yerler ve Öneriler`,
-      description: location.description,
+      title: title,
+      description: locationDescription,
       openGraph: {
-        title: `${location.title} Gezi Rehberi`,
-        description: location.description,
+        title: title,
+        description: locationDescription,
         images: [location.image],
       },
       alternates: {
-        canonical: `https://www.yeriniayir.com/rehber/${params.slug}`,
+        canonical: `https://www.yeriniayir.com/${lang}/rehber/${params.slug}`,
+        languages: {
+          'tr': `https://www.yeriniayir.com/tr/rehber/${params.slug}`,
+          'en': `https://www.yeriniayir.com/en/rehber/${params.slug}`,
+        },
       }
     };
   }
@@ -48,16 +60,20 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     };
   }
 
-  const title = getLocalizedText(article.title);
-  const description = getLocalizedText(article.meta_description);
-  const articleLocation = getLocalizedText(article.location);
+  const title = getLocalizedText(article.title, lang);
+  const description = getLocalizedText(article.meta_description, lang);
+  const articleLocation = getLocalizedText(article.location, lang);
 
   return {
     title: `${title}`,
     description: description,
     keywords: [title, articleLocation, 'rehber', 'gezi', 'otel', 'türkiye'],
     alternates: {
-      canonical: `https://www.yeriniayir.com/rehber/${article.slug}`,
+      canonical: `https://www.yeriniayir.com/${lang}/rehber/${article.slug}`,
+      languages: {
+        'tr': `https://www.yeriniayir.com/tr/rehber/${article.slug}`,
+        'en': `https://www.yeriniayir.com/en/rehber/${article.slug}`,
+      },
     },
     openGraph: {
       title: title,
@@ -76,11 +92,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function ArticlePage({ params }: Props) {
+  const lang = params.lang || 'tr';
+  const dict = await getDictionary(lang);
   const locationConstant = LOCATIONS.find(l => l.slug === params.slug);
 
   // --- LOCATION DETAIL PAGE LOGIC ---
   if (locationConstant) {
     const articles = await db.articles.getAllByLocation(locationConstant.title);
+    const locationDescription = dict.guide.locations[locationConstant.slug as keyof typeof dict.guide.locations] || locationConstant.description;
 
     return (
       <div className="min-h-screen bg-background">
@@ -96,25 +115,25 @@ export default async function ArticlePage({ params }: Props) {
           <div className="absolute inset-0 bg-black/50" />
           <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-4">
             <h1 className="text-4xl md:text-6xl font-bold text-white mb-4 tracking-tight drop-shadow-lg">
-              {locationConstant.title} Rehberi
+              {locationConstant.title} {lang === 'tr' ? 'Rehberi' : 'Guide'}
             </h1>
             <p className="text-lg md:text-xl text-gray-200 max-w-2xl drop-shadow-md">
-              {locationConstant.description}
+              {locationDescription}
             </p>
           </div>
         </div>
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
           <Link
-            href="/rehber"
+            href={`/${lang}/rehber`}
             className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground mb-8 font-medium transition-colors group"
           >
             <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-            Tüm bölgelere dön
+            {lang === 'tr' ? 'Tüm bölgelere dön' : 'Back to all regions'}
           </Link>
 
-          <h2 className="text-2xl font-bold mb-8">{locationConstant.title} Makaleleri</h2>
-          <ArticleList articles={articles} />
+          <h2 className="text-2xl font-bold mb-8">{locationConstant.title} {lang === 'tr' ? 'Makaleleri' : 'Articles'}</h2>
+          <ArticleList articles={articles} lang={lang} />
         </div>
       </div>
     );
@@ -127,7 +146,7 @@ export default async function ArticlePage({ params }: Props) {
     notFound();
   }
 
-  const publishedDate = new Date(article.published_at).toLocaleDateString('tr-TR', {
+  const publishedDate = new Date(article.published_at).toLocaleDateString(lang === 'tr' ? 'tr-TR' : 'en-GB', {
     year: 'numeric',
     month: 'long',
     day: 'numeric',
@@ -137,9 +156,9 @@ export default async function ArticlePage({ params }: Props) {
   const author = getRandomAuthor(article.slug);
 
   const articleSchema = generateArticleSchema({
-    title: getLocalizedText(article.title),
-    description: getLocalizedText(article.meta_description),
-    content: getLocalizedText(article.content),
+    title: getLocalizedText(article.title, lang),
+    description: getLocalizedText(article.meta_description, lang),
+    content: getLocalizedText(article.content, lang),
     slug: article.slug,
     coverImage: article.cover_image_url,
     createdAt: article.created_at,
@@ -148,9 +167,9 @@ export default async function ArticlePage({ params }: Props) {
   });
 
   const breadcrumbSchema = generateBreadcrumbSchema([
-    { name: 'Ana Sayfa', url: baseUrl },
-    { name: 'Rehber', url: `${baseUrl}/rehber` },
-    { name: getLocalizedText(article.title), url: `${baseUrl}/rehber/${article.slug}` },
+    { name: lang === 'tr' ? 'Ana Sayfa' : 'Home', url: `${baseUrl}/${lang}` },
+    { name: lang === 'tr' ? 'Rehber' : 'Guide', url: `${baseUrl}/${lang}/rehber` },
+    { name: getLocalizedText(article.title, lang), url: `${baseUrl}/${lang}/rehber/${article.slug}` },
   ]);
 
   return (
@@ -161,18 +180,18 @@ export default async function ArticlePage({ params }: Props) {
       <div className="min-h-screen bg-background">
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <Link
-            href="/rehber"
+            href={`/${lang}/rehber`}
             className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground mb-12 font-medium transition-colors group"
           >
             <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-            Tüm Rehberlere Dön
+            {lang === 'tr' ? 'Tüm Rehberlere Dön' : 'Back to All Guides'}
           </Link>
 
           <article>
             <header className="mb-12">
               <div className="flex items-center gap-3 mb-6">
                 <span className="text-xs font-medium uppercase tracking-wide text-zinc-400">
-                  {getLocalizedText(article.location)}
+                  {getLocalizedText(article.location, lang)}
                 </span>
                 <span className="text-zinc-300">•</span>
                 <div className="flex items-center gap-1.5 text-xs text-zinc-400">
@@ -182,23 +201,23 @@ export default async function ArticlePage({ params }: Props) {
                 <span className="text-zinc-300">•</span>
                 <div className="flex items-center gap-1.5 text-xs text-zinc-400">
                   <Clock className="w-3 h-3" />
-                  <span>8 DK OKUMA</span>
+                  <span>{lang === 'tr' ? '8 DK OKUMA' : '8 MIN READ'}</span>
                 </div>
               </div>
 
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-zinc-900 mb-8 leading-tight tracking-tight">
-                {getLocalizedText(article.title)}
+                {getLocalizedText(article.title, lang)}
               </h1>
 
               <p className="text-lg text-zinc-600 leading-relaxed">
-                {getLocalizedText(article.meta_description)}
+                {getLocalizedText(article.meta_description, lang)}
               </p>
             </header>
 
             <div className="relative w-full aspect-[16/9] rounded-2xl overflow-hidden mb-16">
               <Image
                 src={article.cover_image_url || 'https://placehold.co/1200x675/e5e5e5/666666?text=Yerini+Ayir'}
-                alt={getLocalizedText(article.title)}
+                alt={getLocalizedText(article.title, lang)}
                 fill
                 sizes="100vw"
                 className="object-cover"
@@ -208,10 +227,10 @@ export default async function ArticlePage({ params }: Props) {
 
             <div className="max-w-3xl mx-auto">
               <QuickSummary items={[
-                `${getLocalizedText(article.location)} bölgesinde gezilecek en iyi yerler`,
-                'Yerel restoran ve kafe önerileri',
-                'Konaklama seçenekleri ve fiyat aralıkları',
-                'Ulaşım bilgileri ve ipuçları',
+                `${getLocalizedText(article.location, lang)} ${lang === 'tr' ? 'bölgesinde gezilecek en iyi yerler' : 'best places to visit'}`,
+                lang === 'tr' ? 'Yerel restoran ve kafe önerileri' : 'Local restaurant and cafe recommendations',
+                lang === 'tr' ? 'Konaklama seçenekleri ve fiyat aralıkları' : 'Accommodation options and price ranges',
+                lang === 'tr' ? 'Ulaşım bilgileri ve ipuçları' : 'Transportation info and tips',
               ]} />
 
               <div
@@ -227,7 +246,7 @@ export default async function ArticlePage({ params }: Props) {
                 prose-blockquote:border-l-4 prose-blockquote:border-foreground/80 prose-blockquote:bg-zinc-50 prose-blockquote:py-4 prose-blockquote:px-6 prose-blockquote:rounded-r-lg prose-blockquote:not-italic prose-blockquote:my-10
                 prose-ul:my-8 prose-li:my-3 prose-li:text-zinc-700 prose-li:leading-loose
                 max-w-none"
-                dangerouslySetInnerHTML={{ __html: getLocalizedText(article.content) }}
+                dangerouslySetInnerHTML={{ __html: getLocalizedText(article.content, lang) }}
               />
 
               <BlogAuthor author={author} />
@@ -235,11 +254,11 @@ export default async function ArticlePage({ params }: Props) {
 
 
             <div className="mt-20">
-              <RelatedHotels location={getLocalizedText(article.location)} />
+              <RelatedHotels location={getLocalizedText(article.location, lang)} />
             </div>
 
             <div className="mt-8">
-              <RelatedArticles location={getLocalizedText(article.location).split(',')[0].trim()} />
+              <RelatedArticles location={getLocalizedText(article.location, lang).split(',')[0].trim()} lang={lang} />
             </div>
 
             <div className="mt-12 pt-12 border-t border-zinc-200">
@@ -248,10 +267,10 @@ export default async function ArticlePage({ params }: Props) {
                   Bu rehber işinize yaradı mı?
                 </h3>
                 <p className="text-muted-foreground mb-8 leading-relaxed">
-                  {getLocalizedText(article.location)} bölgesindeki daha fazla gizli cenneti keşfetmek için diğer rehberlerimize göz atın.
+                  {getLocalizedText(article.location, lang)} bölgesindeki daha fazla gizli cenneti keşfetmek için diğer rehberlerimize göz atın.
                 </p>
                 <Link
-                  href="/rehber"
+                  href={`/${lang}/rehber`}
                   className="inline-flex items-center gap-2 bg-foreground hover:bg-zinc-800 text-background px-8 py-3 rounded-full font-semibold transition-colors"
                 >
                   Tüm Rehberleri Keşfet

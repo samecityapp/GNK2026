@@ -7,13 +7,16 @@ import { Tag } from '@/lib/types';
 interface HotelFeaturesProps {
   tags?: Tag[];
   isMobile?: boolean;
+  lang?: 'tr' | 'en';
 }
 
-export function HotelFeatures({ tags, isMobile = false }: HotelFeaturesProps) {
+export function HotelFeatures({ tags, isMobile = false, lang = 'tr' }: HotelFeaturesProps) {
   if (isMobile) {
     return (
       <div className="bg-white p-5 rounded-xl border border-gray-200">
-        <h2 className="text-[20px] font-semibold text-gray-900 mb-4">Otel Özellikleri</h2>
+        <h2 className="text-[20px] font-semibold text-gray-900 mb-4">
+          {lang === 'tr' ? 'Otel Özellikleri' : 'Hotel Features'}
+        </h2>
         {tags && tags.length > 0 ? (
           <div className="grid grid-cols-2 gap-2">
             {tags.map((tag, index) => {
@@ -24,14 +27,18 @@ export function HotelFeatures({ tags, isMobile = false }: HotelFeaturesProps) {
                   className="flex items-center gap-2.5 p-3 bg-white shadow-lg rounded-2xl"
                 >
                   <IconComponent className="w-5 h-5 text-gray-400 flex-shrink-0" strokeWidth={1.5} />
-                  <span className="text-gray-600 font-medium text-[14px] leading-snug">{getLocalizedText(tag.name)}</span>
+                  <span className="text-gray-600 font-medium text-[14px] leading-snug">
+                    {getLocalizedText(tag.name, lang)}
+                  </span>
                 </div>
               );
             })}
           </div>
         ) : (
           <div className="text-center py-8">
-            <p className="text-gray-400 font-medium text-sm">Otel özellikleri henüz eklenmemiş.</p>
+            <p className="text-gray-400 font-medium text-sm">
+              {lang === 'tr' ? 'Otel özellikleri henüz eklenmemiş.' : 'Hotel features haven\'t been added yet.'}
+            </p>
           </div>
         )}
       </div>
@@ -40,7 +47,9 @@ export function HotelFeatures({ tags, isMobile = false }: HotelFeaturesProps) {
 
   return (
     <div className="bg-white p-5 rounded-xl border border-gray-200">
-      <h2 className="text-[20px] font-semibold text-gray-900 mb-4">Otel Özellikleri</h2>
+      <h2 className="text-[20px] font-semibold text-gray-900 mb-4">
+        {lang === 'tr' ? 'Otel Özellikleri' : 'Hotel Features'}
+      </h2>
       {tags && tags.length > 0 ? (
         <div className="grid grid-cols-2 lg:grid-cols-3 gap-2">
           {tags.map((tag, index) => {
@@ -51,14 +60,18 @@ export function HotelFeatures({ tags, isMobile = false }: HotelFeaturesProps) {
                 className="flex items-center gap-2.5 p-3 bg-white shadow-lg rounded-2xl"
               >
                 <IconComponent className="w-5 h-5 text-gray-400 flex-shrink-0" strokeWidth={1.5} />
-                <span className="text-gray-600 font-medium text-[14px] leading-snug">{getLocalizedText(tag.name)}</span>
+                <span className="text-gray-600 font-medium text-[14px] leading-snug">
+                  {getLocalizedText(tag.name, lang)}
+                </span>
               </div>
             );
           })}
         </div>
       ) : (
         <div className="text-center py-8">
-          <p className="text-gray-400 font-medium text-sm">Otel özellikleri henüz eklenmemiş.</p>
+          <p className="text-gray-400 font-medium text-sm">
+            {lang === 'tr' ? 'Otel özellikleri henüz eklenmemiş.' : 'Hotel features haven\'t been added yet.'}
+          </p>
         </div>
       )}
     </div>

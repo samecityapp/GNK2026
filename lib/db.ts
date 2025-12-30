@@ -525,9 +525,17 @@ export const db = {
     },
 
     mapFromDb(row: any): Tag {
+      let name = row.name;
+      if (typeof name === 'string' && name.trim().startsWith('{')) {
+        try {
+          name = JSON.parse(name);
+        } catch (e) {
+          // keep as string if parse fails
+        }
+      }
       return {
         id: row.id,
-        name: row.name,
+        name: name,
         slug: row.slug,
         icon: row.icon,
         isFeatured: row.is_featured

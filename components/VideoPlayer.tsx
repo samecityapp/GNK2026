@@ -7,9 +7,10 @@ interface VideoPlayerProps {
   videoUrl: string;
   isOpen: boolean;
   onClose: () => void;
+  lang?: 'tr' | 'en';
 }
 
-export default function VideoPlayer({ videoUrl, isOpen, onClose }: VideoPlayerProps) {
+export default function VideoPlayer({ videoUrl, isOpen, onClose, lang = 'tr' }: VideoPlayerProps) {
   const [isMuted, setIsMuted] = useState(true);
   const videoRef = useRef<HTMLVideoElement>(null);
 
@@ -54,7 +55,7 @@ export default function VideoPlayer({ videoUrl, isOpen, onClose }: VideoPlayerPr
       <button
         onClick={onClose}
         className="absolute top-4 right-4 p-2 bg-white/10 hover:bg-white/20 rounded-full transition-colors z-10"
-        aria-label="Close video"
+        aria-label={lang === 'tr' ? 'Videoyu kapat' : 'Close video'}
       >
         <X className="w-6 h-6 text-white" />
       </button>
@@ -65,7 +66,9 @@ export default function VideoPlayer({ videoUrl, isOpen, onClose }: VideoPlayerPr
           setIsMuted(!isMuted);
         }}
         className="absolute top-4 left-4 p-2 bg-white/10 hover:bg-white/20 rounded-full transition-colors z-10"
-        aria-label={isMuted ? 'Unmute' : 'Mute'}
+        aria-label={isMuted
+          ? (lang === 'tr' ? 'Sesi Aç' : 'Unmute')
+          : (lang === 'tr' ? 'Sesi Kapat' : 'Mute')}
       >
         {isMuted ? (
           <VolumeX className="w-6 h-6 text-white" />

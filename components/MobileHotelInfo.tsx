@@ -10,6 +10,7 @@ type MobileHotelInfoProps = {
   websiteUrl?: string;
   instagramUrl?: string;
   hotelId: string;
+  lang?: 'tr' | 'en';
 };
 
 export function MobileHotelInfo({
@@ -21,6 +22,7 @@ export function MobileHotelInfo({
   websiteUrl,
   instagramUrl,
   hotelId,
+  lang = 'tr',
 }: MobileHotelInfoProps) {
   const locationCity = location.split(',')[0].trim();
 
@@ -50,11 +52,11 @@ export function MobileHotelInfo({
 
       <div className="flex items-center justify-center gap-2 mb-2">
         <div className="flex-1 bg-white shadow-lg rounded-2xl p-3 text-center">
-          <p className="text-xs font-medium text-gray-600 mb-0.5">Konum</p>
+          <p className="text-xs font-medium text-gray-600 mb-0.5">{lang === 'tr' ? 'Konum' : 'Location'}</p>
           <p className="text-base font-bold text-gray-900">{locationCity}</p>
         </div>
         <div className="flex-1 bg-white shadow-lg rounded-2xl p-3 text-center">
-          <p className="text-xs font-medium text-gray-600 mb-0.5">GNK Skor</p>
+          <p className="text-xs font-medium text-gray-600 mb-0.5">{lang === 'tr' ? 'GNK Skor' : 'GNK Score'}</p>
           <p className="text-base font-bold text-gray-900 mb-1">{rating.toFixed(1)}<span className="mx-0.5">/</span>10</p>
           <div className="flex justify-center gap-0.5">
             {[1, 2, 3, 4, 5].map((star) => (
@@ -70,9 +72,9 @@ export function MobileHotelInfo({
           </div>
         </div>
         <div className="flex-1 bg-white shadow-lg rounded-2xl p-3 text-center min-w-0">
-          <p className="text-xs font-medium text-gray-600 mb-0.5">Fiyat</p>
+          <p className="text-xs font-medium text-gray-600 mb-0.5">{lang === 'tr' ? 'Fiyat' : 'Price'}</p>
           <div className="flex items-baseline justify-center gap-0.5">
-            <span className="text-base font-bold text-gray-900">{price.toLocaleString('tr-TR')}</span>
+            <span className="text-base font-bold text-gray-900">{price.toLocaleString(lang === 'tr' ? 'tr-TR' : 'en-GB')}</span>
             <span className="text-base font-bold text-gray-900">₺</span>
           </div>
         </div>
@@ -88,7 +90,7 @@ export function MobileHotelInfo({
             className="flex items-center justify-center h-[52px] bg-gray-900 hover:bg-gray-800 shadow-lg rounded-2xl text-white font-semibold transition-all text-[16px]"
           >
             <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
-            Otele Git
+            {lang === 'tr' ? 'Otele Git' : 'Go to Hotel'}
           </a>
         )}
         {instagramUrl && (

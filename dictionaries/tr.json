@@ -20,14 +20,17 @@
     "location": "Konum",
     "check_in": "Giriş Tarihi",
     "check_out": "Çıkış Tarihi",
-    "guests": "Misafir Sayısı"
+    "guests": "Misafir Sayısı",
+    "input_placeholder": "Otel, konum veya özellik arayın..."
   },
   "home": {
     "hero_title": "Hayalinizdeki Tatili Keşfedin",
     "hero_subtitle": "Türkiye'nin en seçkin butik otelleri ve tatil deneyimleri.",
     "popular_locations": "Popüler Bölgeler",
     "featured_hotels": "Öne Çıkan Oteller",
-    "latest_articles": "Son Eklenen Rehberler"
+    "latest_articles": "Son Eklenen Rehberler",
+    "no_hotels_found": "Henüz Otel Bulunamadı",
+    "add_hotels_prompt": "Yönetim panelinden otel ekleyerek başlayın."
   },
   "hotel": {
     "price_from": "Gecelik Başlangıç Fiyatı",
@@ -43,7 +46,9 @@
     "breakfast": "Kahvaltı",
     "faq": "Sıkça Sorulan Sorular",
     "nearby": "Yakındaki Yerler",
-    "similar_hotels": "Benzer Oteller"
+    "similar_hotels": "Benzer Oteller",
+    "address": "Adres",
+    "get_directions": "YOL TARİFİ AL"
   },
   "footer": {
     "rights": "Tüm hakları saklıdır.",
@@ -57,6 +62,42 @@
     "error": "Bir hata oluştu",
     "success": "Başarılı",
     "back": "Geri",
-    "close": "Kapat"
+    "close": "Kapat",
+    "error_try_again": "Veri yüklenirken bir hata oluştu. Lütfen sayfayı yenileyin."
+  },
+  "about": {
+    "title": "Hakkımızda",
+    "subtitle": "Biz Kimiz?",
+    "story": "Hikayemiz, seyahat etmeyi seven dostlarımızın sosyal medyadaki paylaşımlarıyla başladı. Tam 10 yıldır Türkiye'nin dört bir yanındaki butik ve özel otelleri bizzat deneyimliyor, sadece güvendiğimiz ve sevdiğimiz yerleri sizlerle paylaşıyoruz.",
+    "what_is_yerini_ayir": "Yerini Ayır Nedir?",
+    "what_is_yerini_ayir_text": "Yerini Ayır, bir otel rezervasyon sitesi değildir. Binlerce seçenek arasında kaybolmamanız için hazırlanmış, elit bir otel keşif platformudur. Amacımız satış yapmak değil, size en doğru deneyimi önermektir.",
+    "our_goal": "Amacımız",
+    "our_goal_text": "Kalabalıkların değil, \"bilenlerin\" tercih ettiği yerleri keşfetmek. Binlerce otel arasından sadece karakteri, hikayesi ve ruhu olan işletmeleri listelemek. Algoritmaların değil, gerçek deneyimin kürasyonunu sunmak.",
+    "quote": "\"Türkiye'nin turizm potansiyelini modern ve güvenilir bir arayüzle sunmak; seyahat planı yapan ve 'Acaba nerede kalsam?' diyen herkesin aklına gelen en doğru cevabı veren adres olmak için çalışıyoruz.\"",
+    "follow_us": "Bizi Takip Edin"
+  },
+  "guide": {
+    "title": "Türkiye'de Gezilecek Yerler & Gizli Keşif Rotaları",
+    "subtitle": "Türkiye'nin en özel köşeleri, yerel lezzetleri ve saklı cennetleri. Nereyi keşfetmek istersiniz?",
+    "locations": {
+      "bodrum": "Turkuaz koylar, beyaz evler ve begonvillerle süslü Ege rüyası.",
+      "fethiye": "Ölüdeniz, Kelebekler Vadisi ve Likya Yolu’nun buluşma noktası.",
+      "sirince": "Tarihi Rum evleri, şarapları ve nostaljik sokaklarıyla ünlü Ege köyü.",
+      "sapanca": "Doğa ile iç içe, göl kenarında ve orman içinde huzurlu bir kaçamak rotası.",
+      "kapadokya": "Peri bacaları, balon turları ve yer altı şehirleriyle masalsı bir atmosfer."
+    }
+  },
+  "seo": {
+    "home": {
+      "title": "Yerini Ayır - Hayalinizdeki Tatili Keşfedin",
+      "description": "Türkiye'nin en seçkin butik otelleri ve tatil deneyimleri. Bodrum, Çeşme ve Antalya'nın en iyi lokasyonlarında yerinizi ayırın."
+    }
+  },
+  "messages": {
+    "no_hotels_yet": "Henüz otel bulunamadı",
+    "add_via_admin": "Yönetim panelinden otel ekleyerek başlayın.",
+    "error_loading": "Bir hata oluştu",
+    "error_loading_desc": "Veriler yüklenirken bir hata oluştu. Lütfen sayfayı yenileyin.",
+    "no_results_location": "Bu konum için henüz otel önerimiz yok."
   }
 }

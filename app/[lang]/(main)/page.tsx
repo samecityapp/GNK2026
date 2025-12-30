@@ -10,18 +10,15 @@ import { generateOrganizationSchema } from '@/lib/schema-generator';
 import { Metadata } from 'next';
 import { Hotel } from '@/lib/types';
 
+import { getDictionary } from '@/lib/dictionary';
+import { getLocalizedText } from '@/lib/localization';
+
 export const revalidate = 60;
 export const dynamic = 'force-static';
 
-export const metadata: Metadata = {
-  title: 'Yerini Ayır - Türkiye\'nin En Seçkin Otelleri',
-  description: 'Türkiye\'nin en iyi otellerini keşfedin. Bodrum, Antalya, Çeşme ve daha fazlası için detaylı otel rehberi ve öneriler.',
-  alternates: {
-    canonical: 'https://www.yeriniayir.com',
-  },
-};
+async function HotelGroups({ lang }: { lang: 'tr' | 'en' }) {
+  const dict = await getDictionary(lang);
 
-async function HotelGroups() {
   try {
     const groups = await db.groups.getPublishedWithHotels();
 
@@ -30,8 +27,8 @@ async function HotelGroups() {
         <div className="text-center py-20 px-4">
           <div className="bg-gray-50 rounded-xl p-12 max-w-md mx-auto">
             <div className="text-6xl mb-4">🏨</div>
-            <h2 className="text-2xl font-semibold text-gray-900 mb-2">Henüz Otel Yok</h2>
-            <p className="text-gray-500">Yönetim panelinden otel ekleyerek başlayın.</p>
+            <h2 className="text-2xl font-semibold text-gray-900 mb-2">{dict.home.no_hotels_found}</h2>
+            <p className="text-gray-500">{dict.home.add_hotels_prompt}</p>
           </div>
         </div>
       );
@@ -41,14 +38,16 @@ async function HotelGroups() {
       <div className="space-y-8 sm:space-y-16">
         {groups.map((group, groupIndex) => (
           <section key={group.id}>
-            <h2 className="text-xl sm:text-3xl font-bold text-gray-800 mb-4 sm:mb-6 px-4 sm:px-0">{group.title}</h2>
+            <h2 className="text-xl sm:text-3xl font-bold text-gray-800 mb-4 sm:mb-6 px-4 sm:px-0">
+              {getLocalizedText(group.title, lang)}
+            </h2>
 
             {/* Mobil: Yan yana kaydırılabilir */}
             <div className="sm:hidden overflow-x-auto -mx-4 px-4 pb-2 scrollbar-hide">
               <div className="flex gap-4" style={{ width: 'fit-content' }}>
                 {group.hotels.map((hotel: Hotel, hotelIndex: number) => (
                   <div key={hotel.id} className="w-[calc(100vw-7rem)]" style={{ minWidth: 'calc(100vw - 7rem)' }}>
-                    <HotelCard key={hotel.id} hotel={hotel} priority={groupIndex === 0 && hotelIndex === 0} />
+                    <HotelCard hotel={hotel} lang={lang} priority={groupIndex === 0 && hotelIndex === 0} />
                   </div>
                 ))}
               </div>
@@ -57,11 +56,9 @@ async function HotelGroups() {
             {/* Desktop: Grid görünümü */}
             <div className="hidden sm:grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
               {group.hotels.map((hotel: Hotel, hotelIndex: number) => (
-                <HotelCard key={hotel.id} hotel={hotel} priority={groupIndex === 0 && hotelIndex === 0} />
+                <HotelCard key={hotel.id} hotel={hotel} lang={lang} priority={groupIndex === 0 && hotelIndex === 0} />
               ))}
             </div>
-
-
           </section>
         ))}
       </div>
@@ -72,8 +69,8 @@ async function HotelGroups() {
       <div className="flex flex-col items-center justify-center py-20 px-4">
         <div className="bg-red-50 border border-red-200 rounded-xl p-8 max-w-md text-center">
           <AlertCircle className="w-16 h-16 text-red-500 mx-auto mb-4" />
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">Bir Hata Oluştu</h2>
-          <p className="text-gray-600 mb-6">Veriler yüklenirken bir hata oluştu. Lütfen sayfayı yenileyin.</p>
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">{dict.common.error}</h2>
+          <p className="text-gray-600 mb-6">{dict.common.error_try_again}</p>
         </div>
       </div>
     );
@@ -110,7 +107,22 @@ function HomePageSkeleton() {
   );
 }
 
-export default function HomePage() {
+export async function generateMetadata({ params }: { params: { lang: string } }): Promise<Metadata> {
+  const lang = params.lang as 'tr' | 'en' || 'tr';
+  const dict = await getDictionary(lang);
+
+  return {
+    title: dict.seo.home.title,
+    description: dict.seo.home.description,
+    alternates: {
+      canonical: `https://www.yeriniayir.com${lang === 'tr' ? '' : `/${lang}`}`,
+    },
+  };
+}
+
+export default async function HomePage({ params }: { params: { lang: string } }) {
+  const lang = params.lang as 'tr' | 'en' || 'tr';
+  const dict = await getDictionary(lang);
   const organizationSchema = generateOrganizationSchema();
 
   return (
@@ -120,15 +132,15 @@ export default function HomePage() {
       <main className="container mx-auto px-4 pt-2 pb-8">
         <div className="text-center mt-2 mb-6">
           <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6 tracking-tight">
-            Türkiye'nin En Seçkin Otellerini Keşfedin
+            {dict.home.hero_title}
           </h1>
           <Suspense fallback={<div className="h-40" />}>
-            <SearchFilters />
+            <SearchFilters lang={lang} dict={dict} />
           </Suspense>
         </div>
 
         <Suspense fallback={<HomePageSkeleton />}>
-          <HotelGroups />
+          <HotelGroups lang={lang} />
         </Suspense>
       </main>
     </>

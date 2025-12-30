@@ -13,7 +13,7 @@ export default function PublicLayout({
 
     return (
         <>
-            <Header />
+            <Header lang={lang} />
             <main className="min-h-[100dvh]">{children}</main>
             <Footer lang={lang} />
             <CookieBanner />

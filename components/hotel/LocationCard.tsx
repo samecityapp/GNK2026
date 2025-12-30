@@ -24,7 +24,8 @@ export default function LocationCard({
   address,
   latitude,
   longitude,
-}: LocationCardProps) {
+  dict,
+}: LocationCardProps & { dict?: any }) {
   if (!latitude || !longitude) return null;
 
   const lat = Number(latitude);
@@ -39,7 +40,7 @@ export default function LocationCard({
       <CardHeader className="pb-3 bg-muted/20">
         <CardTitle className="flex items-center gap-2 text-lg font-medium tracking-tight">
           <MapPin className="h-5 w-5 text-primary" />
-          Konum
+          {dict?.hotel?.location || 'Location'}
         </CardTitle>
       </CardHeader>
 
@@ -49,14 +50,14 @@ export default function LocationCard({
 
       <CardContent className="pt-4 pb-5 space-y-4 bg-card">
         <div className="text-sm text-muted-foreground leading-relaxed">
-          <span className="font-medium text-foreground block mb-1">Adres:</span>
+          <span className="font-medium text-foreground block mb-1">{dict?.hotel?.address || 'Adres'}:</span>
           {address}
         </div>
 
         <Button asChild className="w-full font-semibold tracking-wide shadow-sm" size="lg">
           <a href={directionsUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 justify-center">
             <MapPin className="h-4 w-4" />
-            YOL TARİFİ AL
+            {dict?.hotel?.get_directions || 'YOL TARİFİ AL'}
           </a>
         </Button>
       </CardContent>

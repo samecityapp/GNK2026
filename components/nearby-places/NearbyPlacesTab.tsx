@@ -19,9 +19,10 @@ const RestaurantDetailsModal = dynamic(() =>
 interface NearbyPlacesTabProps {
   location: string;
   coordinates?: { lat: number; lng: number };
+  lang?: 'tr' | 'en';
 }
 
-export function NearbyPlacesTab({ location, coordinates }: NearbyPlacesTabProps) {
+export function NearbyPlacesTab({ location, coordinates, lang = 'tr' }: NearbyPlacesTabProps) {
   const [categories, setCategories] = useState<RestaurantCategory[]>([]);
   const [activeCategory, setActiveCategory] = useState<string>('');
   const [selectedRestaurant, setSelectedRestaurant] = useState<Restaurant | null>(null);
@@ -42,7 +43,7 @@ export function NearbyPlacesTab({ location, coordinates }: NearbyPlacesTabProps)
         }));
         setCategories(normalizedCategories);
         if (normalizedCategories.length > 0) {
-          setActiveCategory(getLocalizedText(normalizedCategories[0].title));
+          setActiveCategory(getLocalizedText(normalizedCategories[0].title, lang));
         }
         setLoading(false);
         return;
@@ -55,7 +56,7 @@ export function NearbyPlacesTab({ location, coordinates }: NearbyPlacesTabProps)
         }));
         setCategories(normalizedCategories);
         if (normalizedCategories.length > 0) {
-          setActiveCategory(getLocalizedText(normalizedCategories[0].title));
+          setActiveCategory(getLocalizedText(normalizedCategories[0].title, lang));
         }
         setLoading(false);
         return;
@@ -68,7 +69,7 @@ export function NearbyPlacesTab({ location, coordinates }: NearbyPlacesTabProps)
         }));
         setCategories(normalizedCategories);
         if (normalizedCategories.length > 0) {
-          setActiveCategory(getLocalizedText(normalizedCategories[0].title));
+          setActiveCategory(getLocalizedText(normalizedCategories[0].title, lang));
         }
         setLoading(false);
         return;
@@ -81,7 +82,7 @@ export function NearbyPlacesTab({ location, coordinates }: NearbyPlacesTabProps)
         }));
         setCategories(normalizedCategories);
         if (normalizedCategories.length > 0) {
-          setActiveCategory(getLocalizedText(normalizedCategories[0].title));
+          setActiveCategory(getLocalizedText(normalizedCategories[0].title, lang));
         }
         setLoading(false);
         return;
@@ -128,7 +129,7 @@ export function NearbyPlacesTab({ location, coordinates }: NearbyPlacesTabProps)
       setCategories(categoriesWithRestaurants);
 
       if (categoriesWithRestaurants.length > 0) {
-        setActiveCategory(getLocalizedText(categoriesWithRestaurants[0].title));
+        setActiveCategory(getLocalizedText(categoriesWithRestaurants[0].title, lang));
       }
     } catch (error) {
       console.error('Error fetching restaurants:', error);
@@ -140,7 +141,7 @@ export function NearbyPlacesTab({ location, coordinates }: NearbyPlacesTabProps)
   if (loading) {
     return (
       <div className="flex justify-center items-center py-12">
-        <div className="text-gray-500">Yükleniyor...</div>
+        <div className="text-gray-500">{lang === 'tr' ? 'Yükleniyor...' : 'Loading...'}</div>
       </div>
     );
   }
@@ -148,17 +149,19 @@ export function NearbyPlacesTab({ location, coordinates }: NearbyPlacesTabProps)
   if (categories.length === 0) {
     return (
       <div className="text-center py-12">
-        <p className="text-gray-500">Bu konum için henüz restoran önerisi eklenmedi.</p>
+        <p className="text-gray-500">
+          {lang === 'tr' ? 'Bu konum için henüz restoran önerisi eklenmedi.' : 'No restaurant recommendations added for this location yet.'}
+        </p>
       </div>
     );
   }
 
-  const activePlaces = categories.find(cat => getLocalizedText(cat.title) === activeCategory)?.restaurants || [];
+  const activePlaces = categories.find(cat => getLocalizedText(cat.title, lang) === activeCategory)?.restaurants || [];
 
   return (
     <>
       <CategoryFilters
-        categories={categories.map(cat => getLocalizedText(cat.title))}
+        categories={categories.map(cat => getLocalizedText(cat.title, lang))}
         activeCategory={activeCategory}
         onSelectCategory={setActiveCategory}
       />
@@ -167,6 +170,7 @@ export function NearbyPlacesTab({ location, coordinates }: NearbyPlacesTabProps)
           <RestaurantCard
             key={place.id}
             restaurant={place}
+            lang={lang}
             onViewDetails={() => setSelectedRestaurant(place)}
           />
         ))}
@@ -174,6 +178,7 @@ export function NearbyPlacesTab({ location, coordinates }: NearbyPlacesTabProps)
       {selectedRestaurant && (
         <RestaurantDetailsModal
           restaurant={selectedRestaurant}
+          lang={lang}
           onClose={() => setSelectedRestaurant(null)}
         />
       )}

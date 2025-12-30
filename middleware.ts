@@ -1,44 +1,45 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
-const locales = ['tr', 'en'];
 const defaultLocale = 'tr';
+const locales = ['tr', 'en'];
 
 export function middleware(request: NextRequest) {
     const pathname = request.nextUrl.pathname;
 
-    // 1. Skip if it's a file, API, or internal next path
+    // 1. CRITICAL: Skip all internal Next.js paths and static files
+    // This prevents the "white screen" / MIME type error
     if (
         pathname.startsWith('/_next') ||
         pathname.startsWith('/api') ||
-        pathname.includes('.') ||
+        pathname.startsWith('/static') ||
+        pathname.includes('.') || // Files with extensions (images, css, js)
         pathname === '/favicon.ico' ||
         pathname === '/robots.txt' ||
         pathname === '/sitemap.xml'
     ) {
-        return;
+        return NextResponse.next();
     }
 
     // 2. Check if the pathname already has a locale
-    const pathnameIsMissingLocale = locales.every(
-        (locale) => !pathname.startsWith(`/${locale}/`) && pathname !== `/${locale}`
+    const pathnameHasLocale = locales.some(
+        (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
     );
 
-    // 3. Redirect if there is no locale
-    if (pathnameIsMissingLocale) {
-        // Check for cookie or header, or just use default
-        // For now, let's JUST rewrite to avoid 404s if the folder structure is active
-        // Rewrite / -> /tr/
-        // Rewrite /search -> /tr/search
+    // 3. If no locale, rewrite to default locale (tr)
+    // This handles localhost:3000/ -> localhost:3000/tr/
+    // And localhost:3000/search -> localhost:3000/tr/search
+    if (!pathnameHasLocale) {
         return NextResponse.rewrite(
             new URL(`/${defaultLocale}${pathname}`, request.url)
         );
     }
+
+    return NextResponse.next();
 }
 
 export const config = {
-    matcher: [
-        // Skip all internal paths (_next)
-        '/((?!_next|api|favicon.ico|robots.txt|sitemap.xml|.*\\..*).*)',
-    ],
+    // Matcher to filter what the middleware runs on
+    // Negative lookahead to ignore internal paths
+    matcher: ['/((?!_next|api|static|favicon.ico|robots.txt).*)'],
 };

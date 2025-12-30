@@ -9,12 +9,12 @@ import { BrandLogo } from './ui/BrandLogo';
 import { useParams, usePathname, useRouter } from 'next/navigation';
 import { Globe } from 'lucide-react';
 
-export function Header() {
+export function Header({ lang: propLang }: { lang?: string }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const params = useParams();
   const pathname = usePathname();
   const router = useRouter();
-  const lang = params.lang as 'tr' | 'en' || 'tr';
+  const lang = (propLang || params.lang) as 'tr' | 'en' || 'tr';
 
   // Basic dictionary for Header (since we can't async load it easily inside nav for now, or we can use a small static one here)
   const navLabels = {

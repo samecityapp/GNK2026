@@ -9,10 +9,11 @@ import { getLocalizedText } from '@/lib/localization';
 interface BreakfastSectionProps {
   description: LocalizedString | string;
   images: string[];
+  lang?: 'tr' | 'en';
 }
 
-export function BreakfastSection({ description, images }: BreakfastSectionProps) {
-  const descriptionText = getLocalizedText(description);
+export function BreakfastSection({ description, images, lang = 'tr' }: BreakfastSectionProps) {
+  const descriptionText = getLocalizedText(description, lang);
   const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
 
   if (!description && (!images || images.length === 0)) {
@@ -38,7 +39,9 @@ export function BreakfastSection({ description, images }: BreakfastSectionProps)
           <div className="bg-amber-500 rounded-full p-2 sm:p-2.5 flex-shrink-0">
             <Coffee className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
           </div>
-          <h2 className="text-xl sm:text-2xl font-bold text-gray-900">Kahvaltımız</h2>
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-900">
+            {lang === 'tr' ? 'Kahvaltımız' : 'Our Breakfast'}
+          </h2>
 
           {images && images.length > 0 && (
             <div className="flex gap-1.5 sm:gap-2 ml-auto">
@@ -50,7 +53,7 @@ export function BreakfastSection({ description, images }: BreakfastSectionProps)
                 >
                   <Image
                     src={image}
-                    alt={`Kahvaltı ${index + 1}`}
+                    alt={lang === 'tr' ? `Kahvaltı ${index + 1}` : `Breakfast ${index + 1}`}
                     width={40}
                     height={40}
                     className="w-full h-full object-cover"

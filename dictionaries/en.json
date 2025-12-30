@@ -20,15 +20,18 @@
         "location": "Location",
         "check_in": "Check-in",
         "check_out": "Check-out",
-        "guests": "Guests"
+        "guests": "Guests",
+        "input_placeholder": "Search hotels, locations or features..."
     },
     "home": {
-        "hero_title": "Discover Your Dream Turkish Escape",
-        "hero_subtitle": "An exclusive selection of Turkey’s finest boutique hotels and travel experiences.",
-        "popular_locations": "Popular Regions",
+        "hero_title": "Discover Your Dream Holiday",
+        "hero_subtitle": "Turkey's most exclusive boutique hotels and holiday experiences.",
+        "popular_locations": "Popular Locations",
         "featured_hotels": "Featured Hotels",
-        "latest_articles": "Latest Travel Guides",
-        "main_h1": "Explore the Most Exclusive Hotels in Turkey"
+        "latest_articles": "Latest Guides",
+        "main_h1": "Explore the Most Exclusive Hotels in Turkey",
+        "no_hotels_found": "No Hotels Found Yet",
+        "add_hotels_prompt": "Start by adding hotels from the management panel."
     },
     "hotel": {
         "price_from": "Prices from",
@@ -47,7 +50,9 @@
         "faq": "Frequently Asked Questions",
         "nearby": "Nearby Places",
         "similar_hotels": "Similar Hotels",
-        "beachfront": "Beachfront"
+        "beachfront": "Beachfront",
+        "address": "Address",
+        "get_directions": "GET DIRECTIONS"
     },
     "footer": {
         "rights": "All rights reserved.",
@@ -61,11 +66,36 @@
         "error": "An error occurred",
         "success": "Success",
         "back": "Back",
-        "close": "Close"
+        "close": "Close",
+        "error_try_again": "An error occurred while loading data. Please refresh the page."
+    },
+    "about": {
+        "title": "About Us",
+        "subtitle": "Who are we?",
+        "story": "Our story began with the social media posts of our travel-loving friends. For exactly 10 years, we have been personally experiencing boutique and special hotels all over Turkey, and we only share with you the places we trust and love.",
+        "what_is_yerini_ayir": "What is Yerini Ayır?",
+        "what_is_yerini_ayir_text": "Yerini Ayır is not a hotel booking site. We are an elite hotel discovery platform prepared so that you don't get lost among thousands of options. Our goal is not to make sales, but to recommend the most accurate experience to you.",
+        "our_goal": "Our Goal",
+        "our_goal_text": "To discover the places preferred by those \"in the know\", not the crowds. To list only businesses with character, a story and spirit among thousands of hotels. To provide curation of real experience, not algorithms.",
+        "quote": "\"We work to present Turkey's tourism potential with a modern and reliable interface; to be the address that gives the most accurate answer to everyone who plans a trip and asks 'I wonder where I should stay?'.\"",
+        "follow_us": "Follow Us"
+    },
+    "guide": {
+        "title": "Places to Visit in Turkey & Secret Discovery Routes",
+        "subtitle": "Turkey's most special corners, local flavours and hidden paradises. Where would you like to explore?",
+        "locations": {
+            "bodrum": "An Aegean dream adorned with turquoise bays, white houses and bougainvillea.",
+            "fethiye": "Meeting point of Oludeniz, Butterfly Valley and the Lycian Way.",
+            "sirince": "Famous Aegean village with historical Greek houses, wines and nostalgic streets.",
+            "sapanca": "A peaceful getaway route in nature, by the lake and in the forest.",
+            "kapadokya": "A fairytale atmosphere with fairy chimneys, balloon tours and underground cities."
+        }
     },
     "seo": {
-        "home_title": "Yerini Ayır | The Most Exclusive Hotels in Turkey",
-        "home_description": "Discover Turkey's finest hotels. Expert guides and handpicked stays in Bodrum, Antalya, Çeşme and beyond. Book your perfect Turkish holiday today."
+        "home": {
+            "title": "Book Your Spot - Discover Your Dream Holiday",
+            "description": "Turkey's most exclusive boutique hotels and holiday experiences. Book your spot in the best locations of Bodrum, Çeşme, and Antalya."
+        }
     },
     "messages": {
         "no_hotels_yet": "No hotels found",

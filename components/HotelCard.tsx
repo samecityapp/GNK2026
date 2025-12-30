@@ -16,6 +16,7 @@ const VideoPlayer = dynamic(() => import('./VideoPlayer'), {
 
 interface HotelCardProps {
   hotel: Hotel;
+  lang?: 'tr' | 'en';
   priority?: boolean;
 }
 
@@ -25,10 +26,10 @@ const amenityIcons: Record<string, JSX.Element> = {
   Spa: <Droplets size={16} />,
 };
 
-export default function HotelCard({ hotel, priority = false }: HotelCardProps) {
+export default function HotelCard({ hotel, lang = 'tr', priority = false }: HotelCardProps) {
   const router = useRouter();
   const [isVideoOpen, setIsVideoOpen] = useState(false);
-  const formattedPrice = new Intl.NumberFormat('tr-TR').format(hotel.price);
+  const formattedPrice = new Intl.NumberFormat(lang === 'tr' ? 'tr-TR' : 'en-GB').format(hotel.price);
   const featuredAmenities = hotel.amenities?.slice(0, 3) || [];
 
   const handleVideoClick = (e: React.MouseEvent) => {
@@ -37,9 +38,11 @@ export default function HotelCard({ hotel, priority = false }: HotelCardProps) {
     setIsVideoOpen(true);
   };
 
+  const prefix = lang === 'tr' ? '' : `/${lang}`;
+
   return (
     <div className="relative group mb-0">
-      <Link href={`/otel/${hotel.id}`} className="block">
+      <Link href={`${prefix}/otel/${hotel.id}`} className="block">
         <div className="relative overflow-hidden bg-white rounded-2xl shadow-md hover:shadow-xl transition-shadow duration-300">
 
           {/* FOTOĞRAF ALANI */}
@@ -49,7 +52,7 @@ export default function HotelCard({ hotel, priority = false }: HotelCardProps) {
                 {hotel.video_thumbnail_url ? (
                   <Image
                     src={hotel.video_thumbnail_url}
-                    alt={getLocalizedText(hotel.name)}
+                    alt={getLocalizedText(hotel.name, lang)}
                     fill
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
                     className="object-cover transition-transform duration-300 group-hover:scale-105"
@@ -61,7 +64,7 @@ export default function HotelCard({ hotel, priority = false }: HotelCardProps) {
                 ) : hotel.coverImageUrl ? (
                   <Image
                     src={hotel.coverImageUrl}
-                    alt={getLocalizedText(hotel.name)}
+                    alt={getLocalizedText(hotel.name, lang)}
                     fill
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
                     className="object-cover transition-transform duration-300 group-hover:scale-105"
@@ -72,7 +75,7 @@ export default function HotelCard({ hotel, priority = false }: HotelCardProps) {
                   />
                 ) : (
                   <div className="absolute inset-0 w-full h-full flex items-center justify-center bg-gray-100">
-                    <span className="text-gray-400">Video Kapak</span>
+                    <span className="text-gray-400">{lang === 'tr' ? 'Video Kapak' : 'Video Cover'}</span>
                   </div>
                 )}
                 <div
@@ -87,7 +90,7 @@ export default function HotelCard({ hotel, priority = false }: HotelCardProps) {
             ) : hotel.coverImageUrl ? (
               <Image
                 src={hotel.coverImageUrl}
-                alt={getLocalizedText(hotel.name)}
+                alt={getLocalizedText(hotel.name, lang)}
                 width={400}
                 height={533}
                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
@@ -99,7 +102,7 @@ export default function HotelCard({ hotel, priority = false }: HotelCardProps) {
               />
             ) : (
               <div className="w-full aspect-[3/4] flex items-center justify-center bg-gray-100">
-                <span className="text-gray-400">Resim Yok</span>
+                <span className="text-gray-400">{lang === 'tr' ? 'Resim Yok' : 'No Image'}</span>
               </div>
             )}
 
@@ -129,7 +132,7 @@ export default function HotelCard({ hotel, priority = false }: HotelCardProps) {
             {hotel.price > 0 && (
               <div className="absolute bottom-4 left-4 text-white">
                 <span className="text-2xl font-bold">{formattedPrice} TL</span>
-                <span className="text-sm"> / Gece</span>
+                <span className="text-sm"> / {lang === 'tr' ? 'Gece' : 'Night'}</span>
               </div>
             )}
           </div>
@@ -138,10 +141,10 @@ export default function HotelCard({ hotel, priority = false }: HotelCardProps) {
           <div className="p-4 space-y-3">
             {/* 1. Satır: İsim ve Konum */}
             <div>
-              <h3 className="text-lg font-bold text-gray-900 truncate">{getLocalizedText(hotel.name)}</h3>
+              <h3 className="text-lg font-bold text-gray-900 truncate">{getLocalizedText(hotel.name, lang)}</h3>
               <p className="flex items-center text-sm text-gray-500 mt-1">
                 <MapPin size={14} className="mr-1.5 flex-shrink-0" />
-                <span className="truncate">{getLocalizedText(hotel.location)}</span>
+                <span className="truncate">{getLocalizedText(hotel.location, lang)}</span>
               </p>
             </div>
 
